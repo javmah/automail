@@ -114,29 +114,41 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
-			# Empty Holder 
-			$userRoles = array();
-			# If exist then loop
-			if( function_exists( "get_editable_roles" ) ){
-				foreach ( get_editable_roles() as $key => $valueArray) {
-					if( isset( $valueArray['name'] ) ){
-						$userRoles[ $key ] = $valueArray['name'];
-					}
-				}
-			}
-
-
 			
-
-			print_r( $userRoles );
-
-			
-
-			print_r( count_users() );
+		print_r( $this->automail_userRoles() );
 
 
 		echo"</pre>";
 
+	}
+
+	public function automail_userRoles() {
+		#
+		$userRoles = array();
+		# If exist then loop
+		if( function_exists( "get_editable_roles" ) ){
+			foreach ( get_editable_roles() as $key => $valueArray) {
+				if( isset( $valueArray['name'] ) ){
+					$userRoles[ $key ] = $valueArray['name'];
+				}
+			}
+		}
+
+		# Setting the Numbers
+		if( function_exists( "count_users" ) AND isset( count_users()['avail_roles'] ) ){
+			foreach ( count_users()['avail_roles']  as $key => $value) {
+				if( isset( $userRoles[ $key ] ) AND  $value ){
+					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")" ;
+				} 
+			}
+		}
+
+		# return
+		if( empty( $userRoles ) ){
+			return array( FALSE, "User role is empty." );
+		} else {
+			return array( TRUE, $userRoles );
+		}
 	}
 
 }
