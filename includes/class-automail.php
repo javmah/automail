@@ -159,6 +159,8 @@ class Automail {
 		# Admin menu and Admin Notice 
 		$this->loader->add_action( 'admin_menu',	$plugin_admin, 'automail_menu_pages' );
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'automail_admin_notice' );
+		# Save Submitted Form 
+		$this->loader->add_action( 'admin_post_automail_saveAutomation', $plugin_admin, 'automail_saveAutomation' );	
 
 	}
 
@@ -175,7 +177,6 @@ class Automail {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 	}
 
 	/**
