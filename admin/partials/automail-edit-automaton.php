@@ -13,14 +13,6 @@
  */
 ?>
 
-<?php
-    $ID             = ( isset( $post['ID']  ) 			AND !empty( $post['ID'] ) ) 			? $post['ID'] 				: "" ;		
-    $automatonName  = ( isset( $post['post_title']  ) 	AND !empty( $post['post_title'] ) ) 	? $post['post_title'] 		: "" ;
-    $eventName  	= ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ;
-    $automailEmail  = ( isset( $post['post_content']  ) AND !empty( $post['post_content'] ) ) 	? $post['post_content'] 	: "" ;
-    $mailReceiver  	= get_post_meta( $_GET['id'], "mailReceiver", TRUE );
-?>
-
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
 
@@ -28,11 +20,10 @@
 	<h2><?php esc_attr_e( 'Edit Email Automation.', 'automail' ); ?></h2>
 
 	<div id="poststuff">
-
         <!-- Form Starts  -->
         <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
             <input type="hidden" name="action" value="automail_saveAutomation">
-            <input type="hidden" name="status" value="newAutomation" />
+            <input type="hidden" name="status" value="editAutomation" />
             <input type="hidden" name="postID" value="<?php echo $ID; ?>" />
 
             <div id="post-body" class="metabox-holder columns-2">
@@ -57,7 +48,7 @@
                                         <option value="wp_editPost"   <?php selected( $eventName, "wp_editPost" );   ?> >  Wordpress Edit Post     </option>
                                         <option value="wp_deletePost" <?php selected( $eventName, "wp_deletePost" ); ?> >  Wordpress Delete Post   </option>
                                         <option value="wp_page"       <?php selected( $eventName, "wp_page" );       ?> >  Wordpress Page          </option>
-                                    </optgroup> 
+                                    </optgroup>
 
                                     <optgroup label="WordPress User Events">
                                         <option value="wp_newUser"           <?php selected( $eventName, "wp_newUser" );            ?> >   Wordpress New User              </option>
@@ -84,56 +75,55 @@
                                         <option value="wc-refunded"  <?php selected( $eventName, "wc-refunded" );   ?> >   WooCommerce Order Refunded          </option>
                                         <option value="wc-failed"    <?php selected( $eventName, "wc-failed" );     ?> >   WooCommerce Order Failed            </option>
                                     </optgroup>
-                                    
+
                                     <optgroup label="Contact form 7 Events">
-                                        <option value="mercedes">  Mercedes   </option>
-                                        <option value="audi">      Audi       </option>
+                                        <option value="1">  Mercedes   </option>
+                                        <option value="2">      Audi   </option>
                                     </optgroup>
 
                                     <optgroup label="WPform Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="3">   Mercedes    </option>
+                                        <option value="4">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Ninja form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="5">   Mercedes    </option>
+                                        <option value="6">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Formidable form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="7">   Mercedes    </option>
+                                        <option value="8">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Forminator form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="8">   Mercedes    </option>
+                                        <option value="9">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Custom Post Type Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="10">   Mercedes    </option>
+                                        <option value="11">       Audi    </option>
                                     </optgroup>
-
                                 </select>
 
                                 <br><br>
                                 <b> Email Receiver : TO </b>
-                                <select multiple style="width: 99%; "  name="mailReceiver" id="mailReceiver">
-                                    
-                                    <optgroup label="Event Data Source ">
-                                        <option value="mercedes">   Email   </option>
+                                <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
+
+                                    <optgroup label="Event Data Source">
+                                        <option value="Email" <?php echo in_array( "Email",  $mailReceiver) ? "selected" : ""; ?> >   Email   </option>
                                     </optgroup>
 
                                     <optgroup label="User Role">
-                                        <option value="volvo">  Admin (1)   </option>
-                                        <option value="saab">   Editor (2)  </option>
+                                        <option value="Admin"  <?php echo in_array( "Admin",   $mailReceiver)  ? "selected"  : ""; ?> >   Admin (1)   </option>
+                                        <option value="Editor" <?php echo in_array( "Editor",  $mailReceiver)  ? "selected"  : ""; ?> >   Editor (2)  </option>
                                     </optgroup>
 
                                     <optgroup label="User">
-                                        <option value="mercedes">Khaled mahmud  - khaled@gmail.com  </option>
-                                        <option value="audi">    Javed Mahmud   - javed@gmail.com   </option>
-                                        <option value="audi">    Zubayer Mahmud - zubayer@gmail.com </option>
+                                        <option value="khaled@gmail.com" <?php echo in_array( "khaled@gmail.com",   $mailReceiver) ? "selected" : ""; ?> >    Khaled mahmud  - khaled@gmail.com  </option>
+                                        <option value="javed@gmail.com"  <?php echo in_array( "javed@gmail.com",    $mailReceiver) ? "selected" : ""; ?> >    Javed Mahmud   - javed@gmail.com   </option>
+                                        <option value="zubayer@gmail.com"<?php echo in_array( "zubayer@gmail.com",  $mailReceiver) ? "selected" : ""; ?> >    Zubayer Mahmud - zubayer@gmail.com </option>
                                     </optgroup>
 
                                 </select>
@@ -143,7 +133,7 @@
 
                                 <?php
                                     wp_editor( 
-                                                "Please write your Email here, Use {{Data_tags}}", 
+                                                $automailEmail, 
                                                 "automailEmail", 
                                                 array(
                                                     'textarea_rows' => '6',
@@ -171,7 +161,7 @@
                             <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?></span></h2>
 
                             <div class="inside">
-                                <input type="checkbox" name="vehicle1" checked value="Bike"> Automaton Status 
+                                <input type="checkbox" name="automatonStatus" checked > Automaton Status 
                                 <br>
                                 <br>
                                 <input class="button-secondary" type="submit" value="SAVE" />

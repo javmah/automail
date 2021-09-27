@@ -28,19 +28,32 @@
             echo "<a href='".  admin_url('/admin.php?page=automail&action=new')  ."' > Add new  Automation </a>";
             echo"<br><hr><br>";
 
-            global $wpdb;
-            $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}posts, {$wpdb->prefix}postmeta  WHERE {$wpdb->prefix}posts.ID = {$wpdb->prefix}postmeta.post_id  AND  post_type = 'automail' ", ARRAY_A );
+            $results = get_posts( array( 
+                'post_type'     => 'automail',
+                'post_status'   => array('publish', 'pending'),
+                'posts_per_page'=> -1,
+            )); 
 
-            foreach ( $results as $key => $value) {
-                echo "<a href='".  admin_url('/admin.php?page=automail&action=edit&id='. $value["ID"] )  ."' >". $value["ID"] . "</a>";
+           
+            foreach ( $results as $key => $Array) {
+                echo "<a href='".  admin_url('/admin.php?page=automail&action=edit&id='. $Array->ID  )."' >". $Array->ID . "</a>";
                 echo"<br>";
-                echo $value["post_content"];
+                echo ">> " . $Array->post_title;
                 echo"<br>";
-                echo $value["post_title"];
+                echo ">> " . $Array->post_content;
                 echo"<br>";
-                echo $value["post_excerpt"];
+                echo ">> " . $Array->post_excerpt;
                 echo"<br>";
-                echo $value["meta_value"];
+                $mailReceiver = get_post_meta( $Array->ID, "mailReceiver", TRUE );
+                print_r( $mailReceiver ); 
+                echo"<br>";
+                if( in_array( "AdminX", $mailReceiver ) ){
+                    echo"In array.";
+                } else {
+                    echo"not in array.";
+                }
+                echo"<br>";
+                echo "<a href='".  admin_url('/admin.php?page=automail&action=delete&id='. $Array->ID  )  ."' > Delete Automation</a>";
                 echo"<br><hr><br>";
             }
         ?>

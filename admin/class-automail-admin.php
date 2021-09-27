@@ -62,7 +62,6 @@ class Automail_Admin {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/automail-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -73,7 +72,6 @@ class Automail_Admin {
 	public function enqueue_scripts() {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
 
 
@@ -84,7 +82,6 @@ class Automail_Admin {
 	public function automail_menu_pages() {
 
 		add_menu_page( __( 'autoMail', 'automail' ), __( 'autoMail', 'automail' ), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
-
 	}
 
 	/**
@@ -112,6 +109,9 @@ class Automail_Admin {
 			}
 			# including the view File 
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-edit-automaton.php';
+		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'delete' AND !empty( $_GET['id'] ) ) ){
+			# Delete and Redirect;
+			wp_delete_post( $_GET['id'] ) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 		} else {
 			# Including The landing File 
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-admin-display.php';
@@ -130,13 +130,19 @@ class Automail_Admin {
 			//
 			//
 		echo"</pre>";
-
 	}
 
 	/**
 	 * Register the JavaScript for the admin area.
 	 * @since    1.0.0
 	*/
+
+	// public function automail_saveAutomation() {
+	// 	echo"<pre>";
+	// 		print_r( $_POST );
+	// 	echo"</pre>";
+	// }
+
 	public function automail_saveAutomation() {
 		# automatonName
 		if( isset( $_POST['automatonName'] ) AND !empty( $_POST['automatonName'] ) ){
@@ -170,6 +176,13 @@ class Automail_Admin {
        		exit;
 		}
 
+		# Post Status
+		if( isset( $_POST['automatonStatus'] ) AND  $_POST['automatonStatus'] == "on" ){
+			$post_status  =  "publish" ;
+		} else {
+			$post_status  =  "pending";
+		}
+
 		# sanitize_text_field  || Below will work for array  ||
 		// $ColumnTitle = array_map( 'sanitize_text_field', $_POST['ColumnTitle'] );
 		
@@ -180,7 +193,7 @@ class Automail_Admin {
 				'ID'				=> '',
 				'post_content'  	=> $automailEmail, 						// Post Email Content
 				'post_title'    	=> $automatonName, 						// Post Title
-				'post_status'   	=> 'publish',							// Post Status
+				'post_status'   	=> $post_status,
 				'post_excerpt'  	=> $eventName, 							// Event Name || When Will This Automation will Fire 
 				'post_name'  		=> '',									
 				'post_type'   		=> 'automail',							// Custom post type
@@ -192,18 +205,15 @@ class Automail_Admin {
 			);
 			# Inserting New integration custom Post type 
 			$post_id = wp_insert_post( $customPost );						//  Insert the post into the database
-		}
-
-		# Save edited Integration
-		if (  $_POST['status'] == "editAutomation" AND ! empty( $_POST['postID'] )  ) {
+		} elseif (  $_POST['status'] == "editAutomation" AND ! empty( $_POST['postID'] )  ) {
 			# Preparing Post array for status Change 
 			$customPost = array(
-				'ID'				=>  sanitize_text_field( $_POST['postID'] ),
+				'ID'				=> sanitize_text_field( $_POST['postID'] ),
 				'post_content'  	=> $automailEmail, 						// Post Email Content
 				'post_title'    	=> $automatonName, 						// Post Title
-				'post_status'   	=> 'publish',							// Post Status
+				'post_status'   	=> $post_status, 
 				'post_excerpt'  	=> $eventName, 							// Event Name || When Will This Automation will Fire 
-				'post_name'  		=> '',									
+				'post_name'  		=> '',					
 				'post_type'   		=> 'automail',							// Custom post type
 				'menu_order'		=> '',
 				'post_parent'		=> '',
@@ -213,6 +223,8 @@ class Automail_Admin {
 			);
 			# Updating Custom Post Type 
 			$post_id = wp_update_post( $customPost );						// Insert the post into the database
+		} else {
+			# Nothing ...
 		}
 
 		# Redirect with message

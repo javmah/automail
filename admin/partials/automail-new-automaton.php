@@ -75,56 +75,56 @@
                                         <option value="wc-refunded">    WooCommerce Order Refunded          </option>
                                         <option value="wc-failed">      WooCommerce Order Failed            </option>
                                     </optgroup>
-                                    
+
                                     <optgroup label="Contact form 7 Events">
-                                        <option value="mercedes">  Mercedes   </option>
-                                        <option value="audi">      Audi       </option>
+                                        <option value="1">  Mercedes   </option>
+                                        <option value="2">      Audi   </option>
                                     </optgroup>
 
                                     <optgroup label="WPform Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="3">   Mercedes    </option>
+                                        <option value="4">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Ninja form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="5">   Mercedes    </option>
+                                        <option value="6">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Formidable form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="7">   Mercedes    </option>
+                                        <option value="8">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Forminator form Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="8">   Mercedes    </option>
+                                        <option value="9">       Audi    </option>
                                     </optgroup>
 
                                     <optgroup label="Custom Post Type Events">
-                                        <option value="mercedes">   Mercedes    </option>
-                                        <option value="audi">       Audi        </option>
+                                        <option value="10">   Mercedes    </option>
+                                        <option value="11">       Audi    </option>
                                     </optgroup>
 
                                 </select>
 
                                 <br><br>
                                 <b> Email Receiver : TO </b>
-                                <select multiple style="width: 99%; "  name="mailReceiver" id="mailReceiver">
-                                    
+                                 <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
+
                                     <optgroup label="Event Data Source ">
-                                        <option value="mercedes">   Email   </option>
+                                        <option value="Email">   Email      </option>
                                     </optgroup>
 
                                     <optgroup label="User Role">
-                                        <option value="volvo">  Admin (1)   </option>
-                                        <option value="saab">   Editor (2)  </option>
+                                        <option value="Admin">   Admin (1)   </option>
+                                        <option value="Editor">  Editor (2)  </option>
                                     </optgroup>
 
                                     <optgroup label="User">
-                                        <option value="mercedes">Khaled mahmud  - khaled@gmail.com  </option>
-                                        <option value="audi">    Javed Mahmud   - javed@gmail.com   </option>
-                                        <option value="audi">    Zubayer Mahmud - zubayer@gmail.com </option>
+                                        <option value="khaled@gmail.com">   Khaled mahmud  - khaled@gmail.com  </option>
+                                        <option value="javed@gmail.com">    Javed Mahmud   - javed@gmail.com   </option>
+                                        <option value="zubayer@gmail.com">  Zubayer Mahmud - zubayer@gmail.com </option>
                                     </optgroup>
 
                                 </select>
@@ -162,7 +162,7 @@
                             <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?></span></h2>
 
                             <div class="inside">
-                                <input type="checkbox" name="vehicle1" checked value="Bike"> Automaton Status 
+                                <input type="checkbox" name="automatonStatus" checked > Automaton Status
                                 <br>
                                 <br>
                                 <input class="button-secondary" type="submit" value="SAVE" />
@@ -218,9 +218,8 @@
                                         <br>
                                         {{wpgsi_Form_submitted}}
                                     </li>
-                                </ul>  
+                                </ul>
                                 <!-- tag cloud list end -->
-                            
                             </div>
                             <!-- .inside -->
                         </div>
