@@ -27,13 +27,11 @@
             <input type="hidden" name="postID" value="<?php echo $ID; ?>" />
 
             <div id="post-body" class="metabox-holder columns-2">
-
                 <!-- main content -->
                 <div id="post-body-content">
                     <div class="meta-box-sortables ui-sortable">
 
                         <div class="postbox">
-
                             <h2> <span> <?php esc_attr_e( 'Fill the fields for new Email Automaton', 'automail' ); ?> </span> </h2>
 
                             <div class="inside">

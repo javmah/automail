@@ -29,11 +29,10 @@
             echo"<br><hr><br>";
 
             $results = get_posts( array( 
-                'post_type'     => 'automail',
-                'post_status'   => array('publish', 'pending'),
-                'posts_per_page'=> -1,
+                'post_type'         => 'automail',
+                'post_status'       => array('publish', 'pending'),
+                'posts_per_page'    => -1,
             )); 
-
            
             foreach ( $results as $key => $Array) {
                 echo "<a href='".  admin_url('/admin.php?page=automail&action=edit&id='. $Array->ID  )."' >". $Array->ID . "</a>";

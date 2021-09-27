@@ -42,7 +42,6 @@
 
                                 <b> Event Name:  </b><br>
                                 <select  style="width: 99%;"  name="eventName" id="eventName">
-
                                     <optgroup label="WordPress Post Events">
                                         <option value="wp_newPost">     Wordpress New Post      </option>
                                         <option value="wp_editPost">    Wordpress Edit Post     </option>
@@ -105,12 +104,11 @@
                                         <option value="10">   Mercedes    </option>
                                         <option value="11">       Audi    </option>
                                     </optgroup>
-
                                 </select>
 
                                 <br><br>
                                 <b> Email Receiver : TO </b>
-                                 <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
+                                <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
 
                                     <optgroup label="Event Data Source ">
                                         <option value="Email">   Email      </option>
@@ -128,8 +126,8 @@
                                     </optgroup>
 
                                 </select>
-                                <br>
-                                <br>
+                                <br> <br>
+                                
                                 <!-- <b> Email Body: </b> -->
 
                                 <?php
