@@ -110,7 +110,6 @@ class Automail_Admin {
 
 	/**
 	 * Register the JavaScript for the admin area.
-	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
@@ -817,8 +816,11 @@ class Automail_Admin {
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array( 'jquery' ), $this->version, false );
 		} 
 		# End of Scope 
+		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
+			wp_register_script( 'vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', '', FALSE, FALSE );
+			wp_enqueue_script( 'automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('vue'), '0.1', TRUE );  
+		}
 	}
-
 
 	/**
 	 * Register the stylesheets for the admin area.
