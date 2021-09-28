@@ -1,13 +1,10 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
- *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://profiles.wordpress.org/javmah/
  * @since      1.0.0
- *
  * @package    Automail
  * @subpackage Automail/admin/partials
  */
@@ -19,12 +16,8 @@
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Welcome to Automation List ', 'automail' ); ?></h2>
 
-
-
 	<div id="poststuff">
-
         <?php
-
             echo "<a href='".  admin_url('/admin.php?page=automail&action=new')  ."' > Add new  Automation </a>";
             echo"<br><hr><br>";
 
@@ -46,7 +39,7 @@
                 $mailReceiver = get_post_meta( $Array->ID, "mailReceiver", TRUE );
                 print_r( $mailReceiver ); 
                 echo"<br>";
-                if( in_array( "AdminX", $mailReceiver ) ){
+                if( in_array( "AdminX", $mailReceiver ) ) {
                     echo"In array.";
                 } else {
                     echo"not in array.";
@@ -56,7 +49,6 @@
                 echo"<br><hr><br>";
             }
         ?>
-
 		<br class="clear">
 	</div>
 	<!-- #poststuff -->

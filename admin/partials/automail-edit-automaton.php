@@ -15,10 +15,8 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
-
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Edit Email Automation.', 'automail' ); ?></h2>
-
 	<div id="poststuff">
         <!-- Form Starts  -->
         <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
@@ -40,69 +38,36 @@
 
                                 <b> Event Name:  </b><br>
                                 <select  style="width: 99%;"  name="eventName" id="eventName">
+                                    <!-- Loop Here  -->
+                                    <?php
+                                        if( ! empty( $this->events ) AND is_array( $this->events ) ) {
+                                            foreach ( $this->events  as $key => $value ) {
+                                                # Starting the thing
+                                                if ( $key == "wp_newUser" ) {
+                                                    echo"<optgroup label='WordPress User Events'>";
+                                                } else if ( $key == "wp_newPost" ) {
+                                                    echo"<optgroup label='WordPress Post Events'>";
+                                                } else if ( $key == "wp_comment" ) {
+                                                    echo"<optgroup label='WordPress Comment Events'>";
+                                                }  else {
+                                                   # Left Empty
+                                                }
 
-                                    <optgroup label="WordPress Post Events">
-                                        <option value="wp_newPost"    <?php selected( $eventName, "wp_newPost" );    ?> >  Wordpress New Post      </option>
-                                        <option value="wp_editPost"   <?php selected( $eventName, "wp_editPost" );   ?> >  Wordpress Edit Post     </option>
-                                        <option value="wp_deletePost" <?php selected( $eventName, "wp_deletePost" ); ?> >  Wordpress Delete Post   </option>
-                                        <option value="wp_page"       <?php selected( $eventName, "wp_page" );       ?> >  Wordpress Page          </option>
-                                    </optgroup>
+                                                echo"<option value='" . $key . "' " . selected( $eventName, $key ) . " > " . $value . " </option>";
 
-                                    <optgroup label="WordPress User Events">
-                                        <option value="wp_newUser"           <?php selected( $eventName, "wp_newUser" );            ?> >   Wordpress New User              </option>
-                                        <option value="wp_UserProfileUpdate" <?php selected( $eventName, "wp_UserProfileUpdate" );  ?> >   Wordpress User Profile Update   </option>
-                                        <option value="wp_deleteUser"        <?php selected( $eventName, "wp_deleteUser" );         ?> >   Wordpress Delete User           </option>
-                                        <option value="wp_userLogin"         <?php selected( $eventName, "wp_userLogin" );          ?> >   Wordpress User Login            </option>
-                                        <option value="wp_userLogout"        <?php  selected( $eventName, "wp_userLogout" );        ?> >   Wordpress User Logout           </option>
-                                    </optgroup>
-
-                                    <optgroup label="WordPress Comment Events">
-                                        <option value="wp_comment"          <?php selected( $eventName, "wp_comment" );          ?>  >  Wordpress Comment       </option>
-                                        <option value="wp_edit_comment"     <?php selected( $eventName, "wp_edit_comment" );     ?>  >  Wordpress Edit Comment  </option>
-                                        <option value="wp_approve_comment"  <?php selected( $eventName, "wp_approve_comment" );  ?>  >  Approve Comment         </option>
-                                    </optgroup>
-
-                                    <!-- For WooCommerce Also add Custom Events  -->
-                                    <optgroup label="WooCommerce Events">
-                                        <option value="wc-new_order" <?php selected( $eventName, "wc-new_order" );  ?> >   WooCommerce New Checkout Page Order </option>
-                                        <option value="wc-pending"   <?php selected( $eventName, "wc-pending" );    ?> >   WooCommerce Order Pending payment   </option>
-                                        <option value="wc-processing"<?php selected( $eventName, "wc-processing" ); ?> >   WooCommerce Order Processing        </option>
-                                        <option value="wc-on-hold"   <?php selected( $eventName, "wc-on-hold" );    ?> >   WooCommerce Order On-hold           </option>
-                                        <option value="wc-completed" <?php selected( $eventName, "wc-completed" );  ?> >   WooCommerce Order Completed         </option>
-                                        <option value="wc-cancelled" <?php selected( $eventName, "wc-cancelled" );  ?> >   WooCommerce Order Cancelled         </option>
-                                        <option value="wc-refunded"  <?php selected( $eventName, "wc-refunded" );   ?> >   WooCommerce Order Refunded          </option>
-                                        <option value="wc-failed"    <?php selected( $eventName, "wc-failed" );     ?> >   WooCommerce Order Failed            </option>
-                                    </optgroup>
-
-                                    <optgroup label="Contact form 7 Events">
-                                        <option value="1">  Mercedes   </option>
-                                        <option value="2">      Audi   </option>
-                                    </optgroup>
-
-                                    <optgroup label="WPform Events">
-                                        <option value="3">   Mercedes    </option>
-                                        <option value="4">       Audi    </option>
-                                    </optgroup>
-
-                                    <optgroup label="Ninja form Events">
-                                        <option value="5">   Mercedes    </option>
-                                        <option value="6">       Audi    </option>
-                                    </optgroup>
-
-                                    <optgroup label="Formidable form Events">
-                                        <option value="7">   Mercedes    </option>
-                                        <option value="8">       Audi    </option>
-                                    </optgroup>
-
-                                    <optgroup label="Forminator form Events">
-                                        <option value="8">   Mercedes    </option>
-                                        <option value="9">       Audi    </option>
-                                    </optgroup>
-
-                                    <optgroup label="Custom Post Type Events">
-                                        <option value="10">   Mercedes    </option>
-                                        <option value="11">       Audi    </option>
-                                    </optgroup>
+                                                # Ending The Tag
+                                                if ( $key == "wp_userLogout" ) {
+                                                    echo"</optgroup>";
+                                                } else if ( $key == "wp_page" ) {
+                                                    echo"</optgroup>";
+                                                } else if ( $key == "wp_edit_comment" ) {
+                                                    echo"</optgroup>";
+                                                } else {
+                                                    # Left Empty
+                                                }
+                                            }
+                                        }
+                                    ?>
                                 </select>
 
                                 <br><br>
@@ -128,11 +93,10 @@
                                 <br>
                                 <br>
                                 <!-- <b> Email Body: </b> -->
-
                                 <?php
                                     wp_editor( 
-                                                $automailEmail, 
-                                                "automailEmail", 
+                                                $automailEmail,
+                                                "automailEmail",
                                                 array(
                                                     'textarea_rows' => '6',
                                                     'media_buttons' => false,
@@ -155,11 +119,10 @@
                     <div class="meta-box-sortables">
 
                         <div class="postbox">
-
-                            <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?></span></h2>
+                            <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?> </span></h2>
 
                             <div class="inside">
-                                <input type="checkbox" name="automatonStatus" checked > Automaton Status 
+                                <input type="checkbox" name="automatonStatus" checked > Automaton Status
                                 <br>
                                 <br>
                                 <input class="button-secondary" type="submit" value="SAVE" />
@@ -217,7 +180,6 @@
                                     </li>
                                 </ul>  
                                 <!-- tag cloud list end -->
-                            
                             </div>
                             <!-- .inside -->
                         </div>

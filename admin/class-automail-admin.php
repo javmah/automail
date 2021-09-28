@@ -24,7 +24,6 @@ class Automail_Admin {
 
 	/**
 	 * The ID of this plugin.
-	 *
 	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
@@ -33,7 +32,6 @@ class Automail_Admin {
 
 	/**
 	 * The version of this plugin.
-	 *
 	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
@@ -42,7 +40,6 @@ class Automail_Admin {
 
 	/**
 	 * The current Date.
-	 *
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      string    $Date    The current version of the plugin.
@@ -51,7 +48,6 @@ class Automail_Admin {
 
 	/**
 	 * The current Time.
-	 *
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      string    $Time   The current Time.
@@ -60,7 +56,6 @@ class Automail_Admin {
 
 	/**
 	 * Events list.
-	 *
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      array    $events    Events list.
@@ -93,7 +88,6 @@ class Automail_Admin {
 
 	/**
 	 * Initialize the class and set its properties.
-	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
@@ -120,8 +114,6 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
-
 		# Limit The Code scope only for #toplevel_page_automail
 		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
 			
@@ -230,7 +222,7 @@ class Automail_Admin {
 			# Post Event array 
 			$wordpressPostEvents = array(
 				'wp_newPost'	  => 'Wordpress New Post',
-				'wp_ditPost'	  => 'Wordpress Edit Post',
+				'wp_editPost'	  => 'Wordpress Edit Post',
 				'wp_deletePost'	  => 'Wordpress Delete Post',
 				'wp_page'		  => 'Wordpress Page',
 			);
@@ -822,7 +814,6 @@ class Automail_Admin {
 				}
 			}
 
-
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array( 'jquery' ), $this->version, false );
 		} 
 		# End of Scope 
@@ -834,7 +825,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages() {
-
+		# Menu
 		add_menu_page( __( 'autoMail', 'automail' ), __( 'autoMail', 'automail' ), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
 	}
 
@@ -843,12 +834,12 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages_view() {
-		# router aka request dispatcher 
+		# router aka request dispatcher;
 		if ( isset( $_GET['action'] ) AND $_GET['action'] == 'new' ) {
-			# including the new automaton view File 
+			# including the new automaton view File;
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-new-automaton.php';
 		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'edit' AND !empty($_GET['id']) ) ) {
-			// Getting the Post data 
+			# Getting the Post data;
 			$post   		    = get_post( $_GET['id'], ARRAY_A );
 			if( $post ){
 				$ID             = ( isset( $post['ID']  ) 			AND !empty( $post['ID'] ) ) 			? $post['ID'] 				: "" ;		
@@ -878,12 +869,13 @@ class Automail_Admin {
 	*/
 	public function automail_admin_notice() {
 		echo"<pre>";
-			//
-			//
+			
 			// print_r( $this->automail_userRoles() );
-			//
-			//
-			print_r(get_current_screen()->id);
+			// print_r(get_current_screen()->id);
+			// print_r( $this->events );
+			// print_r( $this->eventsAndTitles );
+			// echo "<br> <hr> <br>";
+
 		echo"</pre>";
 	}
 
@@ -1090,7 +1082,6 @@ class Automail_Admin {
 		
 		return array( TRUE, $cf7forms, $fieldsArray );
 	}
-
 
 	/**
 	 *  Ninja  form  fields 
@@ -1313,7 +1304,6 @@ class Automail_Admin {
 			}
 		}
 
-
 		return array( TRUE, $FormArray, $fieldsArray );	
 	}
 
@@ -1321,7 +1311,7 @@ class Automail_Admin {
 	# do it after Upload || last off all forms 
 	/**
 	 *  WE forms fields 
-	 *  @since    1.0.0
+	 *  @since  1.0.0
 	*/
 	public function weforms_forms_and_fields() {
 		
@@ -1365,15 +1355,13 @@ class Automail_Admin {
 				}
 			}
 		}
-
-
 		return array( TRUE, $FormArray, $fieldsArray, $fieldTypeArray );
 	}
 
 	/**
 	 * 	Under Construction 
 	 *  gravity forms fields 
-	 *  @since    1.0.0
+	 *  @since  1.0.0
 	*/
 	public function gravity_forms_and_fields( ) {
 		
@@ -1420,8 +1408,6 @@ class Automail_Admin {
 		return array( TRUE, $FormArray, $fieldsArray, $fieldTypeArray );
 	}
 
-	
-
 	/**
 	 * forminator forms fields 
 	 * @since      1.0.0
@@ -1436,7 +1422,7 @@ class Automail_Admin {
 		$FormArray 	 = array();			# Empty Array for Value Holder 
 		$fieldsArray = array();			# Empty Array for Holder 
 		# Getting Forminator Fields 
-		$forms = Forminator_API::get_forms();
+		$forms 		 = Forminator_API::get_forms();
 		# Check And Balance 
 		if( ! empty( $forms ) ) {
 			# Looping the Forms 
