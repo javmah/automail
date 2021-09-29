@@ -1,32 +1,57 @@
-(function( $ ) {
-	'use strict';
+//  Check & Balance || if #automailNewVue Div is Present do the rest
+if ( document.getElementById("automailNewVue") ) {
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	var automailNew = new Vue({
+		el: '#automailNewVue',
+		data: {
+			eventsAndTitles:"",
+			selectedEvent:"",
+			selectedEventsAndTitles:""
+		},
+		methods: {
+			eventSelected: function(event){
+				if( typeof this.eventsAndTitles[event.target.value] !== 'undefined'  &&  typeof event.target.value !== 'undefined' ) {
+					console.log( event.target.value );
+					console.log( this.eventsAndTitles[event.target.value] );
+				} else {
+					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
+				}
+			}
+		}, beforeMount() {
+			// Inserting data to the data.eventsAndTitles element
+			this.eventsAndTitles = automailJsData;
+			console.log( automailJsData ); 
+		}
+	})
 
-})( jQuery );
+}
+
+
+// Check & Balance if #automailEditVue Div is Present do the rest
+if ( document.getElementById("automailEditVue") ) {
+
+	var automailEdit = new Vue({
+		el: '#automailEditVue',
+		data: {
+			eventsAndTitles:"",
+			selectedEvent:"",
+			selectedEventsAndTitles:""
+		},
+		methods: {
+			eventSelected: function(event){
+				if( typeof this.eventsAndTitles[event.target.value] !== 'undefined'  &&  typeof event.target.value !== 'undefined' ) {
+					console.log( event.target.value );
+					console.log( this.eventsAndTitles[event.target.value] );
+				} else {
+					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
+				}
+			}
+
+		}, beforeMount() {
+			// Inserting data to the data.eventsAndTitles element
+			this.eventsAndTitles = automailJsData;
+			console.log( automailJsData ); 
+		}
+	})
+
+}

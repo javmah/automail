@@ -93,18 +93,15 @@ class Automail_Admin {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name 	= $plugin_name;
 		$this->version 		= $version;
 	}
 
 	/**
 	 * Register the stylesheets for the admin area.
-	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/automail-admin.css', array(), $this->version, 'all' );
 	}
 
@@ -532,7 +529,7 @@ class Automail_Admin {
 				#(1) Product Meta 
 				#(2) Product Info
 				#(3) Product Details
-				#(4) Empty Product Place Holder 
+				#(4) Empty Product Place Holder
 				# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 				# WooCommerce Orders 
@@ -815,10 +812,12 @@ class Automail_Admin {
 
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array( 'jquery' ), $this->version, false );
 		} 
+
 		# End of Scope 
 		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
-			wp_register_script( 'vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', '', FALSE, FALSE );
-			wp_enqueue_script( 'automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('vue'), '0.1', TRUE );  
+			wp_register_script( 'Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
+			wp_enqueue_script( 'automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('Vue'), '1.0', TRUE );  
+			wp_localize_script( 'automail-admin', 'automailJsData', $this->eventsAndTitles ); 
 		}
 	}
 
@@ -1475,11 +1474,11 @@ class Automail_Admin {
 	/**
 	 * This is a Helper function to check Table is Exist or Not 
 	 * If DB table Exist it will return True if Not it will return False
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
 	public function wpgsi_dbTableExists( $tableName = null ) {
-		if ( empty( $tableName ) ){
+		if ( empty( $tableName ) ) {
 			return FALSE;
 		}
 

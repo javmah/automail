@@ -1,8 +1,6 @@
 <?php
-
 /**
  * The file that defines the core plugin class
- *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
@@ -32,7 +30,6 @@ class Automail {
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
-	 *
 	 * @since    1.0.0
 	 * @access   protected
 	 * @var      Automail_Loader    $loader    Maintains and registers all hooks for the plugin.
@@ -41,7 +38,6 @@ class Automail {
 
 	/**
 	 * The unique identifier of this plugin.
-	 *
 	 * @since    1.0.0
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
@@ -50,7 +46,6 @@ class Automail {
 
 	/**
 	 * The current version of the plugin.
-	 *
 	 * @since    1.0.0
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
@@ -59,11 +54,9 @@ class Automail {
 
 	/**
 	 * Define the core functionality of the plugin.
-	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
-	 *
 	 * @since    1.0.0
 	 */
 	public function __construct() {
@@ -93,7 +86,6 @@ class Automail {
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
@@ -102,36 +94,33 @@ class Automail {
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
-		 */
+		*/
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
-		 */
+		*/
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
-		 */
+		*/
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-automail-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
-		 */
+		*/
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-automail-public.php';
 
 		$this->loader = new Automail_Loader();
-
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
-	 *
 	 * Uses the Automail_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
-	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
@@ -140,7 +129,6 @@ class Automail {
 		$plugin_i18n = new Automail_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -161,7 +149,6 @@ class Automail {
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'automail_admin_notice' );
 		# Save Submitted Form 
 		$this->loader->add_action( 'admin_post_automail_saveAutomation', $plugin_admin, 'automail_saveAutomation' );	
-
 	}
 
 	/**
