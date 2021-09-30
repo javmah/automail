@@ -19,7 +19,12 @@
 	<div id="poststuff">
         <div id="automailNewVue">
 
-            <!-- <pre> {{$data}} </pre> -->
+            <!-- 
+            <pre> {{$data}} </pre>
+            <pre> {{$data.selectedEvent}} </pre>
+            <pre> {{$data.selectedEventsAndTitles}} </pre>
+            -->
+            
             <!-- Form Starts  -->
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
                 <input type="hidden" name="action" value="automail_saveAutomation">
@@ -133,50 +138,18 @@
                         </div>
                         <!-- .meta-box-sortables -->
 
-                        <div class="meta-box-sortables">
-
+                        <!-- Conditionally rendered div -->
+                        <div class="meta-box-sortables" v-show="selectedEventsAndTitles" >
                             <div class="postbox">
-
-                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span></h2>
-
+                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> </h2>
                                 <div class="inside">
                                     <!-- tag cloud list start -->
-                                    <ul>
-                                        <li class="alternate" style="padding: 10px;" >
-                                            Coffee
+                                    <ul style="height:293px; overflow:hidden; overflow-y:scroll;" >
+                                        <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)"  :class=" index % 2 ? '' : 'alternate' "  style="padding: 10px;">
+                                            {{ item }}
                                             <br>
-                                            &#123; &#123; wpgsi_submitted_time &#125; &#125;
-                                        </li>
-
-                                        <li style="padding: 10px;">
-                                            Tea
-                                            <br>
-                                            &#123; &#123; get_variation_default_attributes &#125; &#125;
-                                        </li>
-
-                                        <li class="alternate" style="padding: 10px;"> 
-                                            Milk
-                                            <br>
-                                            &#123; &#123; wpgsi_Form_submitted &#125; &#125;
-                                        </li>
-
-                                        <li style="padding: 10px;"> 
-                                            Fanta
-                                            <br>
-                                            &#123; &#123; wpgsi_Form_submitted &#125; &#125;
-                                        </li>
-
-                                        <li class="alternate" style="padding: 10px;"> 
-                                            Coke
-                                            <br>
-                                            &#123; &#123; wpgsi_Form_submitted &#125; &#125;
-                                        </li>
-
-                                        <li  style="padding: 10px;"> 
-                                            Pespsi
-                                            <br>
-                                            &#123; &#123; wpgsi_Form_submitted &#125; &#125;
-                                        </li>
+                                            [{{ index }}] 
+                                        </li>    
                                     </ul>
                                     <!-- tag cloud list end -->
                                 </div>

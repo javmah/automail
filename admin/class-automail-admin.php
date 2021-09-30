@@ -869,15 +869,11 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice() {
-		echo"<pre>";
+		// echo"<pre>";
 			
-			// print_r( $this->automail_userRoles() );
-			// print_r(get_current_screen()->id);
-			// print_r( $this->events );
-			// print_r( $this->eventsAndTitles );
-			// echo "<br> <hr> <br>";
 
-		echo"</pre>";
+
+		// echo"</pre>";
 	}
 
 	/**
