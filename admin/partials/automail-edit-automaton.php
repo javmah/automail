@@ -1,24 +1,30 @@
 <?php
-
 /**
- * Provide a admin area view for the plugin
- *
- * This file is used to markup the admin-facing aspects of the plugin.
+ * Provide a admin area view for the plugin This file is used to markup the admin-facing aspects of the plugin.
  * @link       https://profiles.wordpress.org/javmah/
  * @since      1.0.0
  * @package    Automail
  * @subpackage Automail/admin/partials
  */
 ?>
-
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Edit Email Automation.', 'automail' ); ?></h2>
 	<div id="poststuff">
         <div id="automailEditVue">
+            
+            <!-- <pre> {{$data}} </pre> -->
+            <!-- <pre> {{$data.eventsAndTitles}} </pre> -->
 
-            <pre> {{$data}} </pre>
+            <!-- ================================================== -->
+           
+        <!--<pre> {{$data.ID}}                      </pre>
+            <pre> {{$data.automatonName}}           </pre>
+            <pre> {{$data.eventName}}               </pre>
+            <pre> {{$data.selectedEvent}}           </pre>
+            <pre> {{$data.selectedEventsAndTitles}} </pre> -->
+            
             <!-- Form Starts  -->
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
                 <input type="hidden" name="action" value="automail_saveAutomation">
@@ -38,7 +44,7 @@
                                     <input type="text" name="automatonName" value="<?php echo $automatonName; ?>" id="automatonName" class="large-text" /><br><br>
 
                                     <b> Event Name:  </b><br>
-                                    <select  style="width: 99%;"  name="eventName" id="eventName">
+                                    <select  style="width: 99%;" @change="eventSelected($event)"  name="eventName" id="eventName">
                                         <!-- Loop Here  -->
                                         <?php
                                             if( ! empty( $this->events ) AND is_array( $this->events ) ) {
@@ -51,7 +57,7 @@
                                                     } else if ( $key == "wp_comment" ) {
                                                         echo"<optgroup label='WordPress Comment Events'>";
                                                     }  else {
-                                                    # Left Empty
+                                                        # Left Empty
                                                     }
 
                                                     echo"<option value='" . $key . "' " . selected( $eventName, $key ) . " > " . $value . " </option>";
@@ -70,29 +76,52 @@
                                             }
                                         ?>
                                     </select>
+                                    
 
                                     <br><br>
-                                    <b> Email Receiver : TO </b>
+                                    <!-- <b> Email Receiver : TO </b>
                                     <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
-
                                         <optgroup label="Event Data Source">
                                             <option value="Email" <?php echo in_array( "Email",  $mailReceiver) ? "selected" : ""; ?> >   Email   </option>
                                         </optgroup>
+                                    </select> -->
 
-                                        <optgroup label="User Role">
-                                            <option value="Admin"  <?php echo in_array( "Admin",   $mailReceiver)  ? "selected"  : ""; ?> >   Admin (1)   </option>
-                                            <option value="Editor" <?php echo in_array( "Editor",  $mailReceiver)  ? "selected"  : ""; ?> >   Editor (2)  </option>
-                                        </optgroup>
+                                    <b> Email Receiver : TO </b>
+                                    <select multiple="multiple" style="width: 99%; " size="7"  name="mailReceiver[]" id="mailReceiver">
+                                        <?php
+                                            # Add event outsource later 
+                                            # Most important AKA Must have 
+                                            $userRoles = $this->automail_userRoles();
+                                            if( $userRoles[0] ){
+                                                echo"<optgroup label='User Role'>";
+                                                    foreach ($userRoles[1] as $key => $value) {
+                                                        if( in_array( $key,  $mailReceiver) ){
+                                                            echo "<option value='".  $key ."' selected > " .  $value . " </option>";
+                                                        } else {
+                                                            echo "<option value='".  $key ."' > " .  $value . " </option>";
+                                                        }
+                                                    }
+                                                echo"</optgroup>";
+                                            }
 
-                                        <optgroup label="User">
-                                            <option value="khaled@gmail.com" <?php echo in_array( "khaled@gmail.com",   $mailReceiver) ? "selected" : ""; ?> >    Khaled mahmud  - khaled@gmail.com  </option>
-                                            <option value="javed@gmail.com"  <?php echo in_array( "javed@gmail.com",    $mailReceiver) ? "selected" : ""; ?> >    Javed Mahmud   - javed@gmail.com   </option>
-                                            <option value="zubayer@gmail.com"<?php echo in_array( "zubayer@gmail.com",  $mailReceiver) ? "selected" : ""; ?> >    Zubayer Mahmud - zubayer@gmail.com </option>
-                                        </optgroup>
-
+                                            # For User 
+                                            global $wpdb;
+                                            $results = $wpdb->get_results( "SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A  );
+                                            # 
+                                            if( !empty( $results ) ) {
+                                                echo"<optgroup label='User'>";
+                                                    foreach ( $results as $key => $singleUserArray ) {
+                                                        if( in_array( $singleUserArray['user_email'],  $mailReceiver) ){
+                                                            echo "<option value='". $singleUserArray['user_email'] ."' selected > " .  $singleUserArray['user_nicename'] . " </option>";
+                                                        } else {
+                                                            echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
+                                                        }
+                                                    }
+                                                echo"</optgroup>";
+                                            }
+                                        ?>
                                     </select>
-                                    <br>
-                                    <br>
+                                    <br> <br>
                                     <!-- <b> Email Body: </b> -->
                                     <?php
                                         wp_editor( 
@@ -134,52 +163,19 @@
                         </div>
                         <!-- .meta-box-sortables -->
 
-                        <div class="meta-box-sortables">
-
+                        <!-- Conditionally rendered div -->
+                        <div class="meta-box-sortables" v-show="selectedEventsAndTitles" >
                             <div class="postbox">
-
-                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span></h2>
-
+                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> </h2>
                                 <div class="inside">
-                                    
                                     <!-- tag cloud list start -->
-                                    <ul>
-                                        <li class="alternate" style="padding: 10px;" >
-                                            Coffee
+                                    <ul style="height:350px; overflow:hidden; overflow-y:scroll;" >
+                                        <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)"  :class=" index % 2 ? '' : 'alternate' "  style="padding: 10px;">
+                                            {{ item }}
                                             <br>
-                                            {{wpgsi_submitted_time}}
-                                        </li>
-
-                                        <li style="padding: 10px;">
-                                            Tea
-                                            <br>
-                                            {{get_variation_default_attributes}}
-                                        </li>
-
-                                        <li class="alternate" style="padding: 10px;"> 
-                                            Milk
-                                            <br>
-                                            {{wpgsi_Form_submitted}}
-                                        </li>
-
-                                        <li style="padding: 10px;"> 
-                                            Fanta
-                                            <br>
-                                            {{wpgsi_Form_submitted}}
-                                        </li>
-
-                                        <li class="alternate" style="padding: 10px;"> 
-                                            Coke
-                                            <br>
-                                            {{wpgsi_Form_submitted}}
-                                        </li>
-
-                                        <li  style="padding: 10px;"> 
-                                            Pespsi
-                                            <br>
-                                            {{wpgsi_Form_submitted}}
-                                        </li>
-                                    </ul>  
+                                            [{{ index }}] 
+                                        </li>    
+                                    </ul>
                                     <!-- tag cloud list end -->
                                 </div>
                                 <!-- .inside -->

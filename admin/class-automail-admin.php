@@ -1,25 +1,14 @@
 <?php
-
 /**
- * The admin-specific functionality of the plugin.
- *
+ * The admin-specific functionality of the plugin. Defines the plugin name, version, and two examples 
+ * hooks for how to enqueue the admin-specific stylesheet and JavaScript.
  * @link       https://profiles.wordpress.org/javmah/
  * @since      1.0.0
- *
- * @package    Automail
- * @subpackage Automail/admin
- */
-
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
  * @package    Automail
  * @subpackage Automail/admin
  * @author     javmah <jaedmah@gmail.com>
- */
+*/
+
 class Automail_Admin {
 
 	/**
@@ -68,7 +57,7 @@ class Automail_Admin {
 	 * @access   Public
 	 * @var      array    $eventsAndTitles    Events list.
 	 */	
-	public $eventsAndTitles = array();																				# Event Key and Event Title 
+	public $eventsAndTitles = array();																				
 	
 	/**
 	 * WooCommerce Order Statuses.
@@ -817,7 +806,24 @@ class Automail_Admin {
 		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
 			wp_register_script( 'Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
 			wp_enqueue_script( 'automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('Vue'), '1.0', TRUE );  
-			wp_localize_script( 'automail-admin', 'automailJsData', $this->eventsAndTitles ); 
+			
+			# Change from Here 
+			if ( isset( $_GET["action"] , $_GET["id"] ) ){
+				# getting the integration
+				$post  = get_post( sanitize_text_field($_GET["id"]), ARRAY_A );
+				$frontEnd = array( 
+					"ID"  					=> ( isset( $post['ID']  ) AND !empty( $post['ID'] ) ) 						? $post['ID'] 				: "" ,
+					"automatonName"  		=> ( isset( $post['post_title']  ) 	AND !empty( $post['post_title'] ) ) 	? $post['post_title'] 		: "" ,
+					"eventName"  			=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
+					"eventsAndTitles"  		=> $this->eventsAndTitles,
+				);
+			} else {
+				$frontEnd = array( 
+					"eventsAndTitles"  		=> $this->eventsAndTitles,
+				);
+			}
+			# Sending data to Front-end 
+			wp_localize_script( 'automail-admin', 'automailJsData', $frontEnd ); 
 		}
 	}
 
@@ -860,7 +866,28 @@ class Automail_Admin {
 			wp_delete_post( $_GET['id'] ) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 		} else {
 			# Including The landing File 
-			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-admin-display.php';
+			// require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-admin-display.php';
+			
+			
+			# Adding List table
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-list-table.php';
+
+			# Creating view Page layout 
+			echo"<div class='wrap'>";
+				echo "<h1 class='wp-heading-inline'> Email Automatons  </h1>";
+				echo "<a href=". admin_url('/admin.php?page=automail&action=new') . " class='page-title-action'>Add New Email Automaton</a>";
+				# Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions
+				echo"<form id='newIntegration' method='get'>";
+					# For plugins, we also need to ensure that the form posts back to our current page 
+					echo"<input type='hidden' name='page' value='". esc_attr( $_REQUEST['page'] ) ."' />";
+					echo"<input type='hidden' name='automail_nonce' value='". wp_create_nonce( 'automail_nonce_bulk_action' ) ."' />";
+					# Now we can render the completed list table 
+					$automail_table = new Automail_List_Table( $this->eventsAndTitles );
+					$automail_table->prepare_items();
+					$automail_table->display();
+				echo"</form>";
+			echo"</div>";
+
 		}
 	}
 
@@ -870,7 +897,8 @@ class Automail_Admin {
 	*/
 	public function automail_admin_notice() {
 		// echo"<pre>";
-			
+
+
 
 
 		// echo"</pre>";

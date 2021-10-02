@@ -1,10 +1,6 @@
 <?php
-
 /**
- * Provide a admin area view for the plugin
- *
- * This file is used to markup the admin-facing aspects of the plugin.
- *
+ * Provide a admin area view for the plugin. This file is used to markup the admin-facing aspects of the plugin.
  * @link       https://profiles.wordpress.org/javmah/
  * @since      1.0.0
  * @package    Automail
@@ -19,12 +15,6 @@
 	<div id="poststuff">
         <div id="automailNewVue">
 
-            <!-- 
-            <pre> {{$data}} </pre>
-            <pre> {{$data.selectedEvent}} </pre>
-            <pre> {{$data.selectedEventsAndTitles}} </pre>
-            -->
-            
             <!-- Form Starts  -->
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
                 <input type="hidden" name="action" value="automail_saveAutomation">
@@ -78,23 +68,31 @@
 
                                     <br><br>
                                     <b> Email Receiver : TO </b>
-                                    <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
+                                    <select multiple="multiple" style="width: 99%;" size="7"  name="mailReceiver[]" id="mailReceiver">
+                                        <?php
+                                            # Add event outsource later 
+                                            # Most important AKA Must have 
+                                            $userRoles = $this->automail_userRoles();
+                                            if( $userRoles[0] ){
+                                                echo"<optgroup label='User Role'>";
+                                                    foreach ($userRoles[1] as $key => $value) {
+                                                        echo "<option value='".  $key ."'> " . $value . " </option>";
+                                                    }
+                                                echo"</optgroup>";
+                                            }
 
-                                        <optgroup label="Event Data Source ">
-                                            <option value="Email">   Email      </option>
-                                        </optgroup>
+                                            # For User 
+                                            global $wpdb;
+                                            $results = $wpdb->get_results( "SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A  );
 
-                                        <optgroup label="User Role">
-                                            <option value="Admin">   Admin (1)   </option>
-                                            <option value="Editor">  Editor(2)  </option>
-                                        </optgroup>
-
-                                        <optgroup label="User">
-                                            <option value="khaled@gmail.com">   Khaled mahmud  - khaled@gmail.com  </option>
-                                            <option value="javed@gmail.com">    Javed Mahmud   - javed@gmail.com   </option>
-                                            <option value="zubayer@gmail.com">  Zubayer Mahmud - zubayer@gmail.com </option>
-                                        </optgroup>
-
+                                            if( !empty( $results ) ){
+                                                echo"<optgroup label='User'>";
+                                                    foreach ( $results as $key => $singleUserArray ) {
+                                                        echo "<option value='".  $singleUserArray['user_email'] ."'> " .  $singleUserArray['user_nicename'] . " </option>";
+                                                    }
+                                                echo"</optgroup>";
+                                            }
+                                        ?>
                                     </select>
                                     <br> <br>
                                     
@@ -144,7 +142,7 @@
                                 <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> </h2>
                                 <div class="inside">
                                     <!-- tag cloud list start -->
-                                    <ul style="height:293px; overflow:hidden; overflow-y:scroll;" >
+                                    <ul style="height:350px; overflow:hidden; overflow-y:scroll;" >
                                         <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)"  :class=" index % 2 ? '' : 'alternate' "  style="padding: 10px;">
                                             {{ item }}
                                             <br>

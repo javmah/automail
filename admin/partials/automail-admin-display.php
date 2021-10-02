@@ -1,8 +1,6 @@
 <?php
 /**
- * Provide a admin area view for the plugin
- * This file is used to markup the admin-facing aspects of the plugin.
- *
+ * Provide a admin area view for the plugin This file is used to markup the admin-facing aspects of the plugin.
  * @link       https://profiles.wordpress.org/javmah/
  * @since      1.0.0
  * @package    Automail
@@ -12,13 +10,12 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
-
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Welcome to Automation List ', 'automail' ); ?></h2>
 
 	<div id="poststuff">
         <?php
-            echo "<a href='".  admin_url('/admin.php?page=automail&action=new')  ."' > Add new  Automation </a>";
+            echo "<a href='".  admin_url('/admin.php?page=automail&action=new')  ."' > Add New Email Automation </a>";
             echo"<br><hr><br>";
 
             $results = get_posts( array( 
