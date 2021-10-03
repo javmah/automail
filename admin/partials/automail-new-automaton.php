@@ -8,7 +8,6 @@
  */
 ?>
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<!-- <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"> -->
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Automate new event Email.', 'automail' ); ?></h2>
@@ -41,7 +40,7 @@
                                     <input type="text" name="automatonName" v-model="automatonName" id="automatonName" class="large-text" /><br><br>
 
                                     <b> Event Name:  </b><br>
-                                    <select  style="width: 99%;" @change="eventSelected($event)" name="eventName" v-model="eventName" id="eventName">
+                                    <select  style="width: 99%;" v-model="selectedEvent" @change="eventSelected($event)" name="eventName" id="eventName">
                                         <!-- Loop Here  -->
                                         <?php
                                             if( ! empty( $this->events ) AND is_array( $this->events ) ){
@@ -53,7 +52,7 @@
                                                         echo"<optgroup label='WordPress Post Events'>";
                                                     } else if ( $key == "wp_comment" ) {
                                                         echo"<optgroup label='WordPress Comment Events'>";
-                                                    }  else {
+                                                    }  else { 
                                                     # Left Empty 
                                                     } 
 
@@ -81,7 +80,7 @@
                                        
                                         <?php
                                             # Add event outsource later 
-                                            # Most important AKA Must have 
+                                            # Most important AKA Must have
                                             $userRoles = $this->automail_userRoles();
                                             if( $userRoles[0] ){
                                                 echo"<optgroup label='User Role'>";
@@ -93,7 +92,9 @@
                                         ?>
 
                                         <!-- This will populate after selection  -->
-                                        <optgroup label="Event Data Source" id="eventDataSource"> </optgroup>
+                                        <optgroup label="Event Data Source" id="eventDataSource"> 
+                                            <option v-for="(value, key) in selectedEventsAndTitles" :value="key" > {{value}} </option>
+                                        </optgroup>
                                         
                                         <?php
                                             # For User 
@@ -187,9 +188,3 @@
 </div> <!-- .wrap -->
 
 <!-- https://wordpress.org/plugins/notification/ -->
-
-<script>
-
-    document.getElementById('eventDataSource').innerHTML = "<option value='option_1'>  Option one </option> <option value='option_2'> Option Two </option>";
-
-</script>

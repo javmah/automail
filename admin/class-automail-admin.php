@@ -814,8 +814,9 @@ class Automail_Admin {
 				$frontEnd = array( 
 					"ID"  					=> ( isset( $post['ID']  ) AND !empty( $post['ID'] ) ) 						? $post['ID'] 				: "" ,
 					"automatonName"  		=> ( isset( $post['post_title']  ) 	AND !empty( $post['post_title'] ) ) 	? $post['post_title'] 		: "" ,
-					"selectedEvent"  			=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
+					"selectedEvent"  		=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
+					"mailReceiver"  		=> json_encode( get_post_meta( $_GET['id'], "mailReceiver", TRUE ) ) , 
 				);
 			} else {
 				$frontEnd = array( 
@@ -897,6 +898,8 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
+			// $mailReceiver = get_post_meta( 28810, "mailReceiver", TRUE ) ;
+			// print_r( json_encode( $mailReceiver) );
 			// print_r( $this->automail_userRoles() );
 
 		echo"</pre>";

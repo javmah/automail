@@ -41,7 +41,7 @@
                                     <input type="text" name="automatonName" value="<?php echo $automatonName; ?>" id="automatonName" class="large-text" /><br><br>
 
                                     <b> Event Name:  </b><br>
-                                    <select  style="width: 99%;" @change="eventSelected($event)"  name="eventName" id="eventName">
+                                    <select  style="width: 99%;" v-model="selectedEvent" @change="eventSelected($event)" name="eventName" id="eventName">
                                         <!-- Loop Here  -->
                                         <?php
                                             if( ! empty( $this->events ) AND is_array( $this->events ) ) {
@@ -73,23 +73,9 @@
                                             }
                                         ?>
                                     </select>
-                                    
-
                                     <br><br>
-                                    <!-- 
-                                    <b> Email Receiver : TO </b>
-                                    <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
-                                        <optgroup label="Event Data Source">
-                                            <option value="Email" <?php echo in_array( "Email",  $mailReceiver) ? "selected" : ""; ?> >   Email   </option>
-                                        </optgroup>
-                                    </select> 
-                                    -->
-
-                                    <b> Email Receiver : TO </b>
-                                    <select multiple="multiple" style="width: 99%; " size="7" v-model="mailReceiver"  name="mailReceiver[]" id="mailReceiver">
-                                        
-                                        <optgroup label="Event Data Source" id="eventDataSource">  </optgroup>
-                                        
+                                    <b> Email Receiver : TO  </b> <span class="dashicons dashicons-info" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field." ></span>
+                                    <select multiple="multiple" style="width: 99%; " size="7" v-model="mailReceiver" name="mailReceiver[]" id="mailReceiver">
                                         <?php
                                             # Add event outsource later 
                                             # Most important AKA Must have 
@@ -97,18 +83,21 @@
                                             if( $userRoles[0] ){
                                                 echo"<optgroup label='User Role'>";
                                                     foreach ($userRoles[1] as $key => $value) {
-                                                        if( in_array( $key,  $mailReceiver) ){
-                                                            echo "<option value='".  $key ."' selected > " .  $value . " </option>";
-                                                        } else {
-                                                            echo "<option value='".  $key ."' > " .  $value . " </option>";
-                                                        }
+                                                        // if( in_array( $key,  $mailReceiver) ){
+                                                        //     echo "<option value='".  $key ."' selected > " .  $value . " </option>";
+                                                        // } else {
+                                                        //     echo "<option value='".  $key ."' > " .  $value . " </option>";
+                                                        // }
+
+                                                        echo "<option value='".  $key ."' > " .  $value . " </option>";
                                                     }
                                                 echo"</optgroup>";
                                             }
                                         ?>
-
                                         <!-- This will populate after selection  -->
-                                        <optgroup label="Event Data Source" id="eventDataSource"> </optgroup>
+                                        <optgroup label="Event Data Source" id="eventDataSource"> 
+                                            <option v-for="(value, key) in selectedEventsAndTitles" :value="key" > {{value}} </option>
+                                        </optgroup>
 
                                         <?php
                                             # For User 
@@ -118,17 +107,19 @@
                                             if( !empty( $results ) ) {
                                                 echo"<optgroup label='User'>";
                                                     foreach ( $results as $key => $singleUserArray ) {
-                                                        if( in_array( $singleUserArray['user_email'],  $mailReceiver) ){
-                                                            echo "<option value='". $singleUserArray['user_email'] ."' selected > " .  $singleUserArray['user_nicename'] . " </option>";
-                                                        } else {
-                                                            echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
-                                                        }
+                                                        // if( in_array( $singleUserArray['user_email'],  $mailReceiver) ){
+                                                        //     echo "<option value='". $singleUserArray['user_email'] ."' selected > " .  $singleUserArray['user_nicename'] . " </option>";
+                                                        // } else {
+                                                        //     echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
+                                                        // }
+
+                                                        echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
                                                     }
                                                 echo"</optgroup>";
                                             }
                                         ?>
                                     </select>
-                                    <br> <br>
+                                    <br><br>
                                     <!-- <b> Email Body: </b> -->
                                     <?php
                                         wp_editor( 
@@ -140,7 +131,6 @@
                                                     )
                                                 );
                                     ?>
-
                                 </div>
                                 <!-- .inside -->
                             </div>
@@ -206,11 +196,3 @@
 </div> <!-- .wrap -->
 
 <!-- https://wordpress.org/plugins/notification/ -->
-
-<script>
-
-
-    // document.getElementById('tag-id').innerHTML = '<ol><li>html data</li></ol>';
-
-
-</script>

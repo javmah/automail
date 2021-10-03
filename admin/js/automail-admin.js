@@ -8,8 +8,8 @@ if ( document.getElementById("automailNewVue") ) {
 			automatonName  			: "",
 			eventsAndTitles         : "",
 			selectedEvent			: "",
-			selectedEventsAndTitles : "",
-			mailReceiver 			: []
+			selectedEventsAndTitles : {},
+			mailReceiver 			: [],
 		},
 		methods: {
 			eventSelected: function(event){
@@ -19,16 +19,6 @@ if ( document.getElementById("automailNewVue") ) {
 					// Inserting Selected Event 
 					this.selectedEvent = event.target.value;
 					this.selectedEventsAndTitles = this.eventsAndTitles[event.target.value];
-					// Insert  Event Base Email receiver;
-					// $optionHtmlText = "<option value=''>  Option one </option>";
-					$optionHtmlText = "";
-					for ( const key in this.selectedEventsAndTitles ) {
-						// console.log( "<option value='"+ key +"'>" + this.selectedEventsAndTitles[key] + "</option>" );
-						$optionHtmlText += "<option value='"+ key +"'>" + this.selectedEventsAndTitles[key] + "</option>";
-					}
-					// inserting the data 
-					document.getElementById('eventDataSource').innerHTML = $optionHtmlText
-					// console.log( $optionHtmlText );
 				} else {
 					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
 				}
@@ -61,8 +51,8 @@ if ( document.getElementById("automailEditVue") ) {
 			automatonName  			: "",
 			eventsAndTitles  		: "",
 			selectedEvent			: "",
-			selectedEventsAndTitles	: "",
-			mailReceiver 			: []
+			selectedEventsAndTitles	: {},
+			mailReceiver 			: [],
 		},
 		methods: {
 			eventSelected: function(event){
@@ -91,11 +81,14 @@ if ( document.getElementById("automailEditVue") ) {
 			this.automatonName 	 = automailJsData.automatonName;
 			this.selectedEvent 	 = automailJsData.selectedEvent;
 			this.eventsAndTitles = automailJsData.eventsAndTitles;
+			this.mailReceiver 	 = automailJsData.mailReceiver;
+			// Vue.set(automailEdit.$data, 'mailReceiver', JSON.parse(automailJsData.mailReceiver))
+			// Inserting Event Data source 
 			// Insert Selected things
 			if( typeof this.eventsAndTitles[automailJsData.selectedEvent] !== 'undefined' ) {
 				console.log( automailJsData.selectedEvent );
 				console.log( this.eventsAndTitles[automailJsData.selectedEvent] );
-				// Inserting Selected Event 
+				// Inserting Selected Event
 				this.selectedEvent = automailJsData.selectedEvent;
 				this.selectedEventsAndTitles = this.eventsAndTitles[automailJsData.selectedEvent];
 			} else {
