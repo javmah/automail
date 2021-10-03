@@ -8,12 +8,20 @@
  */
 ?>
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<!-- <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"> -->
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"></div>
 	<h2><?php esc_attr_e( 'Automate new event Email.', 'automail' ); ?></h2>
 
 	<div id="poststuff">
         <div id="automailNewVue">
+
+
+            <pre> ID : {{$data.ID}}                         </pre>
+            <pre> Name : {{$data.automatonName}}                   </pre>
+            <pre> Selected Event : {{$data.selectedEvent}}                </pre>
+            <pre> selected Events And Titles : {{$data.selectedEventsAndTitles}} </pre>
+            <pre> Mail Receiver : {{$data.mailReceiver}}                              </pre>
 
             <!-- Form Starts  -->
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
@@ -30,10 +38,10 @@
 
                                 <div class="inside">
                                     <b> Automaton Name:  </b>
-                                    <input type="text" name="automatonName" id="automatonName" class="large-text" /><br><br>
+                                    <input type="text" name="automatonName" v-model="automatonName" id="automatonName" class="large-text" /><br><br>
 
                                     <b> Event Name:  </b><br>
-                                    <select  style="width: 99%;" @change="eventSelected($event)" name="eventName" id="eventName">
+                                    <select  style="width: 99%;" @change="eventSelected($event)" name="eventName" v-model="eventName" id="eventName">
                                         <!-- Loop Here  -->
                                         <?php
                                             if( ! empty( $this->events ) AND is_array( $this->events ) ){
@@ -67,8 +75,10 @@
                                     </select>
 
                                     <br><br>
-                                    <b> Email Receiver : TO </b>
-                                    <select multiple="multiple" style="width: 99%;" size="7"  name="mailReceiver[]" id="mailReceiver">
+                                    <!-- <b> Email Receiver : TO  </b> <span class="dashicons dashicons-warning" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field. "></span> -->
+                                    <b> Email Receiver : TO  </b> <span class="dashicons dashicons-info" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field." ></span>
+                                    <select multiple="multiple" style="width: 99%;" size="7" v-model="mailReceiver"   name="mailReceiver[]" id="mailReceiver">
+                                       
                                         <?php
                                             # Add event outsource later 
                                             # Most important AKA Must have 
@@ -80,7 +90,12 @@
                                                     }
                                                 echo"</optgroup>";
                                             }
+                                        ?>
 
+                                        <!-- This will populate after selection  -->
+                                        <optgroup label="Event Data Source" id="eventDataSource"> </optgroup>
+                                        
+                                        <?php
                                             # For User 
                                             global $wpdb;
                                             $results = $wpdb->get_results( "SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A  );
@@ -172,3 +187,9 @@
 </div> <!-- .wrap -->
 
 <!-- https://wordpress.org/plugins/notification/ -->
+
+<script>
+
+    document.getElementById('eventDataSource').innerHTML = "<option value='option_1'>  Option one </option> <option value='option_2'> Option Two </option>";
+
+</script>

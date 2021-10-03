@@ -814,7 +814,7 @@ class Automail_Admin {
 				$frontEnd = array( 
 					"ID"  					=> ( isset( $post['ID']  ) AND !empty( $post['ID'] ) ) 						? $post['ID'] 				: "" ,
 					"automatonName"  		=> ( isset( $post['post_title']  ) 	AND !empty( $post['post_title'] ) ) 	? $post['post_title'] 		: "" ,
-					"eventName"  			=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
+					"selectedEvent"  			=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
 				);
 			} else {
@@ -868,7 +868,6 @@ class Automail_Admin {
 			# Including The landing File 
 			// require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-admin-display.php';
 			
-			
 			# Adding List table
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-list-table.php';
 
@@ -896,12 +895,11 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice() {
-		// echo"<pre>";
+		echo"<pre>";
 
+			// print_r( $this->automail_userRoles() );
 
-
-
-		// echo"</pre>";
+		echo"</pre>";
 	}
 
 	/**
@@ -1025,15 +1023,21 @@ class Automail_Admin {
 			foreach ( count_users()['avail_roles']  as $key => $value) {
 				if( isset( $userRoles[ $key ] ) AND  $value ){
 					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")" ;
-				} 
+				}
 			}
 		}
 
+		# Adding user role prefix at the begging  keys 
+		$arrayWithPrefix = array();
+		foreach ( $userRoles as $key => $value ) {
+			$arrayWithPrefix["userRole_".$key ] =  $value ;
+		}
+
 		# return
-		if( empty( $userRoles ) ){
+		if( empty( $arrayWithPrefix ) ){
 			return array( FALSE, "User role is empty." );
 		} else {
-			return array( TRUE, $userRoles );
+			return array( TRUE, $arrayWithPrefix );
 		}
 	}
 

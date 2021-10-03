@@ -15,15 +15,12 @@
         <div id="automailEditVue">
             
             <!-- <pre> {{$data}} </pre> -->
-            <!-- <pre> {{$data.eventsAndTitles}} </pre> -->
-
-            <!-- ================================================== -->
            
-        <!--<pre> {{$data.ID}}                      </pre>
-            <pre> {{$data.automatonName}}           </pre>
-            <pre> {{$data.eventName}}               </pre>
-            <pre> {{$data.selectedEvent}}           </pre>
-            <pre> {{$data.selectedEventsAndTitles}} </pre> -->
+            <pre> ID : {{$data.ID}}                         </pre>
+            <pre> Name : {{$data.automatonName}}                   </pre>
+            <pre> Selected Event : {{$data.selectedEvent}}                </pre>
+            <pre> selected Events And Titles : {{$data.selectedEventsAndTitles}}  </pre>
+            <pre> Mail Receiver : {{$data.mailReceiver}}                                 </pre>
             
             <!-- Form Starts  -->
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
@@ -79,15 +76,20 @@
                                     
 
                                     <br><br>
-                                    <!-- <b> Email Receiver : TO </b>
+                                    <!-- 
+                                    <b> Email Receiver : TO </b>
                                     <select multiple="multiple" style="width: 99%; "  name="mailReceiver[]" id="mailReceiver">
                                         <optgroup label="Event Data Source">
                                             <option value="Email" <?php echo in_array( "Email",  $mailReceiver) ? "selected" : ""; ?> >   Email   </option>
                                         </optgroup>
-                                    </select> -->
+                                    </select> 
+                                    -->
 
                                     <b> Email Receiver : TO </b>
-                                    <select multiple="multiple" style="width: 99%; " size="7"  name="mailReceiver[]" id="mailReceiver">
+                                    <select multiple="multiple" style="width: 99%; " size="7" v-model="mailReceiver"  name="mailReceiver[]" id="mailReceiver">
+                                        
+                                        <optgroup label="Event Data Source" id="eventDataSource">  </optgroup>
+                                        
                                         <?php
                                             # Add event outsource later 
                                             # Most important AKA Must have 
@@ -103,7 +105,12 @@
                                                     }
                                                 echo"</optgroup>";
                                             }
+                                        ?>
 
+                                        <!-- This will populate after selection  -->
+                                        <optgroup label="Event Data Source" id="eventDataSource"> </optgroup>
+
+                                        <?php
                                             # For User 
                                             global $wpdb;
                                             $results = $wpdb->get_results( "SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A  );
@@ -199,3 +206,11 @@
 </div> <!-- .wrap -->
 
 <!-- https://wordpress.org/plugins/notification/ -->
+
+<script>
+
+
+    // document.getElementById('tag-id').innerHTML = '<ol><li>html data</li></ol>';
+
+
+</script>

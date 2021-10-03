@@ -16,9 +16,10 @@ class Automail_List_Table extends WP_List_Table {
 
     public $eventsAndTitles ;
 
-  /**
+   /**
    * Construct function
    * Set default settings.
+   * @since      1.0.0
    */
     function __construct( $eventsAndTitles ) {
         global $status, $page;
@@ -327,6 +328,7 @@ class Automail_List_Table extends WP_List_Table {
 				# Display Error, Because Data is corrected or Empty 
 			}
 		}
+        
 		# integration loop Ends
 		# return  array with First Value as Bool and second one is integrationsArray array
 		if ( count( $integrationsArray ) ) {
