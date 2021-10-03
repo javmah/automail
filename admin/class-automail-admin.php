@@ -78,8 +78,8 @@ class Automail_Admin {
 	/**
 	 * Initialize the class and set its properties.
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param    string    $plugin_name       The name of this plugin.
+	 * @param    string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name 	= $plugin_name;
@@ -866,12 +866,8 @@ class Automail_Admin {
 			# Delete and Redirect;
 			wp_delete_post( $_GET['id'] ) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 		} else {
-			# Including The landing File 
-			// require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-admin-display.php';
-			
 			# Adding List table
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-list-table.php';
-
 			# Creating view Page layout 
 			echo"<div class='wrap'>";
 				echo "<h1 class='wp-heading-inline'> Email Automatons  </h1>";
@@ -887,7 +883,6 @@ class Automail_Admin {
 					$automail_table->display();
 				echo"</form>";
 			echo"</div>";
-
 		}
 	}
 
@@ -898,9 +893,6 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
-			// $mailReceiver = get_post_meta( 28810, "mailReceiver", TRUE ) ;
-			// print_r( json_encode( $mailReceiver) );
-			// print_r( $this->automail_userRoles() );
 
 		echo"</pre>";
 	}
@@ -909,7 +901,6 @@ class Automail_Admin {
 	 * Register the JavaScript for the admin area.
 	 * @since    1.0.0
 	*/
-
 	public function automail_saveAutomation() {
 		# automatonName
 		if( isset( $_POST['automatonName'] ) AND !empty( $_POST['automatonName'] ) ){
@@ -1480,7 +1471,6 @@ class Automail_Admin {
 		
 		return array( TRUE, $FormArray, $fieldsArray );		
 	}
-
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.

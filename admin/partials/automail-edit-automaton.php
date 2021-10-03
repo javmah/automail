@@ -13,9 +13,8 @@
 	<h2><?php esc_attr_e( 'Edit Email Automation.', 'automail' ); ?></h2>
 	<div id="poststuff">
         <div id="automailEditVue">
-            
+            <!-- Testing is in Here  -->
             <!-- <pre> {{$data}} </pre> -->
-           
             <pre> ID : {{$data.ID}}                         </pre>
             <pre> Name : {{$data.automatonName}}                   </pre>
             <pre> Selected Event : {{$data.selectedEvent}}                </pre>
@@ -83,12 +82,6 @@
                                             if( $userRoles[0] ){
                                                 echo"<optgroup label='User Role'>";
                                                     foreach ($userRoles[1] as $key => $value) {
-                                                        // if( in_array( $key,  $mailReceiver) ){
-                                                        //     echo "<option value='".  $key ."' selected > " .  $value . " </option>";
-                                                        // } else {
-                                                        //     echo "<option value='".  $key ."' > " .  $value . " </option>";
-                                                        // }
-
                                                         echo "<option value='".  $key ."' > " .  $value . " </option>";
                                                     }
                                                 echo"</optgroup>";
@@ -107,12 +100,6 @@
                                             if( !empty( $results ) ) {
                                                 echo"<optgroup label='User'>";
                                                     foreach ( $results as $key => $singleUserArray ) {
-                                                        // if( in_array( $singleUserArray['user_email'],  $mailReceiver) ){
-                                                        //     echo "<option value='". $singleUserArray['user_email'] ."' selected > " .  $singleUserArray['user_nicename'] . " </option>";
-                                                        // } else {
-                                                        //     echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
-                                                        // }
-
                                                         echo "<option value='".  $singleUserArray['user_email'] ."' > " .  $singleUserArray['user_nicename'] . " </option>";
                                                     }
                                                 echo"</optgroup>";

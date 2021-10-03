@@ -7,13 +7,13 @@
  * @package    Wpgsi
  * @subpackage Wpgsi/includes
  * @author     javmah <jaedmah@gmail.com>
- */
-
+*/
 if(!class_exists('WP_List_Table')) require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 
 # Plugin class extends.
 class Automail_List_Table extends WP_List_Table {
 
+    
     public $eventsAndTitles ;
 
    /**
@@ -74,7 +74,6 @@ class Automail_List_Table extends WP_List_Table {
             'emailReceiver'      => esc_html__( 'Email Receiver',   'automail' ),
             'status'             => esc_html__( 'Status',           'automail' )
         );
-
         return $columns;
     }
 
@@ -144,7 +143,6 @@ class Automail_List_Table extends WP_List_Table {
     public function column_emailReceiver( $item ) {
         $mailReceiverArray =  get_post_meta( $item->ID, 'mailReceiver', TRUE );
         echo json_encode( $mailReceiverArray );
-        // return  $item->ID ;
     }
 
     /**
@@ -199,9 +197,9 @@ class Automail_List_Table extends WP_List_Table {
 	*/
     public function column_status( $item ) {
         if ( $item->post_status == 'publish' ) {
-            $actions = "<br><span title='Enable or Disable the Integrations'  onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . "\"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' checked=checked > </a></span>" ;
+            $actions = "<br><span title='Enable or Disable this Automation'  onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . "\"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' checked=checked > </a></span>" ;
         } else {
-            $actions = "<br><span title='Enable or Disable the Integrations' onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . " \"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' > </a></span>" ;
+            $actions = "<br><span title='Enable or Disable this Automation' onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . " \"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' > </a></span>" ;
         }
         $actions .= "<br><br> <a href='" . admin_url() . "admin.php?page=automaton&action=columnTitle&id=" . $item->ID . " ' class='dashicons dashicons-controls-repeat' title='Test Fire ! Please check your Google Spreadsheet for effects' ></a>";
 
@@ -234,9 +232,9 @@ class Automail_List_Table extends WP_List_Table {
 	*/
     public function get_sortable_columns() {
         return array(
-            'IntegrationTitle'          => array('IntegrationTitle', TRUE),
-            'data_source'               => array('data_source', TRUE),
-            'spreadsheetsAndProvider'   => array('spreadsheetsAndProvider', TRUE),
+            'automatonName'     => array('automatonName', TRUE),
+            'AutomatonEvent'    => array('AutomatonEvent', TRUE),
+            'status'            => array('status', TRUE),
         );
     }
 
@@ -247,9 +245,9 @@ class Automail_List_Table extends WP_List_Table {
 	*/
     public function fetch_table_data() {
         return get_posts( array( 
-            'post_type'     =>'automail',
-            'post_status'   => 'any',
-            'posts_per_page'=> -1 ,
+            'post_type'         =>  'automail',
+            'post_status'       =>  'any',
+            'posts_per_page'    =>  -1 ,
         )); 
     }
 
@@ -304,10 +302,10 @@ class Automail_List_Table extends WP_List_Table {
 		# Setting Empty Array
 		$integrationsArray 		= array();
 		# Getting All Posts
-		$listOfConnections   	= get_posts( array(
+		$listOfConnections   	=  get_posts( array(
 			'post_type'   	 	=> 'automail',
-			'post_status' 		=> array('publish', 'pending'),
-			'posts_per_page' 	=> -1
+			'post_status' 		=>  array('publish', 'pending'),
+			'posts_per_page' 	=>  -1
 		));
 
 		# integration loop starts
@@ -328,7 +326,7 @@ class Automail_List_Table extends WP_List_Table {
 				# Display Error, Because Data is corrected or Empty 
 			}
 		}
-        
+
 		# integration loop Ends
 		# return  array with First Value as Bool and second one is integrationsArray array
 		if ( count( $integrationsArray ) ) {
@@ -339,6 +337,10 @@ class Automail_List_Table extends WP_List_Table {
 	}
 
     /**
+     * ***********************************************
+     * **************** Edit This Function ***********
+     * ***********************************************
+     * 
 	 * Check this Function! may be useless 
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 

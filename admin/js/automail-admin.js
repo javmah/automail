@@ -1,6 +1,5 @@
 //  Check & Balance || if #automailNewVue Div is Present do the rest
 if ( document.getElementById("automailNewVue") ) {
-
 	var automailNew = new Vue({
 		el: '#automailNewVue',
 		data: {
@@ -14,11 +13,7 @@ if ( document.getElementById("automailNewVue") ) {
 		methods: {
 			eventSelected: function(event){
 				if( typeof this.eventsAndTitles[event.target.value] !== 'undefined'  &&  typeof event.target.value !== 'undefined' ) {
-					console.log( event.target.value );
-					console.log( this.eventsAndTitles[event.target.value] );
-					// Inserting Selected Event 
-					this.selectedEvent = event.target.value;
-					this.selectedEventsAndTitles = this.eventsAndTitles[event.target.value];
+					this.selectedEventsAndTitles 	= 	this.eventsAndTitles[event.target.value];
 				} else {
 					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
 				}
@@ -32,7 +27,6 @@ if ( document.getElementById("automailNewVue") ) {
 					console.error('Async: Could not copy text: ', err);
 				});
 			}
-
 		}, beforeMount() {
 			// Inserting data to the data.eventsAndTitles element
 			this.eventsAndTitles = automailJsData.eventsAndTitles;
@@ -41,9 +35,8 @@ if ( document.getElementById("automailNewVue") ) {
 	})
 }
 
-// Check & Balance if #automailEditVue Div is Present do the rest
+// Check & Balance if #automailEditVue Div is Present do the rest, This  the edit section 
 if ( document.getElementById("automailEditVue") ) {
-
 	var automailEdit = new Vue({
 		el: '#automailEditVue',
 		data: {
@@ -57,18 +50,14 @@ if ( document.getElementById("automailEditVue") ) {
 		methods: {
 			eventSelected: function(event){
 				if( typeof this.eventsAndTitles[event.target.value] !== 'undefined'  &&  typeof event.target.value !== 'undefined' ) {
-					console.log( event.target.value );
-					console.log( this.eventsAndTitles[event.target.value] );
-					// Inserting Selected Event 
-					this.selectedEvent = event.target.value;
-					this.selectedEventsAndTitles = this.eventsAndTitles[event.target.value];
+					this.selectedEventsAndTitles	= 	this.eventsAndTitles[event.target.value];
 				} else {
 					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
 				}
 			},
 			copyTheTag: function(index){
 				// Coping the data to Clipboard 
-				var text  =  '['+ index +']' ;
+				var text  =  '['+ index +']';
 				navigator.clipboard.writeText( text ).then(function() {
 					console.log('Async: Copying to clipboard was successful!');
 				}, function(err) {
@@ -77,26 +66,15 @@ if ( document.getElementById("automailEditVue") ) {
 			}
 		}, beforeMount() {
 			// Inserting data to the data.eventsAndTitles element
-			this.ID 			 = automailJsData.ID;
-			this.automatonName 	 = automailJsData.automatonName;
-			this.selectedEvent 	 = automailJsData.selectedEvent;
-			this.eventsAndTitles = automailJsData.eventsAndTitles;
-			this.mailReceiver 	 = automailJsData.mailReceiver;
-			// Vue.set(automailEdit.$data, 'mailReceiver', JSON.parse(automailJsData.mailReceiver))
-			// Inserting Event Data source 
-			// Insert Selected things
-			if( typeof this.eventsAndTitles[automailJsData.selectedEvent] !== 'undefined' ) {
-				console.log( automailJsData.selectedEvent );
-				console.log( this.eventsAndTitles[automailJsData.selectedEvent] );
-				// Inserting Selected Event
-				this.selectedEvent = automailJsData.selectedEvent;
-				this.selectedEventsAndTitles = this.eventsAndTitles[automailJsData.selectedEvent];
-			} else {
-				console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !" ); 
-			}
+			this.ID 			 		 = automailJsData.ID;
+			this.automatonName 	 		 = automailJsData.automatonName;
+			this.selectedEvent 	 		 = automailJsData.selectedEvent;
+			this.eventsAndTitles 		 = automailJsData.eventsAndTitles;
+			this.mailReceiver 	 		 = JSON.parse( automailJsData.mailReceiver);
+			this.selectedEventsAndTitles = this.eventsAndTitles[automailJsData.selectedEvent];
 		}
 	})
 
 }
 
-
+// (function) eventSelected  has a Room for Improvement || Do the Thing in HTML not in JS File 

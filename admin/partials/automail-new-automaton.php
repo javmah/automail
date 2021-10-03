@@ -14,8 +14,7 @@
 
 	<div id="poststuff">
         <div id="automailNewVue">
-
-
+            <!-- Testing is in Here  -->
             <pre> ID : {{$data.ID}}                         </pre>
             <pre> Name : {{$data.automatonName}}                   </pre>
             <pre> Selected Event : {{$data.selectedEvent}}                </pre>
@@ -31,7 +30,6 @@
                     <!-- main content -->
                     <div id="post-body-content">
                         <div class="meta-box-sortables ui-sortable">
-
                             <div class="postbox">
                                 <h2> <span> <?php esc_attr_e( 'Fill the fields for new Email Automaton', 'automail' ); ?> </span> </h2>
 
@@ -72,12 +70,10 @@
                                             }
                                         ?>
                                     </select>
-
                                     <br><br>
                                     <!-- <b> Email Receiver : TO  </b> <span class="dashicons dashicons-warning" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field. "></span> -->
                                     <b> Email Receiver : TO  </b> <span class="dashicons dashicons-info" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field." ></span>
                                     <select multiple="multiple" style="width: 99%;" size="7" v-model="mailReceiver"   name="mailReceiver[]" id="mailReceiver">
-                                       
                                         <?php
                                             # Add event outsource later 
                                             # Most important AKA Must have
@@ -90,7 +86,6 @@
                                                 echo"</optgroup>";
                                             }
                                         ?>
-
                                         <!-- This will populate after selection  -->
                                         <optgroup label="Event Data Source" id="eventDataSource"> 
                                             <option v-for="(value, key) in selectedEventsAndTitles" :value="key" > {{value}} </option>
@@ -110,8 +105,7 @@
                                             }
                                         ?>
                                     </select>
-                                    <br> <br>
-                                    
+                                    <br><br>
                                     <!-- <b> Email Body: </b> -->
                                     <?php
                                         wp_editor( 
@@ -123,7 +117,6 @@
                                                     )
                                                 );
                                     ?>
-
                                 </div>
                                 <!-- .inside -->
                             </div>
@@ -142,8 +135,7 @@
                                 <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?></span></h2>
                                 <div class="inside">
                                     <input type="checkbox" name="automatonStatus" checked > Automaton Status
-                                    <br>
-                                    <br>
+                                    <br><br>
                                     <input class="button-secondary" type="submit" value="SAVE" />
                                 </div>
                                 <!-- .inside -->
