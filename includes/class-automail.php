@@ -70,10 +70,16 @@ class Automail {
 	private function load_dependencies() {
 		# The class responsible for orchestrating the actions and filters of the core plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-loader.php';
+
 		# The class responsible for defining internationalization functionality of the plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-i18n.php';
+
 		# The class responsible for defining all actions that occur in the admin area.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-automail-admin.php';
+
+		# The class responsible for defining all actions that occur in the admin area.
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-automail-events.php';
+
 		# The class responsible for defining all actions that occur in the public-facing side of the site.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-automail-public.php';
 		# 
@@ -100,14 +106,41 @@ class Automail {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Automail_Admin( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', 			$plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', 			$plugin_admin, 'enqueue_scripts' );
 		# Admin menu and Admin Notice 
-		$this->loader->add_action( 'admin_menu',	$plugin_admin, 'automail_menu_pages' );
-		$this->loader->add_action( 'admin_notices', $plugin_admin, 'automail_admin_notice' );
+		$this->loader->add_action( 'admin_menu',						$plugin_admin, 'automail_menu_pages' );
+		$this->loader->add_action( 'admin_notices', 					$plugin_admin, 'automail_admin_notice' );
 		# Save Submitted Form 
-		$this->loader->add_action( 'admin_post_automail_saveAutomation', $plugin_admin, 'automail_saveAutomation' );	
+		$this->loader->add_action( 'admin_post_automail_saveAutomation',$plugin_admin, 'automail_saveAutomation' );
+
+		#-------------------------------------------------------------------------------------------------------------
+		#------------------------------------------- New Class -------------------------------------------------------
+		#-------------------------------------------------------------------------------------------------------------
+
+		$automail_events = new Automail_Events( $this->get_plugin_name(), $this->get_version());																	# Events 
+		$this->loader->add_action( 'user_register', 	 	 		  			$automail_events, 'automail_wp_newUser', 100, 1 );									# New User Event [user_register]
+		$this->loader->add_action( 'profile_update',		 		  			$automail_events, 'automail_wp_profileUpdate', 100, 2 );							# Update User Event [profile_update]
+		$this->loader->add_action( 'delete_user', 			 		  			$automail_events, 'automail_wp_deleteUser', 100, 1 );  								# Delete User Event [delete_user]
+		$this->loader->add_action( 'wp_login', 			   	 		  			$automail_events, 'automail_wp_userLogin', 100, 2 );								# User Logged In  [wp_login]
+		$this->loader->add_action( 'clear_auth_cookie', 	 		  			$automail_events, 'automail_wp_userLogout', 100, 1 );								# User Logged Out [wp_logout] 
+		$this->loader->add_action( 'save_post', 			 		  			$automail_events, 'automail_wp_post', 100, 3 );										# Wordpress Post  		  || Fires once a post has been saved. || 3 param 1.post_id 2.post 3.updates
+		$this->loader->add_action( 'comment_post', 			 		  			$automail_events, 'automail_wp_comment', 100, 3 );									# Wordpress comment_post  || Fires once a comment_post has been saved TO DB.
+		$this->loader->add_action( 'edit_comment', 			 		  			$automail_events, 'automail_wp_edit_comment', 100, 2 );								# Wordpress comment_post  || Fires once a comment_post has been saved TO DB.
+		# New Code Starts 
+		$this->loader->add_action( 'transition_post_status', 		  			$automail_events, 'automail_wc_product', 100, 3 );									# WooCommerce  Product save_post_product
+		$this->loader->add_action( 'woocommerce_order_status_changed',			$automail_events, 'automail_wc_order_status_changed', 100, 3 );						# Woocommerce Order Status Changed
+		$this->loader->add_action( 'woocommerce_new_order', 	 	  			$automail_events, 'automail_wc_new_order_admin', 100, 1 );							# WooCommerce New Order
+		$this->loader->add_action( 'woocommerce_thankyou', 	 	  				$automail_events, 'automail_wc_new_order_checkout', 100, 1 );						# WooCommerce New Order
+		$this->loader->add_action( 'wpcf7_before_send_mail', 		  			$automail_events, 'automail_cf7_submission');										# CF7 Submission a New Form 
+		$this->loader->add_action( 'ninja_forms_after_submission',    			$automail_events, 'automail_ninja_forms_after_submission', 100, 1 );				# Ninja form Submission a New Form 
+		$this->loader->add_action( 'frm_after_create_entry', 		  			$automail_events, 'automail_formidable_after_save', 30, 2 );						# formidable after create form data entry to DB
+		$this->loader->add_action( 'wpforms_process', 		  		  			$automail_events, 'automail_wpforms_process', 30, 3 );								# formidable after create form data entry to DB
+		$this->loader->add_action( 'weforms_entry_submission', 		    		$automail_events, 'automail_weforms_entry_submission', 100, 4  );					# weforms after create form data entry to DB				
+		$this->loader->add_action( 'gform_after_submission', 		    		$automail_events, 'automail_gravityForms_after_submission', 100, 2  );				# gravityForms after form submission			
+		$this->loader->add_action( 'forminator_custom_form_submit_field_data', 	$automail_events, 'automail_forminator_custom_form_submit_field_data', 100, 2  );	# forminator custom form submit field data		
+		# for Testing 
+		$this->loader->add_action( 'admin_notices',  							$automail_events, 'automail_event_notices');	
 	}
 
 	/**

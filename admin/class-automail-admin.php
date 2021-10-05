@@ -24,7 +24,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
-	 */
+	*/
 	private $version;
 
 	/**
@@ -32,7 +32,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      string    $Date    The current version of the plugin.
-	 */
+	*/
 	Public $Date = "";
 
 	/**
@@ -40,7 +40,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      string    $Time   The current Time.
-	 */
+	*/
 	Public $Time = "";
 
 	/**
@@ -48,7 +48,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      array    $events    Events list.
-	 */				
+	*/				
 	public $events	= array();
 
 	/**
@@ -56,7 +56,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      array    $eventsAndTitles    Events list.
-	 */	
+	*/	
 	public $eventsAndTitles = array();																				
 	
 	/**
@@ -80,7 +80,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @param    string    $plugin_name       The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
-	 */
+	*/
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name 	= $plugin_name;
 		$this->version 		= $version;
@@ -89,7 +89,7 @@ class Automail_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 * @since    1.0.0
-	 */
+	*/
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/automail-admin.css', array(), $this->version, 'all' );
 	}
@@ -97,7 +97,7 @@ class Automail_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 * @since    1.0.0
-	 */
+	*/
 	public function enqueue_scripts() {
 		# Limit The Code scope only for #toplevel_page_automail
 		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
@@ -1330,6 +1330,7 @@ class Automail_Admin {
 		return array( TRUE, $FormArray, $fieldsArray );	
 	}
 
+	# 
 	# FIXME:
 	# do it after Upload || last off all forms 
 	/**
