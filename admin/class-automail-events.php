@@ -47,7 +47,7 @@ class Automail_Events {
 		$time_format 			= get_option( 'time_format' );
 		$this->Time			  	= ( $date_format ) ? current_time( $time_format  ) : current_time( 'g:i a' );
 		# Active Plugins 
-		$this->active_plugins 	= get_option( 'active_plugins');														# Checking Active And Inactive Plugin 
+		$this->active_plugins 	= get_option( 'active_plugins');			# Checking Active And Inactive Plugin 
 	}
 	# construct Ends Here 
 
@@ -58,7 +58,7 @@ class Automail_Events {
 		// echo "<pre>";
 
 
-		
+
 		// echo "</pre>";
 	}
 
@@ -226,7 +226,7 @@ class Automail_Events {
 	 *  @param    int     $user_id     user ID
 	 *  @since    1.0.0
 	*/
-	public function wpgsi_wordpress_deleteUser( $user_id ){
+	public function automail_wordpress_deleteUser( $user_id ){
 		# if get_userdata() and get_user_meta() Functions are exist
 		if ( function_exists( 'get_userdata' ) && function_exists( 'get_user_meta' ) && ! empty( $user_id )   ) {
 			# Empty Holder 
@@ -477,7 +477,7 @@ class Automail_Events {
 		$postType = array('post' => 'Post', 'page' => "Page");
 
 		# getting CPTs
-		$cpts = $this->wpgsi_allCptEvents();
+		$cpts = $this->automail_allCptEvents();
 		if ( $cpts[0] ){
 			$postType = array_merge( $postType, $cpts[1] );
 		}
@@ -543,9 +543,9 @@ class Automail_Events {
 		$metaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID , ARRAY_A );
 		# get Distinct Keys;
 		if ( $post->post_type == 'post' ) {
-			$metaKeys = $this->wpgsi_posts_metaKeys();
+			$metaKeys = $this->automail_posts_metaKeys();
 		} elseif ($post->post_type == 'page') {
-			$metaKeys = $this->wpgsi_pages_metaKeys();
+			$metaKeys = $this->automail_pages_metaKeys();
 		} else {
 			# Setting Meta, getting those Meta from  wpgsi_allCptEvents() function Where;
 			if ( isset( $cpts[4] ) AND !empty( $cpts[4] )  ){
@@ -670,7 +670,7 @@ class Automail_Events {
 	public function automail_wp_comment( $commentID, $commentApprovedStatus, $commentData ) {
 		# Check Comment ID is exist 
 		if ( empty( $commentID ) ){
-			$this->wpgsi_log( get_class($this), __METHOD__,"710", "Error:  Comment ID is Empty! "  );
+			$this->automail_log( get_class($this), __METHOD__,"710", "Error:  Comment ID is Empty! "  );
 		}
 		# Setting Data 
 		$Data 							=  array(); 
@@ -705,7 +705,7 @@ class Automail_Events {
 		# execute Query
 		$commentMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = " . $commentID, ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_comments_metaKeys();
+		$metaKeys = $this->automail_comments_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $commentMetaKeyValue ) ){
 			# populating Output array in revers with  empty value
@@ -783,7 +783,7 @@ class Automail_Events {
 		# execute Query
 		$commentMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = " . $commentID, ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_comments_metaKeys();
+		$metaKeys = $this->automail_comments_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $commentMetaKeyValue ) ) {
 			# populating Output array in revers with  empty value
@@ -809,7 +809,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
-			$this->wpgsi_log( get_class($this), __METHOD__,"713", "Error: commentID or commentData is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"713", "Error: commentID or commentData is empty !" );
 		}else{
 			$r = $this->automail_eventBoss( 'wp', 'wordpress_edit_comment', $Data, $commentID );	
 		}
@@ -907,7 +907,7 @@ class Automail_Events {
 		# execute Query
 		$productMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID , ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_wooCommerce_product_metaKeys();
+		$metaKeys = $this->automail_wooCommerce_product_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $productMetaKeyValue ) ) {
 			# populating Output array in revers with  empty value
@@ -1257,7 +1257,7 @@ class Automail_Events {
 		# execute Query
 		$orderMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_wooCommerce_order_metaKeys();
+		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $orderMetaKeyValue ) ){
 			# populating Output array in revers with  empty value
@@ -1593,7 +1593,7 @@ class Automail_Events {
 		$order_data['status'] 						=  "wc-".$order->get_status();
 		# freemius
 		# Checkout Field Editor (Checkout Manager) for WooCommerce By ThemeHigh  || Starts
-		$woo_checkout_field_editor  =  $this->wpgsi_woo_checkout_field_editor_pro_fields();
+		$woo_checkout_field_editor  =  $this->automail_woo_checkout_field_editor_pro_fields();
 		if ( $woo_checkout_field_editor[0] ){
 			$woo_checkout_field_editor_options  =  get_option( "woo_checkout_field_editor" ) ;
 			foreach ( $woo_checkout_field_editor_options as $key => $value ) {
@@ -1610,7 +1610,7 @@ class Automail_Events {
 		# execute Query
 		$orderMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_wooCommerce_order_metaKeys();
+		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $orderMetaKeyValue ) ){
 			# populating Output array in revers with  empty value
@@ -1636,7 +1636,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $order_id ) ){
-			$this->wpgsi_log( get_class($this), __METHOD__,"715", "Error: Order is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"715", "Error: Order is empty !" );
 		} else {
 			$r = $this->automail_eventBoss( 'Woocommerce', $order_data['status'], $order_data, $order_id );
 		}
@@ -1655,7 +1655,7 @@ class Automail_Events {
 			return;
 		}
 		# check to see is there any integration on this order change Status.
-		if ( ! $this->wpgsi_integrations( 'wc-new_order' )[0] ) {
+		if ( ! $this->automail_integrations( 'wc-new_order' )[0] ) {
 			return;
 		}
 		#
@@ -1945,7 +1945,7 @@ class Automail_Events {
 		# execute Query
 		$orderMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A );
 		# get Distinct Keys;
-		$metaKeys = $this->wpgsi_wooCommerce_order_metaKeys();
+		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if ( $metaKeys[0] &&  ! empty( $orderMetaKeyValue ) ){
 			# populating Output array in revers with  empty value
@@ -1994,8 +1994,8 @@ class Automail_Events {
 		if ( ! empty( $id ) ) {
 			# extra fields values
 			# Site date and time 
-			$posted_data['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-			$posted_data['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 				
 
 			if ( isset( $id  ) && !empty( $id  ) ) {
@@ -2003,7 +2003,7 @@ class Automail_Events {
 				$r = $this->automail_eventBoss( 'cf7', 'cf7_' . $id , $posted_data, $id  );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"717", "Error: Contact form 7 Form Submitted But No Form ID !" );
-			}
+			} 
 		}
 	}
 
@@ -2023,8 +2023,8 @@ class Automail_Events {
 			}
 			# extra fields value
 			# Site date and time 
-			$data['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-			$data['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+			$data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+			$data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 
 			# Check And Balance 
 			if ( ! empty( $form_data )  AND  isset(  $form_data["form_id"] ) ) {
@@ -2046,7 +2046,7 @@ class Automail_Events {
 		# if There is a integration on this Form Submission
 		if ( !empty( $form_id )   ) {
 			# Check to see database table exist or not 
-			if ( $this->wpgsi_dbTableExists("frm_item_metas") ) {
+			if ( $this->automail_dbTableExists("frm_item_metas") ) {
 				# Code 
 				$dataArray = array();
 				global $wpdb;
@@ -2056,8 +2056,8 @@ class Automail_Events {
 				}
 				# extra fields value
 				# Site date and time 
-				$dataArray['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-				$dataArray['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 
 				# Check And Balance 
 				if ( ! empty( $entry_id ) ){
@@ -2086,8 +2086,8 @@ class Automail_Events {
 			# extra fields value
 			
 			# Site date and time 
-			$entry["fields"]['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'EMPTY';
-			$entry["fields"]['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'EMPTY';
+			$entry["fields"]['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'EMPTY';
+			$entry["fields"]['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'EMPTY';
 
 			# Check And Balance 
 			if (  ! empty( $entry ) AND  ! empty( $form_data["id"] ) ) {
@@ -2111,7 +2111,7 @@ class Automail_Events {
 		# if There is a integration on this Form Submission
 		if ( ! empty( $form_id  ) ) {
 			# Check if frm_item_metas table exists or not 
-			if ( $this->wpgsi_dbTableExists("frm_item_metas") ) {
+			if ( $this->automail_dbTableExists("frm_item_metas") ) {
 				# code
 				$dataArray = array();
 				global $wpdb;
@@ -2123,8 +2123,8 @@ class Automail_Events {
 
 				# extra fields value
 				# Site date and time 
-				$dataArray['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-				$dataArray['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 
 				# Check And Balance 
 				if (  !empty( $entry_id ) AND  !empty( $form_id ) ){
@@ -2153,8 +2153,8 @@ class Automail_Events {
 			# Calling the Event Boss
 			if ( ! empty( $entry ) AND  isset( $entry['form_id'] ) ) {
 				# Site date and time 
-				$entry['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-				$entry['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+				$entry['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+				$entry['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 				# Action
 				$r = $this->automail_eventBoss('gravityForm', 'gravity_' . $entry['form_id'], $entry, $entry['form_id'] );
 			} else {
@@ -2184,8 +2184,8 @@ class Automail_Events {
 			# Calling the Event Boss
 			if ( ! empty( $dataArray ) AND ! empty( $form_id )  ) {
 				# Site date and time 
-				$dataArray['wpgsi_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time		:	'';
-				$dataArray['wpgsi_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date		:	'';
+				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time		:	'';
+				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date		:	'';
 				# Action
 				$r = $this->automail_eventBoss('forminator', 'forminator_' . $form_id, $dataArray, $form_id );
 			} else {
@@ -2271,7 +2271,7 @@ class Automail_Events {
 	*/
 	public function automail_eventBoss( $data_source = '', $event_name = '', $data_array = '', $id = '' ) {
 		# Got the Event Data [Custom Action Hook]	||  raw data hook 
-		do_action('wpgsi_event_raw', $data_source, $event_name, $data_array, $id ); 
+		do_action('automail_event_raw', $data_source, $event_name, $data_array, $id ); 
 
 		# data_source Empty test;
 		if ( empty( $data_source ) ){
@@ -2304,9 +2304,9 @@ class Automail_Events {
 		# If everything okay than Proceed on
 		$this->automail_log( get_class($this), __METHOD__, "200", "Success: okay, on the event A1 . " . json_encode( array( "data_source" => $data_array, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 		# Event checked AND before  Passed [Custom Action Hook]  || If you Need Modify Data DO it here;
-		do_action( 'wpgsi_event_before', $data_source, $event_name, $data_array, $id ); 
+		do_action( 'automail_event_before', $data_source, $event_name, $data_array, $id ); 
 		# Event Passed  [Custom Action Hook]  || Only for GOOGLE || Don't do Anything here - lat it go; 
-		do_action( 'wpgsi_khatas', $data_source, $event_name, $data_array, $id ); 
+		do_action( 'automail_event', $data_source, $event_name, $data_array, $id ); 
 		# Sending a True
 		return TRUE;
 	}
@@ -2316,7 +2316,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_users_metaKeys(){
+	public function automail_users_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -2336,7 +2336,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_posts_metaKeys(){
+	public function automail_posts_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -2361,7 +2361,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_pages_metaKeys(){
+	public function automail_pages_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -2387,7 +2387,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_wooCommerce_order_metaKeys(){
+	public function automail_wooCommerce_order_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -2412,7 +2412,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_wooCommerce_product_metaKeys(){
+	public function automail_wooCommerce_product_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -2437,7 +2437,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_comments_metaKeys(){
+	public function automail_comments_metaKeys(){
 		# Global Db object
 		global $wpdb;
 		# Query 
@@ -2457,7 +2457,7 @@ class Automail_Events {
 	 * @since      3.3.0
 	 * @return     array   First one is CPS and Second one is CPT's Field source.
 	*/
-	public function wpgsi_allCptEvents( ) {
+	public function automail_allCptEvents( ) {
 		# Getting The Global wp_post_types array
 		global $wp_post_types;
 		# Check And Balance 
@@ -2580,9 +2580,9 @@ class Automail_Events {
 	 * @since      3.4.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
-	public function wpgsi_integrations( $DataSourceID = '' ) {
+	public function automail_integrations( $DataSourceID = '' ) {
 		# getting the Options 
-		$integrations 			  = get_transient("wpgsi_integrations");
+		$integrations 			  = get_transient("automail_integrations");
 		# Number of published Integration
 		$publish				  = 0;
 		# Number of Pending Integration
@@ -2647,7 +2647,7 @@ class Automail_Events {
 				} 
 			}
 			# updating the options cache
-			set_transient( 'wpgsi_integrations', $integrationsArray );
+			set_transient( 'automail_integrations', $integrationsArray );
 			# return  array with First Value as Bool and second one is integrationsArray array
 			return array( $integrationForDataSource, $integrationsArray, $publish, $pending, "From DB" );
 		}
@@ -2695,7 +2695,7 @@ class Automail_Events {
 	 * @since      3.2.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
-	public function wpgsi_dbTableExists( $tableName = null ) {
+	public function automail_dbTableExists( $tableName = null ) {
 		# Check and Balance 
 		if ( empty( $tableName ) ){
 			return FALSE;

@@ -47,24 +47,24 @@ class Automail_Admin {
 	 * Events list.
 	 * @since    1.0.0
 	 * @access   Public
-	 * @var      array    $events    Events list.
-	*/				
+	 * @var      array    $events    events list.
+	*/
 	public $events	= array();
 
 	/**
 	 * Events Children titles.
 	 * @since    1.0.0
 	 * @access   Public
-	 * @var      array    $eventsAndTitles    Events list.
-	*/	
+	 * @var      array    $eventsAndTitles   events list.
+	*/
 	public $eventsAndTitles = array();																				
 	
 	/**
 	 * WooCommerce Order Statuses.
 	 * @since    1.0.0
 	 * @access   Public
-	 * @var      array    $active_plugins     List of active plugins .
-	*/	
+	 * @var      array    $active_plugins  list of active plugins .
+	*/
 	public $wooCommerceOrderStatuses  = array();
 
 	/**
@@ -72,14 +72,14 @@ class Automail_Admin {
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      array    $active_plugins     List of active plugins .
-	*/	
+	*/
 	public $active_plugins  = array();
 
 	/**
 	 * Initialize the class and set its properties.
 	 * @since    1.0.0
-	 * @param    string    $plugin_name       The name of this plugin.
-	 * @param    string    $version    The version of this plugin.
+	 * @param    string    $plugin_name the name of this plugin.
+	 * @param    string    $version the version of this plugin.
 	*/
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name 	= $plugin_name;
@@ -893,7 +893,32 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
+			// // the message
+			// $msg = "First line of text\nSecond line of text";
 
+			// // use wordwrap() if lines are longer than 70 characters
+			// $msg = wordwrap($msg,70);
+
+			// // send email
+			// $r = mail("someone@example.com","My subject",$msg);
+
+			// print_r( $r );
+
+			$to = "someone@example.com";
+			$subject = "this is a test subject.";
+			$message = "Dear javed, \nHello how are you doing? we are doing great. \n\nThanks & Regards \njav ";
+			$headers = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
+			// $attachments = "";
+			// 
+			$r = wp_mail( $to, $subject, $message, $headers );
+			print_r( $r );
+
+
+
+			// 
+			// echo "hello Guy how are you doing !";
+			// error_log( print_r( "hello this is it, How can I solve the Problem!" , true ) );
+			//
 		echo"</pre>";
 	}
 
@@ -1637,4 +1662,118 @@ class Automail_Admin {
 		}
 	}
 
+	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	# ++++++++++++++++++++++++++++++++++++++  Change Below Function +++++++++++++++++++++++++++++++++++++++
+	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	/**
+	 * Using custom hook sending data to Google spreadsheet 
+	 * @since    	1.0.0
+	 * @param     	string    	$plugin_name       The name of this plugin.
+	 * @param      	string    	$version    The version of this plugin.
+	 * @return 	   	array 		$columns Array of all the list table columns.
+	*/
+	public function automail_event( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ){
+
+		$data  = json_encode( array( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ) );
+		error_log( print_r( $data , true ) );
+		// error_log( print_r( "Hello form automail_event !" , true ) );
+		exit;
+
+		# Don't do anything if there is No internet , As you know it is a Integration Plugin.
+		# This Code Should Be Change | Change Code in WooTrello
+		if ( ! @fsockopen('www.google.com', 80) ){
+			$this->wpgsi_log( get_class($this), __METHOD__,"516","Error: No internet connection.");
+			return array( FALSE ,"Error: No internet connection." );
+		}
+		# Token task Starts , Very important . Now token will validate in every event so, nothing will miss on token failure .
+		$credential 	= get_option( 'wpgsi_google_credential', FALSE );
+		$google_token 	= get_option( 'wpgsi_google_token', FALSE );
+		# Checking Token Validation
+		if ( $google_token  &&  time() > $google_token['expires_in'] ) {
+			# if there is a credential
+			if ( $credential ) {
+				# creating new Token 
+				$new_token = $this->googleSheet->wpgsi_token( $credential );
+				# if token is True 
+				if ( $new_token[0] ) {
+					# Change The Token Info
+					$new_token[1]['expires_in'] = time() + $new_token[1]['expires_in'];
+					# coping The Token
+					$google_token = $new_token[1];
+					# Save in Options
+					update_option( 'wpgsi_google_token', $new_token[1] );
+				} else {
+					$this->wpgsi_log( get_class( $this ), __METHOD__,"517", "Error: from  wpgsi_SendToGS func. ". json_encode( $credential ) );
+				}
+			}
+		}
+		# Token Task Ends 
+		$integrations   = get_posts( array(
+			'post_type'   	 => 'wpgsiIntegration',
+			'post_status' 	 => 'publish',
+			'posts_per_page' => -1
+		));
+		# Looping the integrations
+		foreach ( $integrations as  $integration ) {
+			#
+			$post_content 	= json_decode( $integration->post_content, TRUE );
+			$post_excerpt 	= json_decode( $integration->post_excerpt, TRUE );
+			#
+			$DataSource		= $post_excerpt["DataSource"];
+			$DataSourceID	= $post_excerpt["DataSourceID"];
+			$Worksheet		= $post_excerpt["Worksheet"];
+			$WorksheetID	= $post_excerpt["WorksheetID"];
+			$Spreadsheet	= $post_excerpt["Spreadsheet"];
+			$SpreadsheetID	= $post_excerpt["SpreadsheetID"];
+			$ColumnsTitle 	= $post_content[0];
+			$relation 		= $post_content[1];
+			# Pre-process
+			$ArrayKeyAndValue = array();
+			foreach ($data_array as $relationKey => $relationValue) {
+				$ArrayKeyAndValue["{{" . $relationKey . "}}"] = $relationValue;
+			}
+			
+			# Check the value change depends on type 
+			$dataWithRelationKey = array();
+			foreach ( $relation as $key => $value ) {
+				if ( is_array($value) ) {
+					$dataWithRelationKey[ $key ] = implode( ", ", $value );
+				} else {
+					$dataWithRelationKey[ $key ] =  strtr( $value, $ArrayKeyAndValue );
+				}
+			} 
+
+			# Sending Request;
+			if ( $Evt_DataSourceID == $DataSourceID ) {
+				# getting last time this Integrator Occurred TimeStamp, So that i Can Prevent Dual Submission 
+				# Integration_id , wpgsi_lastFired, New Code After 3.5.0
+				$wpgsi_lastFired = (int)get_post_meta( $integration->ID ,'wpgsi_lastFired', TRUE );
+				
+				# dualSubmission Prevention 
+				# lastFired is set and value is Not grater then 301 seconds
+				if( $wpgsi_lastFired  AND  ( time() - $wpgsi_lastFired ) < 33 ){
+					$this->wpgsi_log( get_class($this), __METHOD__, "518", "ERROR: Dual submission Prevented of Integration : <b> ". $integration->ID ." </b> ". json_encode( $dataWithRelationKey ) );
+				} else {
+					# Send the request 
+					$ret = $this->googleSheet->wpgsi_append_row( $SpreadsheetID, $WorksheetID, $dataWithRelationKey );
+					# Check error or success 
+					if ( $ret[0] ){
+						$this->wpgsi_log( get_class($this), __METHOD__, "200", "Success: okay, on the event . " . json_encode( $ret ) );
+						# New Code after 3.5.0
+						# New Code for preventing Dual Submission || saving last Fired time 
+						update_post_meta( $integration->ID, 'wpgsi_lastFired', time() );
+					} else {
+						$this->wpgsi_log( get_class($this), __METHOD__, "519", "Error: on sending data . " . json_encode( array( "SpreadsheetID" => $SpreadsheetID, "WorksheetID" => $WorksheetID,  "dataWithRelationKey" => $dataWithRelationKey ,"Google_response" => $ret ) ) );
+					}
+				}
+			}
+		}
+	}
+
 }
+
+
+# Wp mail Help 
+# Hmm this is nice Idea;
+# https://developer.wordpress.org/reference/functions/wp_mail/ 

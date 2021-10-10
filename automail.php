@@ -23,7 +23,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       automail
  * Domain Path:       /languages
- */
+*/
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -33,12 +33,12 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Currently plugin version.Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
- */
+*/
 define( 'AUTOMAIL_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation. This action is documented in includes/class-automail-activator.php
- */
+*/
 function activate_automail() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-activator.php';
 	Automail_Activator::activate();
@@ -46,7 +46,7 @@ function activate_automail() {
 
 /**
  * The code that runs during plugin deactivation. This action is documented in includes/class-automail-deactivator.php
- */
+*/
 function deactivate_automail() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-deactivator.php';
 	Automail_Deactivator::deactivate();
@@ -57,18 +57,16 @@ register_deactivation_hook( __FILE__, 'deactivate_automail' );
 
 /**
  * The core plugin class that is used to define internationalization, admin-specific hooks, and public-facing site hooks.
- */
+*/
 require plugin_dir_path( __FILE__ ) . 'includes/class-automail.php';
 
 /**
  * Begins execution of the plugin. Since everything within the plugin is registered via hooks, 
  * then kicking off the plugin from this point in the file does not affect the page life cycle.
  * @since    1.0.0
- */
+*/
 function run_automail() {
-
 	$plugin = new Automail();
 	$plugin->run();
-
 }
 run_automail();
