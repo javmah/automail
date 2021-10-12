@@ -1990,12 +1990,22 @@ class Automail_Events {
 		$submission  = WPCF7_Submission::get_instance();
 		$posted_data = $submission->get_posted_data();
 
+		#======================================================================
+		# Debug stats 
+
+		$data = json_encode( array( $id, $submission, $posted_data ) );
+		error_log( print_r( $data , true ) );
+
+
+		# Debug ends 
+		#======================================================================
+
 		# if There is a integration on this Form Submission
 		if ( ! empty( $id ) ) {
 			# extra fields values
 			# Site date and time 
-			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date :	'';
+			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time	:	'';
 				
 
 			if ( isset( $id  ) && !empty( $id  ) ) {

@@ -893,32 +893,101 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
-			// // the message
-			// $msg = "First line of text\nSecond line of text";
+			$dummyData = array(
+				"eventSource" 	=> "cf7", 
+				"eventName" 	=> "cf7_27876",
+				"data" => array(
+					"your-name" 				=> "javed", 
+					"your-email" 				=> "javed@gmail.com", 
+					"your-subject" 				=> "hello, lol how are you doing ?",
+					"your-message" 				=> "Hmm, this is a nice message!",
+					"automail_submitted_date" 	=> "October 12, 2021",
+					"automail_submitted_time" 	=> "11:27 am"
+				),
+				"postID" => 27876
+			);
 
-			// // use wordwrap() if lines are longer than 70 characters
-			// $msg = wordwrap($msg,70);
+			print_r( $dummyData );
 
-			// // send email
-			// $r = mail("someone@example.com","My subject",$msg);
+			
 
+			# Token Task Ends 
+			$emailAutomatons  = get_posts( array(
+				'post_type'   	 => 'automail',
+				'post_status' 	 => 'publish',
+				'posts_per_page' => -1
+			));
+
+			foreach ( $emailAutomatons as  $emailAutomaton ) {
+				
+				// echo "post_title : ".$emailAutomaton->post_title;
+				// echo "<br>";
+				// echo "post_content : ".$emailAutomaton->post_content;
+				// echo "<br>";
+				// echo "post_excerpt : ".$emailAutomaton->post_excerpt;
+				// echo "<br><hr><br>";
+
+
+				if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $dummyData['eventName']  ){
+					
+					# Looping data array and add [] to keys AS you know bracket added for placeholder 
+					$bracketedKeysValue = array();
+					foreach( $dummyData["data"] as $key => $value ){
+						$bracketedKeysValue[ "[". $key."]" ] =  $value;
+					}
+					# Change The placeHolder 
+					$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
+
+					// print_r( $emailBodyWithValue  );
+
+					echo "ID ". $emailAutomaton->ID;
+					$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
+					print_r( $mailReceiver );
+					//  Now Separate the receivers
+					$emailReceiversList = array();
+					// $emailReceiversList['userRoles'] 		= array() // Insert Email address of associative emails 
+					// $emailReceiversList['eventSourceEmail'] 	= array() // See Eversource has a Valid Email address 
+					// $emailReceiversList['user'] 				= array() // get users email and inset that here 
+				} 
+
+			}
+
+
+
+			// ==================================================================================================
+			//  RAW event will Provide this To you 
+			// [27876,{},{
+			// 	"your-name":"javed",
+			// 	"your-email":"javed@gmail.com",
+			// 	"your-subject":"hello, lol how are you doing ?",
+			// 	"your-message":"Hmm, 
+			// 	this is a nice message!"
+			// }]
+
+			// ==================================================================================================
+			//  Event Boss will Provide This Data to you !
+			
+			//[ "cf7",
+			// "cf7_27876",
+			// {"your-name":"javed",
+			// "your-email":"javed@gmail.com",
+			// "your-subject":"hello, lol how are you doing ?",
+			// "your-message":"Hmm, 
+			// this is a nice message!",
+			// "automail_submitted_date":"October 12, 2021",
+			// "automail_submitted_time":"11:27 am"},
+			// 27876 
+			// ]
+
+
+			// $to      = "someone@example.com";
+			// $subject = "this is a test subject.";
+			// $message = "Dear javed, \nHello how are you doing? we are doing great. \n\nThanks & Regards \njav ";
+			// $headers = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
+			// $r = wp_mail( $to, $subject, $message, $headers );
 			// print_r( $r );
 
-			$to = "someone@example.com";
-			$subject = "this is a test subject.";
-			$message = "Dear javed, \nHello how are you doing? we are doing great. \n\nThanks & Regards \njav ";
-			$headers = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
-			// $attachments = "";
-			// 
-			$r = wp_mail( $to, $subject, $message, $headers );
-			print_r( $r );
-
-
-
-			// 
-			// echo "hello Guy how are you doing !";
-			// error_log( print_r( "hello this is it, How can I solve the Problem!" , true ) );
-			//
+			
 		echo"</pre>";
 	}
 
@@ -1680,34 +1749,7 @@ class Automail_Admin {
 		// error_log( print_r( "Hello form automail_event !" , true ) );
 		exit;
 
-		# Don't do anything if there is No internet , As you know it is a Integration Plugin.
-		# This Code Should Be Change | Change Code in WooTrello
-		if ( ! @fsockopen('www.google.com', 80) ){
-			$this->wpgsi_log( get_class($this), __METHOD__,"516","Error: No internet connection.");
-			return array( FALSE ,"Error: No internet connection." );
-		}
-		# Token task Starts , Very important . Now token will validate in every event so, nothing will miss on token failure .
-		$credential 	= get_option( 'wpgsi_google_credential', FALSE );
-		$google_token 	= get_option( 'wpgsi_google_token', FALSE );
-		# Checking Token Validation
-		if ( $google_token  &&  time() > $google_token['expires_in'] ) {
-			# if there is a credential
-			if ( $credential ) {
-				# creating new Token 
-				$new_token = $this->googleSheet->wpgsi_token( $credential );
-				# if token is True 
-				if ( $new_token[0] ) {
-					# Change The Token Info
-					$new_token[1]['expires_in'] = time() + $new_token[1]['expires_in'];
-					# coping The Token
-					$google_token = $new_token[1];
-					# Save in Options
-					update_option( 'wpgsi_google_token', $new_token[1] );
-				} else {
-					$this->wpgsi_log( get_class( $this ), __METHOD__,"517", "Error: from  wpgsi_SendToGS func. ". json_encode( $credential ) );
-				}
-			}
-		}
+		
 		# Token Task Ends 
 		$integrations   = get_posts( array(
 			'post_type'   	 => 'wpgsiIntegration',
