@@ -932,22 +932,57 @@ class Automail_Admin {
 					
 					# Looping data array and add [] to keys AS you know bracket added for placeholder 
 					$bracketedKeysValue = array();
-					foreach( $dummyData["data"] as $key => $value ){
-						$bracketedKeysValue[ "[". $key."]" ] =  $value;
+					if( isset( $dummyData["data"] ) AND !empty( $dummyData["data"] )  ){
+						foreach( $dummyData["data"] as $key => $value ){
+							$bracketedKeysValue[ "[". $key."]" ] =  $value;
+						}
+						# Change The placeHolder 
+						$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
+					} else {
+						// log error || exit || 
 					}
-					# Change The placeHolder 
-					$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
-
-					// print_r( $emailBodyWithValue  );
-
-					echo "ID ". $emailAutomaton->ID;
+					
+					
+					// get users email and inset that here 
+					
+					# Getting post meta Data of receivers 
 					$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
-					print_r( $mailReceiver );
-					//  Now Separate the receivers
-					$emailReceiversList = array();
-					// $emailReceiversList['userRoles'] 		= array() // Insert Email address of associative emails 
-					// $emailReceiversList['eventSourceEmail'] 	= array() // See Eversource has a Valid Email address 
-					// $emailReceiversList['user'] 				= array() // get users email and inset that here 
+					# Check and Balance 
+					if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ){
+						# User role Holder;
+						$userRoles = array();
+						if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ){
+							# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
+							$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
+							print_r($userRoles);
+							// Get all the Email address of every user role 
+							// 
+						} else {
+							// Log error || User role is empty or False automail_userRoles()
+						}
+
+						# See Eversource
+						$eventSourceReceiver = array_intersect( array_keys( $dummyData["data"] ), $mailReceiver );
+						print_r($eventSourceReceiver);
+						// get value from Event Source || also Check Valid
+
+						# Getting Users List Email Addresses 
+						$users = array();
+						foreach ( $mailReceiver as $value ) {
+							if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
+								$users[] = $value;
+							}
+						}
+						print_r($users);
+						// Done ! || Nothing to Do 
+
+						
+
+
+					} else {
+						// Log error || is not array or empty() array s
+					}
+
 				} 
 
 			}
@@ -1819,3 +1854,7 @@ class Automail_Admin {
 # Wp mail Help 
 # Hmm this is nice Idea;
 # https://developer.wordpress.org/reference/functions/wp_mail/ 
+# Help user Roles 
+# https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
+# wp_capabilities
+# 

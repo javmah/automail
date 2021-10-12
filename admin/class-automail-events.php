@@ -106,7 +106,7 @@ class Automail_Events {
 			# execute Query;
 			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user_id, ARRAY_A );
 			# get Distinct Keys;
-			$metaKeys = $this->wpgsi_users_metaKeys();
+			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if ( $metaKeys[0] &&  ! empty( $usersMetaKeyValue ) ){
 				# populating Output array in revers with  empty value
@@ -133,9 +133,9 @@ class Automail_Events {
 				
 			# Action
 			if ( $user_id ){
-				$r = $this->wpgsi_eventBoss('wp', 'wordpress_newUser', $user_data, $user_id );
+				$r = $this->automail_eventBoss('wp', 'wordpress_newUser', $user_data, $user_id );
 			} else {
-				$this->wpgsi_log( get_class($this), __METHOD__, "701", "Error: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "701", "Error: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
 			}
 		} else {
 			$this->automail_log( get_class($this), __METHOD__, "702", "Error: get_userdata or get_user_meta is not Exist" );
@@ -185,7 +185,7 @@ class Automail_Events {
 			# execute Query
 			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user_id, ARRAY_A );
 			# get Distinct Keys;
-			$metaKeys = $this->wpgsi_users_metaKeys();
+			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if ( $metaKeys[0]  &&  ! empty( $usersMetaKeyValue ) ) {
 				# populating Output array in revers with  empty value
@@ -265,7 +265,7 @@ class Automail_Events {
 			# execute Query
 			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user_id, ARRAY_A );
 			# get Distinct Keys;
-			$metaKeys = $this->wpgsi_users_metaKeys();
+			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if ( $metaKeys[0] &&  ! empty( $usersMetaKeyValue ) ) {
 				# populating Output array in revers with  empty value
@@ -349,7 +349,7 @@ class Automail_Events {
 			# execute Query
 			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user->ID , ARRAY_A );
 			# get Distinct Keys;
-			$metaKeys = $this->wpgsi_users_metaKeys();
+			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if ( $metaKeys[0] &&  ! empty( $usersMetaKeyValue ) ){
 				# populating Output array in revers with  empty value
@@ -425,7 +425,7 @@ class Automail_Events {
 			# execute Query
 			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user->ID , ARRAY_A );
 			# get Distinct Keys;
-			$metaKeys = $this->wpgsi_users_metaKeys();
+			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if ( $metaKeys[0] &&  ! empty( $usersMetaKeyValue ) ){
 				# populating Output array in revers with  empty value
@@ -1284,7 +1284,7 @@ class Automail_Events {
 		# freemius
 		# Getting Checkout Field Editor Value.
 		# Checkout Field Editor (Checkout Manager) for WooCommerce By ThemeHigh  || Starts
-		$woo_checkout_field_editor_pro = $this->wpgsi_woo_checkout_field_editor_pro_fields();
+		$woo_checkout_field_editor_pro = $this->automail_woo_checkout_field_editor_pro_fields();
 		if ( $woo_checkout_field_editor_pro[0] ){
 			foreach ( $woo_checkout_field_editor_pro[1] as $key => $value ) {
 				$order_data[ $key ] = ( isset( $woo_checkout_field_editor_pro[1][$key], $order_data["orderID"] )  &&  ! empty( get_post_meta( $order_data["orderID"], $key )[0] ) )   ?    get_post_meta( $order_data["orderID"], $key )[0]   :  "";
@@ -2623,7 +2623,7 @@ class Automail_Events {
 		} else {
 			# Getting All Posts
 			$listOfConnections   	  =  get_posts( array(
-				'post_type'   	 	  => 'wpgsiIntegration',
+				'post_type'   	 	  => 'automail',
 				'post_status' 		  => array('publish', 'pending'),
 				'posts_per_page' 	  => -1
 			));
