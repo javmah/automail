@@ -893,6 +893,19 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
+			// Getting user by Role starts
+			$args = array(
+				'role__in' => array( 'author', 'administrator','Customer' ),
+				'fields' =>  array( 'ID', 'display_name', 'user_email' ),
+				'orderby' => 'ID',
+				'order'   => 'ASC'
+			);
+			$users = get_users( $args );
+			print_r($users);
+			echo"--------Hmmm---------";
+			
+			// Getting user by Role ends
+
 			$dummyData = array(
 				"eventSource" 	=> "cf7", 
 				"eventName" 	=> "cf7_27876",
@@ -943,7 +956,8 @@ class Automail_Admin {
 					}
 					
 					
-					// get users email and inset that here 
+					// get users email and inset that here
+					// Email Address sending Part  
 					
 					# Getting post meta Data of receivers 
 					$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
@@ -955,7 +969,32 @@ class Automail_Admin {
 							# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
 							$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
 							print_r($userRoles);
+							// removing Prefix of the 
+							$roles = array();
+							foreach ($userRoles as $role ) {
+								$roles[] = str_replace( "userRole_", "", $role );
+							}
+							print_r($roles);
 							// Get all the Email address of every user role 
+							$args = array(
+								'role__in' => $roles,
+								'fields' =>  array( 'ID', 'display_name', 'user_email' ),
+								'orderby' => 'ID',
+								'order'   => 'ASC'
+							);
+							$users = get_users( $args );
+							$roleUsersEmails = array();
+							print_r($users);
+							//remove the Email addresses 
+							if( $users ){
+								foreach ($users as $user) {
+									$roleUsersEmails[ ] = $user->user_email;
+								}
+							}
+							// removing duplicates
+							$roleUsersEmails = array_unique( $roleUsersEmails );
+							print_r( $roleUsersEmails );
+
 							// 
 						} else {
 							// Log error || User role is empty or False automail_userRoles()
@@ -965,6 +1004,16 @@ class Automail_Admin {
 						$eventSourceReceiver = array_intersect( array_keys( $dummyData["data"] ), $mailReceiver );
 						print_r($eventSourceReceiver);
 						// get value from Event Source || also Check Valid
+						$eventSourceReceiverEmail = array();
+						if( !empty($eventSourceReceiver ) ){
+							foreach ($eventSourceReceiver as $value) {
+								if( isset( $dummyData['data'][$value] ) AND  filter_var( $dummyData['data'][$value], FILTER_VALIDATE_EMAIL)  ){
+									$eventSourceReceiverEmail[] =  $dummyData['data'][$value];
+								}
+							}
+						}
+						// Printing Email address
+						print_r($eventSourceReceiverEmail );
 
 						# Getting Users List Email Addresses 
 						$users = array();
