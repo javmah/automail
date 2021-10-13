@@ -893,19 +893,7 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
-			// Getting user by Role starts
-			$args = array(
-				'role__in' => array( 'author', 'administrator','Customer' ),
-				'fields' =>  array( 'ID', 'display_name', 'user_email' ),
-				'orderby' => 'ID',
-				'order'   => 'ASC'
-			);
-			$users = get_users( $args );
-			print_r($users);
-			echo"--------Hmmm---------";
-			
 			// Getting user by Role ends
-
 			$dummyData = array(
 				"eventSource" 	=> "cf7", 
 				"eventName" 	=> "cf7_27876",
@@ -922,8 +910,6 @@ class Automail_Admin {
 
 			print_r( $dummyData );
 
-			
-
 			# Token Task Ends 
 			$emailAutomatons  = get_posts( array(
 				'post_type'   	 => 'automail',
@@ -933,16 +919,8 @@ class Automail_Admin {
 
 			foreach ( $emailAutomatons as  $emailAutomaton ) {
 				
-				// echo "post_title : ".$emailAutomaton->post_title;
-				// echo "<br>";
-				// echo "post_content : ".$emailAutomaton->post_content;
-				// echo "<br>";
-				// echo "post_excerpt : ".$emailAutomaton->post_excerpt;
-				// echo "<br><hr><br>";
-
-
-				if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $dummyData['eventName']  ){
-					
+				if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $dummyData['eventName']  ) {
+					# Preparing Email body Content 
 					# Looping data array and add [] to keys AS you know bracket added for placeholder 
 					$bracketedKeysValue = array();
 					if( isset( $dummyData["data"] ) AND !empty( $dummyData["data"] )  ){
@@ -954,124 +932,86 @@ class Automail_Admin {
 					} else {
 						// log error || exit || 
 					}
-					
-					
-					// get users email and inset that here
-					// Email Address sending Part  
-					
+					# ===========================================================================================
+					# preparing Email Address sending 
 					# Getting post meta Data of receivers 
 					$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
 					# Check and Balance 
-					if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ){
+					if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ) {
+						# Empty Email address array Holders 
+						$roleUsersEmails 	= array();
+						$eventSourceEmail 	= array();
+						$usersEmail 		= array();
+
 						# User role Holder;
-						$userRoles = array();
 						if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ){
 							# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
 							$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
-							print_r($userRoles);
-							// removing Prefix of the 
 							$roles = array();
 							foreach ($userRoles as $role ) {
 								$roles[] = str_replace( "userRole_", "", $role );
 							}
 							print_r($roles);
-							// Get all the Email address of every user role 
+							# Get all the Email address of every user role 
+							# Preparing query 
 							$args = array(
 								'role__in' => $roles,
 								'fields' =>  array( 'ID', 'display_name', 'user_email' ),
 								'orderby' => 'ID',
 								'order'   => 'ASC'
 							);
+							# getting user
 							$users = get_users( $args );
-							$roleUsersEmails = array();
-							print_r($users);
-							//remove the Email addresses 
+							
+							# getting the Email addresses 
 							if( $users ){
 								foreach ($users as $user) {
 									$roleUsersEmails[ ] = $user->user_email;
 								}
 							}
-							// removing duplicates
+							# removing duplicates
 							$roleUsersEmails = array_unique( $roleUsersEmails );
-							print_r( $roleUsersEmails );
-
-							// 
 						} else {
 							// Log error || User role is empty or False automail_userRoles()
 						}
 
-						# See Eversource
+						# Get Event source
 						$eventSourceReceiver = array_intersect( array_keys( $dummyData["data"] ), $mailReceiver );
-						print_r($eventSourceReceiver);
-						// get value from Event Source || also Check Valid
-						$eventSourceReceiverEmail = array();
+						# get value from Event Source || also Check Valid
 						if( !empty($eventSourceReceiver ) ){
 							foreach ($eventSourceReceiver as $value) {
 								if( isset( $dummyData['data'][$value] ) AND  filter_var( $dummyData['data'][$value], FILTER_VALIDATE_EMAIL)  ){
-									$eventSourceReceiverEmail[] =  $dummyData['data'][$value];
+									$eventSourceEmail[] =  $dummyData['data'][$value];
 								}
 							}
 						}
-						// Printing Email address
-						print_r($eventSourceReceiverEmail );
-
 						# Getting Users List Email Addresses 
-						$users = array();
 						foreach ( $mailReceiver as $value ) {
 							if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
-								$users[] = $value;
+								$usersEmail[] = $value;
 							}
 						}
-						print_r($users);
-						// Done ! || Nothing to Do 
+						# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
+						$emailAddresses = array_unique(  array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail ) );
+						if( !empty( $emailAddresses ) ){
+							foreach( $emailAddresses as $email ){
+								if( filter_var( $email, FILTER_VALIDATE_EMAIL) ){
+									$validEmailAddresses[] = $email;
+								}
+							}
+						}
 
-						
+						print_r( $validEmailAddresses );
 
-
+ 
 					} else {
+						// Empty email receiver || this automation will not work
 						// Log error || is not array or empty() array s
 					}
 
-				} 
-
+				}
 			}
 
-
-
-			// ==================================================================================================
-			//  RAW event will Provide this To you 
-			// [27876,{},{
-			// 	"your-name":"javed",
-			// 	"your-email":"javed@gmail.com",
-			// 	"your-subject":"hello, lol how are you doing ?",
-			// 	"your-message":"Hmm, 
-			// 	this is a nice message!"
-			// }]
-
-			// ==================================================================================================
-			//  Event Boss will Provide This Data to you !
-			
-			//[ "cf7",
-			// "cf7_27876",
-			// {"your-name":"javed",
-			// "your-email":"javed@gmail.com",
-			// "your-subject":"hello, lol how are you doing ?",
-			// "your-message":"Hmm, 
-			// this is a nice message!",
-			// "automail_submitted_date":"October 12, 2021",
-			// "automail_submitted_time":"11:27 am"},
-			// 27876 
-			// ]
-
-
-			// $to      = "someone@example.com";
-			// $subject = "this is a test subject.";
-			// $message = "Dear javed, \nHello how are you doing? we are doing great. \n\nThanks & Regards \njav ";
-			// $headers = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
-			// $r = wp_mail( $to, $subject, $message, $headers );
-			// print_r( $r );
-
-			
 		echo"</pre>";
 	}
 
@@ -1818,7 +1758,8 @@ class Automail_Admin {
 	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	# ++++++++++++++++++++++++++++++++++++++  Change Below Function +++++++++++++++++++++++++++++++++++++++
 	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	# When Event Fire This Hook Fire "automail_event" 
+	# This Thing Should be Send data 
 	/**
 	 * Using custom hook sending data to Google spreadsheet 
 	 * @since    	1.0.0
@@ -1827,6 +1768,10 @@ class Automail_Admin {
 	 * @return 	   	array 		$columns Array of all the list table columns.
 	*/
 	public function automail_event( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ){
+		# Do everything Here 
+	}
+
+	public function automail_event_old( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ){
 
 		$data  = json_encode( array( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ) );
 		error_log( print_r( $data , true ) );
