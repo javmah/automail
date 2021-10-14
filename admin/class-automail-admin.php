@@ -891,10 +891,28 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice() {
+
 		echo"<pre>";
 
-			// Getting user by Role ends
-			$dummyData = array(
+		    // ============================================================================================
+			// $r = $this->automail_log( get_class($this), __METHOD__, "101", "log message !" ); 
+			// $r = $this->automail_log( get_class($this), __METHOD__ ); 
+			// print_r($r);
+			// ============================================================================================
+
+			# Sending Mail to the 
+			// $to			 = array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
+			// $subject	 = "Email test subject";
+			// $message	 = "This is message body \n nice work joe. I am doing noting. ";
+			// $headers	 = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
+			// $attachments = "";
+
+
+			// $r = wp_mail( $to, $subject, $message, $headers, $attachments );
+
+			// print_r( $r );
+
+			$eventDataArray = array(
 				"eventSource" 	=> "cf7", 
 				"eventName" 	=> "cf7_27876",
 				"data" => array(
@@ -905,114 +923,18 @@ class Automail_Admin {
 					"automail_submitted_date" 	=> "October 12, 2021",
 					"automail_submitted_time" 	=> "11:27 am"
 				),
-				"postID" => 27876
+				"postID" => 28934
 			);
 
-			print_r( $dummyData );
+			$r = $this->automail_event( "cf7", "cf7_27876", $eventDataArray, 28934  );
+			print_r( $r );
 
-			# Token Task Ends 
-			$emailAutomatons  = get_posts( array(
-				'post_type'   	 => 'automail',
-				'post_status' 	 => 'publish',
-				'posts_per_page' => -1
-			));
 
-			foreach ( $emailAutomatons as  $emailAutomaton ) {
-				
-				if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $dummyData['eventName']  ) {
-					# Preparing Email body Content 
-					# Looping data array and add [] to keys AS you know bracket added for placeholder 
-					$bracketedKeysValue = array();
-					if( isset( $dummyData["data"] ) AND !empty( $dummyData["data"] )  ){
-						foreach( $dummyData["data"] as $key => $value ){
-							$bracketedKeysValue[ "[". $key."]" ] =  $value;
-						}
-						# Change The placeHolder 
-						$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
-					} else {
-						// log error || exit || 
-					}
-					# ===========================================================================================
-					# preparing Email Address sending 
-					# Getting post meta Data of receivers 
-					$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
-					# Check and Balance 
-					if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ) {
-						# Empty Email address array Holders 
-						$roleUsersEmails 	= array();
-						$eventSourceEmail 	= array();
-						$usersEmail 		= array();
 
-						# User role Holder;
-						if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ){
-							# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
-							$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
-							$roles = array();
-							foreach ($userRoles as $role ) {
-								$roles[] = str_replace( "userRole_", "", $role );
-							}
-							print_r($roles);
-							# Get all the Email address of every user role 
-							# Preparing query 
-							$args = array(
-								'role__in' => $roles,
-								'fields' =>  array( 'ID', 'display_name', 'user_email' ),
-								'orderby' => 'ID',
-								'order'   => 'ASC'
-							);
-							# getting user
-							$users = get_users( $args );
-							
-							# getting the Email addresses 
-							if( $users ){
-								foreach ($users as $user) {
-									$roleUsersEmails[ ] = $user->user_email;
-								}
-							}
-							# removing duplicates
-							$roleUsersEmails = array_unique( $roleUsersEmails );
-						} else {
-							// Log error || User role is empty or False automail_userRoles()
-						}
 
-						# Get Event source
-						$eventSourceReceiver = array_intersect( array_keys( $dummyData["data"] ), $mailReceiver );
-						# get value from Event Source || also Check Valid
-						if( !empty($eventSourceReceiver ) ){
-							foreach ($eventSourceReceiver as $value) {
-								if( isset( $dummyData['data'][$value] ) AND  filter_var( $dummyData['data'][$value], FILTER_VALIDATE_EMAIL)  ){
-									$eventSourceEmail[] =  $dummyData['data'][$value];
-								}
-							}
-						}
-						# Getting Users List Email Addresses 
-						foreach ( $mailReceiver as $value ) {
-							if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
-								$usersEmail[] = $value;
-							}
-						}
-						# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
-						$emailAddresses = array_unique(  array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail ) );
-						if( !empty( $emailAddresses ) ){
-							foreach( $emailAddresses as $email ){
-								if( filter_var( $email, FILTER_VALIDATE_EMAIL) ){
-									$validEmailAddresses[] = $email;
-								}
-							}
-						}
-
-						print_r( $validEmailAddresses );
-
- 
-					} else {
-						// Empty email receiver || this automation will not work
-						// Log error || is not array or empty() array s
-					}
-
-				}
-			}
 
 		echo"</pre>";
+
 	}
 
 	/**
@@ -1203,23 +1125,21 @@ class Automail_Admin {
 		} # Loop ends 
 
 		# Adding extra fields || like Date and Time || Add more in future  
-		if ( wpgsi_fs()->is__premium_only() ) {
-			if ( wpgsi_fs()->can_use_premium_code() ) {
-				if ( ! empty( $fieldsArray ) ){
-					foreach( $fieldsArray as $formID => $formFieldsArray ){
-						# For Time
-						if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-							$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
-						}
+		if ( ! empty( $fieldsArray ) ){
+			foreach( $fieldsArray as $formID => $formFieldsArray ){
+				# For Time
+				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
+					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				}
 
-						# for Date 
-						if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-							$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
-						}
-					}
+				# for Date 
+				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
+					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
 				}
 			}
 		}
+			
+		
 		
 		return array( TRUE, $cf7forms, $fieldsArray );
 	}
@@ -1277,23 +1197,20 @@ class Automail_Admin {
 		}
 
 		# Adding extra fields || like Date and Time || Add more in future  
-		if ( wpgsi_fs()->is__premium_only() ) {
-			if ( wpgsi_fs()->can_use_premium_code() ) {
-				if ( ! empty( $fieldsArray ) ){
-					foreach( $fieldsArray as $formID => $formFieldsArray ){
-						# For Time
-						if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-							$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
-						}
-						
-						# for Date 
-						if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-							$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
-						}
-					}
+		if ( ! empty( $fieldsArray ) ){
+			foreach( $fieldsArray as $formID => $formFieldsArray ){
+				# For Time
+				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
+					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				}
+				
+				# for Date 
+				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
+					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
 				}
 			}
 		}
+			
 
 		return array( TRUE, $FormArray, $fieldsArray );
 	}
@@ -1767,78 +1684,198 @@ class Automail_Admin {
 	 * @param      	string    	$version    The version of this plugin.
 	 * @return 	   	array 		$columns Array of all the list table columns.
 	*/
-	public function automail_event( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ){
+	public function automail_event( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID ){
+
+		# 
+		# data_source Empty test;
+		if ( empty( $eventDataSource ) ){
+			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: eventDataSource  is Empty." );
+			return FALSE;
+		}
+
+		# event_name Empty test;
+		if ( empty( $eventDataSourceID ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is Empty."  );
+			return FALSE;
+		}
+
+		#  data_array Empty test;
+		if ( empty( $eventDataArray ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray  is Empty."  );
+			return FALSE;
+		}
+
+
 		# Do everything Here 
-	}
+		// Getting user by Role ends
+		$eventDataArray = array(
+			"eventSource" 	=> "cf7", 
+			"eventName" 	=> "cf7_27876",
+			"data" => array(
+				"your-name" 				=> "javed", 
+				"your-email" 				=> "javed@gmail.com", 
+				"your-subject" 				=> "hello, lol how are you doing ?",
+				"your-message" 				=> "Hmm, this is a nice message!",
+				"automail_submitted_date" 	=> "October 12, 2021",
+				"automail_submitted_time" 	=> "11:27 am"
+			),
+			"postID" => 27876
+		);
 
-	public function automail_event_old( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ){
-
-		$data  = json_encode( array( $Evt_DataSource, $Evt_DataSourceID, $data_array, $id ) );
-		error_log( print_r( $data , true ) );
-		// error_log( print_r( "Hello form automail_event !" , true ) );
-		exit;
-
-		
 		# Token Task Ends 
-		$integrations   = get_posts( array(
-			'post_type'   	 => 'wpgsiIntegration',
+		$emailAutomatons  = get_posts( array(
+			'post_type'   	 => 'automail',
 			'post_status' 	 => 'publish',
 			'posts_per_page' => -1
 		));
-		# Looping the integrations
-		foreach ( $integrations as  $integration ) {
-			#
-			$post_content 	= json_decode( $integration->post_content, TRUE );
-			$post_excerpt 	= json_decode( $integration->post_excerpt, TRUE );
-			#
-			$DataSource		= $post_excerpt["DataSource"];
-			$DataSourceID	= $post_excerpt["DataSourceID"];
-			$Worksheet		= $post_excerpt["Worksheet"];
-			$WorksheetID	= $post_excerpt["WorksheetID"];
-			$Spreadsheet	= $post_excerpt["Spreadsheet"];
-			$SpreadsheetID	= $post_excerpt["SpreadsheetID"];
-			$ColumnsTitle 	= $post_content[0];
-			$relation 		= $post_content[1];
-			# Pre-process
-			$ArrayKeyAndValue = array();
-			foreach ($data_array as $relationKey => $relationValue) {
-				$ArrayKeyAndValue["{{" . $relationKey . "}}"] = $relationValue;
-			}
-			
-			# Check the value change depends on type 
-			$dataWithRelationKey = array();
-			foreach ( $relation as $key => $value ) {
-				if ( is_array($value) ) {
-					$dataWithRelationKey[ $key ] = implode( ", ", $value );
-				} else {
-					$dataWithRelationKey[ $key ] =  strtr( $value, $ArrayKeyAndValue );
-				}
-			} 
 
-			# Sending Request;
-			if ( $Evt_DataSourceID == $DataSourceID ) {
-				# getting last time this Integrator Occurred TimeStamp, So that i Can Prevent Dual Submission 
-				# Integration_id , wpgsi_lastFired, New Code After 3.5.0
-				$wpgsi_lastFired = (int)get_post_meta( $integration->ID ,'wpgsi_lastFired', TRUE );
-				
-				# dualSubmission Prevention 
-				# lastFired is set and value is Not grater then 301 seconds
-				if( $wpgsi_lastFired  AND  ( time() - $wpgsi_lastFired ) < 33 ){
-					$this->wpgsi_log( get_class($this), __METHOD__, "518", "ERROR: Dual submission Prevented of Integration : <b> ". $integration->ID ." </b> ". json_encode( $dataWithRelationKey ) );
-				} else {
-					# Send the request 
-					$ret = $this->googleSheet->wpgsi_append_row( $SpreadsheetID, $WorksheetID, $dataWithRelationKey );
-					# Check error or success 
-					if ( $ret[0] ){
-						$this->wpgsi_log( get_class($this), __METHOD__, "200", "Success: okay, on the event . " . json_encode( $ret ) );
-						# New Code after 3.5.0
-						# New Code for preventing Dual Submission || saving last Fired time 
-						update_post_meta( $integration->ID, 'wpgsi_lastFired', time() );
-					} else {
-						$this->wpgsi_log( get_class($this), __METHOD__, "519", "Error: on sending data . " . json_encode( array( "SpreadsheetID" => $SpreadsheetID, "WorksheetID" => $WorksheetID,  "dataWithRelationKey" => $dataWithRelationKey ,"Google_response" => $ret ) ) );
+		foreach ( $emailAutomatons as  $emailAutomaton ) {
+
+			# if there is a Active Automation 
+			if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $eventDataSourceID ) {
+				# Preparing Email body Content 
+				# Looping data array and add [] to keys AS you know bracket added for placeholder 
+				$bracketedKeysValue = array();
+				if( isset( $eventDataArray["data"] ) AND !empty( $eventDataArray["data"] )  ){
+					foreach( $eventDataArray["data"] as $key => $value ){
+						$bracketedKeysValue[ "[". $key."]" ] =  $value;
 					}
+					# Change The placeHolder 
+					$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
+				} else {
+					// log error || exit || 
 				}
+				# ===========================================================================================
+				# preparing Email Address sending 
+				# Getting post meta Data of receivers 
+				$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE);
+				# Check and Balance 
+				if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ) {
+					# Empty Email address array Holders 
+					$roleUsersEmails 	= array();
+					$eventSourceEmail 	= array();
+					$usersEmail 		= array();
+
+					# User role Holder;
+					if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ){
+						# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
+						$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
+						$roles = array();
+						foreach ($userRoles as $role ) {
+							$roles[] = str_replace( "userRole_", "", $role );
+						}
+						print_r($roles);
+						# Get all the Email address of every user role 
+						# Preparing query 
+						$args = array(
+							'role__in' => $roles,
+							'fields' =>  array( 'ID', 'display_name', 'user_email' ),
+							'orderby' => 'ID',
+							'order'   => 'ASC'
+						);
+						# getting user
+						$users = get_users( $args );
+						
+						# getting the Email addresses 
+						if( $users ){
+							foreach ($users as $user) {
+								$roleUsersEmails[ ] = $user->user_email;
+							}
+						}
+						# removing duplicates
+						$roleUsersEmails = array_unique( $roleUsersEmails );
+					} else {
+						// Log error || User role is empty or False automail_userRoles()
+					}
+
+					# Get Event source
+					$eventSourceReceiver = array_intersect( array_keys( $eventDataArray["data"] ), $mailReceiver );
+					# get value from Event Source || also Check Valid
+					if( !empty($eventSourceReceiver ) ){
+						foreach ($eventSourceReceiver as $value) {
+							if( isset( $eventDataArray['data'][$value] ) AND  filter_var( $eventDataArray['data'][$value], FILTER_VALIDATE_EMAIL)  ){
+								$eventSourceEmail[] =  $eventDataArray['data'][$value];
+							}
+						}
+					}
+					# Getting Users List Email Addresses 
+					foreach ( $mailReceiver as $value ) {
+						if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
+							$usersEmail[] = $value;
+						}
+					}
+					# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
+					$emailAddresses = array_unique(  array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail ) );
+					if( !empty( $emailAddresses ) ){
+						foreach( $emailAddresses as $email ){
+							if( filter_var( $email, FILTER_VALIDATE_EMAIL) ){
+								$validEmailAddresses[] = $email;
+							}
+						}
+					}
+
+					print_r( $validEmailAddresses );
+					// Now Send The Email || And Keep the Log
+
+					// $to			= array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
+					// $subject	 	= "Email test subject";
+					// $message	 	= "This is message body \n nice work joe. I am doing noting. ";
+					// $headers	 	= array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
+					// $attachments = "";
+					// $r 			= wp_mail( $to, $subject, $message, $headers, $attachments );
+
+
+					$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue , array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
+					if ( $r ) {
+						return  array( TRUE, "SUCCESS: status_code is empty.");
+					} else {
+						return  array( FALSE, "ERROR: status_code is empty.");
+					}
+
+
+				} else {
+					// Empty email receiver || this automation will not work
+					// Log error || is not array or empty() array s
+				}
+
 			}
+		}
+	}
+
+	
+	/**
+	 * LOG ! For Good , This the log Method 
+	 * @since      1.0.0
+	 * @param      string    $file_name       	File Name . Use  [ get_class($this) ]
+	 * @param      string    $function_name     Function name.	 [  __METHOD__  ]
+	 * @param      string    $status_code       The name of this plugin.
+	 * @param      string    $status_message    The version of this plugin.
+	*/
+	public function automail_log( $file_name = null, $function_name = null, $status_code = null, $status_message = null ){
+		# Check and Balance
+		if ( empty( $status_code )  ){
+			return  array( FALSE, "ERROR: status_code is empty.");
+		}
+
+		# Status Message
+		if (  empty( $status_message ) ){
+			return  array( FALSE, "ERROR: status_message is empty.");
+		}
+
+		# Inserting to the Database 
+		$r = wp_insert_post( 
+			array(
+				'post_content'  => $status_message,
+				'post_title'  	=> $status_code,
+				'post_status'  	=> "publish",
+				'post_excerpt'  => json_encode( array( "fileName" => $file_name, "functionName" => $function_name ) ),
+				'post_type'  	=> "automailLog",
+			)
+		);
+
+		# this function return
+		if ( $r ){
+			return  array( TRUE, "SUCCESS: log inserted successfully into database." ); 
 		}
 	}
 
