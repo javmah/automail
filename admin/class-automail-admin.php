@@ -123,7 +123,7 @@ class Automail_Admin {
 				$this->wooCommerceOrderStatuses['wc-new_order']  =  'WooCommerce New Checkout Page Order';
 				# For Default Status
 				foreach ( $woo_order_statuses as $key => $value ) {
-					$this->wooCommerceOrderStatuses[ $key ]  =  'WooCommerce ' . $value;
+					$this->wooCommerceOrderStatuses[ $key ]      =  'WooCommerce ' . $value;
 				}
 			} else {
 				# If Function didn't exist do it 
@@ -277,7 +277,7 @@ class Automail_Admin {
 
 					
 					// # For Post Meta 
-					// $postsMeta = $this->wpgsi_posts_metaKeys();
+					// $postsMeta = $this->automail_posts_metaKeys();
 					// if ( $postsMeta[0]  && ! empty( $postsMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
 					// 	# Looping comment Meta 
 					// 	foreach ( $postsMeta[1] as $metaKey ) {
@@ -346,7 +346,7 @@ class Automail_Admin {
 
 					
 					// # For page Meta 
-					// $pagesMeta = $this->wpgsi_pages_metaKeys();
+					// $pagesMeta = $this->automail_pages_metaKeys();
 					// if ( $pagesMeta[0]  && ! empty( $pagesMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
 					// 	# Looping comment Meta 
 					// 	foreach ( $pagesMeta[1] as $metaKey ) {
@@ -401,7 +401,7 @@ class Automail_Admin {
 
 
 			# For Comment Meta 
-			// $commentsMeta = $this->wpgsi_comments_metaKeys();
+			// $commentsMeta = $this->automail_comments_metaKeys();
 			// if ( $commentsMeta[0]  && ! empty( $commentsMeta[1] ) && wpgsi_fs()->can_use_premium_code__premium_only() ){
 			// 	# Looping the comment event 
 			// 	foreach ( $wordpressCommentEvents as $key => $value ) {
@@ -496,9 +496,8 @@ class Automail_Admin {
 					);
 				}
 
-
 				// # For WooCommerce Product Meta to the product  event
-				// $productsMeta = $this->wpgsi_wooCommerce_product_metaKeys();
+				// $productsMeta = $this->automail_wooCommerce_product_metaKeys();
 				// # Check and Balance & Premium Code only 
 				// if ( $productsMeta[0]  && ! empty( $productsMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
 				// 	# Looping the WooCommerce Product Event
@@ -510,7 +509,6 @@ class Automail_Admin {
 				// 	}
 				// }
 
-				
 				# Inserting WooCommerce Order Events to All Events 
 				$this->events += $this->wooCommerceOrderStatuses;
 
@@ -673,7 +671,7 @@ class Automail_Admin {
 
 				# **************************** Items Meta ****************************
 				# For WooCommerce order item Meta.
-				// $itemsMeta = $this->wpgsi_wooCommerce_product_metaKeys();
+				// $itemsMeta = $this->automail_wooCommerce_product_metaKeys();
 				// if ( $itemsMeta[0]  && ! empty( $itemsMeta[1] ) ) {
 				// 	# Looping the WooCommerce Product Event
 				// 	foreach (  $this->wooCommerceOrderStatuses as $key => $value) {
@@ -685,7 +683,7 @@ class Automail_Admin {
 				// }
 
 				# For WooCommerce Order Meta Data insert to the order Events
-				// $ordersMeta = $this->wpgsi_wooCommerce_order_metaKeys();
+				// $ordersMeta = $this->automail_wooCommerce_order_metaKeys();
 				// # Check and Balance & Premium Code only 
 				// if ( $ordersMeta[0]  && ! empty( $ordersMeta[1] ) && wpgsi_fs()->can_use_premium_code__premium_only() ) {
 				// 	# Looping the WooCommerce Product Event
@@ -784,7 +782,7 @@ class Automail_Admin {
 			}
 
 			# Adding CPT Events and Fields 
-			$CptEvents = $this->wpgsi_allCptEvents();
+			$CptEvents = $this->automail_allCptEvents();
 			# Check and Balance 
 			if ( $CptEvents[0] ) {
 				# Adding events to main events array 
@@ -891,44 +889,11 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice() {
-
 		echo"<pre>";
 
-		    // ============================================================================================
-			// $r = $this->automail_log( get_class($this), __METHOD__, "101", "log message !" ); 
-			// $r = $this->automail_log( get_class($this), __METHOD__ ); 
-			// print_r($r);
-			// ============================================================================================
-			// Sending Mail to the 
-			// $to	        = array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
-			// $subject	    = "Email test subject";
-			// $message	    = "This is message body \n nice work joe. I am doing noting.";
-			// $headers	    = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
-			// $attachments = "";
-			// ============================================================================================
-			// $r = wp_mail( $to, $subject, $message, $headers, $attachments );
-			// print_r( $r );
-			// ============================================================================================
 
-			// $eventDataArray = array(
-			// 	"eventSource" 	=> "cf7", 
-			// 	"eventName" 	=> "cf7_27876",
-			// 	"data" => array(
-			// 		"your-name" 				=> "javed", 
-			// 		"your-email" 				=> "javed@gmail.com", 
-			// 		"your-subject" 				=> "hello, lol how are you doing ?",
-			// 		"your-message" 				=> "Hmm, this is a nice message!",
-			// 		"automail_submitted_date" 	=> "October 12, 2021",
-			// 		"automail_submitted_time" 	=> "11:27 am"
-			// 	),
-			// 	"postID" => 28934
-			// );
 
-			// $r = $this->automail_event( "cf7", "cf7_27876", $eventDataArray, 28934  );
-			// print_r( $r );
-			
 		echo"</pre>";
-
 	}
 
 	/**
@@ -1159,31 +1124,28 @@ class Automail_Admin {
 			$ninjaFields =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_fields where parent_id = '".$form["id"]."'", ARRAY_A);
 			foreach ($ninjaFields as $field) {
 				
-				$field_list = array( "textbox", "textarea", "number" );
+				// $field_list = array( "textbox", "textarea", "number" );
 				# freemius 
-				if ( wpgsi_fs()->is__premium_only() ) {
-					if ( wpgsi_fs()->can_use_premium_code() ) {
-						$field_list = array( 
-							"textbox",
-							"textarea",
-							"email",
-							"phone",
-							"number",
-							"checkbox",
-							"date",
-							"listmultiselect",
-							"listradio",
-							"listselect",
-							"liststate",
-							"starrating",
-							"hidden",
-							"address",
-							"city",
-							"zip"
-						);
-					}
-				}
-
+				
+				$field_list = array( 
+					"textbox",
+					"textarea",
+					"email",
+					"phone",
+					"number",
+					"checkbox",
+					"date",
+					"listmultiselect",
+					"listradio",
+					"listselect",
+					"liststate",
+					"starrating",
+					"hidden",
+					"address",
+					"city",
+					"zip"
+				);
+					
 				if( in_array( $field["type"], $field_list  ) ){
 					$fieldsArray[ "ninja_". $form["id"] ] [ $field["key"] ] = $field["label"];
 				}
@@ -1194,18 +1156,17 @@ class Automail_Admin {
 		if ( ! empty( $fieldsArray ) ){
 			foreach( $fieldsArray as $formID => $formFieldsArray ){
 				# For Time
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				if ( ! isset( $formFieldsArray['automail_submitted_time'] ) ){
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 				
 				# for Date 
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
+				if ( ! isset( $formFieldsArray['automail_submitted_date'] ) ){
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
 		}
-			
-
+		
 		return array( TRUE, $FormArray, $fieldsArray );
 	}
  
@@ -1230,34 +1191,30 @@ class Automail_Admin {
 			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= " . $form->id . " ORDER BY field_order"); 	# Getting  Data from Database 
 			foreach ($fields as $field) {
 				# Default fields
-				$field_list = array("text", "textarea", "number");
+				// $field_list = array("text", "textarea", "number");
 
 				# freemius
-				if ( wpgsi_fs()->is__premium_only() ){
-					if ( wpgsi_fs()->can_use_premium_code() ){
-						$field_list = array( 
-							"text", 
-							"textarea", 
-							"number", 
-							"email", 
-							"phone", 
-							"hidden", 
-							"url", 
-							"user_id", 
-							"select", 
-							"radio", 
-							"checkbox", 
-							"rte", 
-							"date", 
-							"time", 
-							"star", 
-							"range", 
-							"password", 
-							"address" 
-						);
-					}
-				}
-
+				$field_list = array( 
+					"text", 
+					"textarea", 
+					"number", 
+					"email", 
+					"phone", 
+					"hidden", 
+					"url", 
+					"user_id", 
+					"select", 
+					"radio", 
+					"checkbox", 
+					"rte", 
+					"date", 
+					"time", 
+					"star", 
+					"range", 
+					"password", 
+					"address" 
+				);
+				
 				if ( in_array( $field->type, $field_list  ) ){
 					$fieldsArray["frm_".$form->id][$field->id] = $field->name;
 				}
@@ -1269,13 +1226,13 @@ class Automail_Admin {
 		if ( ! empty( $fieldsArray ) ){
 			foreach( $fieldsArray as $formID => $formFieldsArray ){
 				# For Time
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				if ( ! isset( $formFieldsArray['automail_submitted_time'] ) ){
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 				
 				# for Date 
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
+				if ( ! isset( $formFieldsArray['automail_submitted_date'] ) ){
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1305,36 +1262,32 @@ class Automail_Admin {
 			
 			foreach( $post_content->fields as $field ){
 				# Default fields
-				$field_list = array( "name", "text", "textarea" );
+				// $field_list = array( "name", "text", "textarea" );
 
 				# freemius
-				if ( wpgsi_fs()->is__premium_only() ) {
-					if ( wpgsi_fs()->can_use_premium_code() ){
-						$field_list = array( 
-							"name", 
-							"text", 
-							"email", 
-							"textarea", 
-							"number", 
-							"number-slider", 
-							"phone", 
-							"address", 
-							"date-time", 
-							"url", 
-							"password", 
-							"hidden", 
-							"rating", 
-							"checkbox", 
-							"radio", 
-							"select", 
-							"payment-single", 
-							"payment-checkbox", 
-							"payment-total", 
-							"stripe-credit-card"
-						);
-					}
-				}
-
+				$field_list = array( 
+					"name", 
+					"text", 
+					"email", 
+					"textarea", 
+					"number", 
+					"number-slider", 
+					"phone", 
+					"address", 
+					"date-time", 
+					"url", 
+					"password", 
+					"hidden", 
+					"rating", 
+					"checkbox", 
+					"radio", 
+					"select", 
+					"payment-single", 
+					"payment-checkbox", 
+					"payment-total", 
+					"stripe-credit-card"
+				);
+					
 				if( in_array( $field->type, $field_list  ) ){
 					$fieldsArray["wpforms_". $wpform->ID ][$field->id] = $field->label;
 				}
@@ -1345,13 +1298,13 @@ class Automail_Admin {
 		if ( ! empty( $fieldsArray ) ){
 			foreach( $fieldsArray as $formID => $formFieldsArray ){
 				# For Time
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				if ( ! isset( $formFieldsArray['automail_submitted_time'] ) ){
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 				
 				# for Date 
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
+				if ( ! isset( $formFieldsArray['automail_submitted_date'] ) ){
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1371,14 +1324,14 @@ class Automail_Admin {
 		if ( ! in_array('weforms/weforms.php', $this->active_plugins ) ) {
 			return array( FALSE, "Error:  weForms  is Not Active  OR DB is not exist"  );
 		}
-		
+
 		$FormArray	 	= array();
 		$fieldsArray 	= array();
 		$fieldTypeArray = array();
 
 		global $wpdb;
-		$weforms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_contact_form'  ");
-		$weFields 	 = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_input'  ");
+		$weforms 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_contact_form'  ");
+		$weFields 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_input'  ");
 		
 		foreach ( $weforms as $weform ) {
 			$FormArray[ "we_" . $weform->ID ] = 'weForms - '. $weform->post_title;
@@ -1398,13 +1351,13 @@ class Automail_Admin {
 		if ( ! empty( $fieldsArray ) ){
 			foreach( $fieldsArray as $formID => $formFieldsArray ){
 				# For Time
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				if ( ! isset( $formFieldsArray['automail_submitted_time'] ) ){
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 				
 				# for Date 
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
+				if ( ! isset( $formFieldsArray['automail_submitted_date'] ) ){
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1493,8 +1446,8 @@ class Automail_Admin {
 						}
 					}
 					# Date And Time 
-					$fieldsArray[ "forminator_". $form->id ][ 'wpgsi_submitted_time' ] = "wpgsi Form submitted  time";
-					$fieldsArray[ "forminator_". $form->id ][ 'wpgsi_submitted_date' ] = "wpgsi Form submitted date";
+					$fieldsArray[ "forminator_". $form->id ][ 'automail_submitted_time' ] = "automail Form submitted  time";
+					$fieldsArray[ "forminator_". $form->id ][ 'automail_submitted_time' ] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1507,7 +1460,7 @@ class Automail_Admin {
 	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
-	public function wpgsi_comments_metaKeys(){
+	public function automail_comments_metaKeys(){
 		# Global Db object 
 		global $wpdb;
 		# Query 
@@ -1528,7 +1481,7 @@ class Automail_Admin {
 	 * @since      1.0.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
-	public function wpgsi_dbTableExists( $tableName = null ) {
+	public function automail_dbTableExists( $tableName = null ) {
 		if ( empty( $tableName ) ) {
 			return FALSE;
 		}
@@ -1545,10 +1498,10 @@ class Automail_Admin {
 
 	/**
 	 * This Function will All Custom Post types 
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array   First one is CPS and Second one is CPT's Field source.
 	*/
-	public function wpgsi_allCptEvents( ) {
+	public function automail_allCptEvents( ) {
 		# Getting The Global wp_post_types array
 		global $wp_post_types;
 		# Check And Balance 
@@ -1679,7 +1632,6 @@ class Automail_Admin {
 	 * @return 	   	array 		Status with first value is bool and send is data.
 	*/
 	public function automail_event( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID ){
-
 		# data_source Empty test;
 		if ( empty( $eventDataSource ) ){
 			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: eventDataSource  is Empty." );
@@ -1857,7 +1809,6 @@ class Automail_Admin {
 	}
 
 }
-
 
 # Wp mail Help 
 # Hmm this is nice Idea;
