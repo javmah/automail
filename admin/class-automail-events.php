@@ -547,7 +547,7 @@ class Automail_Events {
 		} elseif ($post->post_type == 'page') {
 			$metaKeys = $this->automail_pages_metaKeys();
 		} else {
-			# Setting Meta, getting those Meta from  wpgsi_allCptEvents() function Where;
+			# Setting Meta, getting those Meta from  automail_allCptEvents() function Where;
 			if ( isset( $cpts[4] ) AND !empty( $cpts[4] )  ){
 				$metaKeys = array( TRUE, $cpts[4] );
 			}else{
@@ -1990,24 +1990,15 @@ class Automail_Events {
 		$submission  = WPCF7_Submission::get_instance();
 		$posted_data = $submission->get_posted_data();
 
-		#======================================================================
-		# Debug stats 
-
-		$data = json_encode( array( $id, $submission, $posted_data ) );
-		error_log( print_r( $data , true ) );
-
-
-		# Debug ends 
-		#======================================================================
+		
 
 		# if There is a integration on this Form Submission
 		if ( ! empty( $id ) ) {
 			# extra fields values
 			# Site date and time 
-			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date :	'';
-			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time	:	'';
-				
-
+			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date  :	'';
+			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time  :	'';
+			# check and balance
 			if ( isset( $id  ) && !empty( $id  ) ) {
 				# Calling Event Boss 
 				$r = $this->automail_eventBoss( 'cf7', 'cf7_' . $id , $posted_data, $id  );
@@ -2015,6 +2006,13 @@ class Automail_Events {
 				$this->automail_log( get_class($this), __METHOD__,"717", "Error: Contact form 7 Form Submitted But No Form ID !" );
 			} 
 		}
+
+		#======================================================================================
+		# Debug stats
+		$data = json_encode( array( 'cf7', 'cf7_' . $id , $posted_data, $id  ) );
+		error_log( print_r( $data , true ) );
+		# Debug ends
+		#======================================================================================
 	}
 
 	/**

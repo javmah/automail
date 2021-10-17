@@ -194,7 +194,7 @@ class Automail_Admin {
 				}
 
 				# For user Meta 
-				// $usersMeta = $this->wpgsi_users_metaKeys();
+				// $usersMeta = $this->automail_users_metaKeys();
 				// if ( $usersMeta[0]  && ! empty( $usersMeta[1] ) && wpgsi_fs()->can_use_premium_code() ) {
 				// 	# Looping comment Meta 
 				// 	foreach ( $usersMeta[1] as $metaKey ) {
@@ -899,40 +899,34 @@ class Automail_Admin {
 			// $r = $this->automail_log( get_class($this), __METHOD__ ); 
 			// print_r($r);
 			// ============================================================================================
-
-			# Sending Mail to the 
-			// $to			 = array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
-			// $subject	 = "Email test subject";
-			// $message	 = "This is message body \n nice work joe. I am doing noting. ";
-			// $headers	 = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
+			// Sending Mail to the 
+			// $to	        = array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
+			// $subject	    = "Email test subject";
+			// $message	    = "This is message body \n nice work joe. I am doing noting.";
+			// $headers	    = array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
 			// $attachments = "";
-
-
+			// ============================================================================================
 			// $r = wp_mail( $to, $subject, $message, $headers, $attachments );
-
 			// print_r( $r );
+			// ============================================================================================
 
-			$eventDataArray = array(
-				"eventSource" 	=> "cf7", 
-				"eventName" 	=> "cf7_27876",
-				"data" => array(
-					"your-name" 				=> "javed", 
-					"your-email" 				=> "javed@gmail.com", 
-					"your-subject" 				=> "hello, lol how are you doing ?",
-					"your-message" 				=> "Hmm, this is a nice message!",
-					"automail_submitted_date" 	=> "October 12, 2021",
-					"automail_submitted_time" 	=> "11:27 am"
-				),
-				"postID" => 28934
-			);
+			// $eventDataArray = array(
+			// 	"eventSource" 	=> "cf7", 
+			// 	"eventName" 	=> "cf7_27876",
+			// 	"data" => array(
+			// 		"your-name" 				=> "javed", 
+			// 		"your-email" 				=> "javed@gmail.com", 
+			// 		"your-subject" 				=> "hello, lol how are you doing ?",
+			// 		"your-message" 				=> "Hmm, this is a nice message!",
+			// 		"automail_submitted_date" 	=> "October 12, 2021",
+			// 		"automail_submitted_time" 	=> "11:27 am"
+			// 	),
+			// 	"postID" => 28934
+			// );
 
-			$r = $this->automail_event( "cf7", "cf7_27876", $eventDataArray, 28934  );
-			print_r( $r );
-
-
-
-
-
+			// $r = $this->automail_event( "cf7", "cf7_27876", $eventDataArray, 28934  );
+			// print_r( $r );
+			
 		echo"</pre>";
 
 	}
@@ -1081,7 +1075,7 @@ class Automail_Admin {
 	*/
 	public function cf7_forms_and_fields(){
 		# is there CF7 
-		if ( ! in_array('contact-form-7/wp-contact-form-7.php' , $this->active_plugins ) OR  ! $this->wpgsi_dbTableExists( 'posts' )   ) {
+		if ( ! in_array('contact-form-7/wp-contact-form-7.php' , $this->active_plugins ) ) {
 			return array(FALSE, "Error:  Contact form 7 is Not installed or DB Table is Not Exist  " );
 		}
 
@@ -1128,13 +1122,13 @@ class Automail_Admin {
 		if ( ! empty( $fieldsArray ) ){
 			foreach( $fieldsArray as $formID => $formFieldsArray ){
 				# For Time
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_time'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_time'] = "wpgsi Form submitted  time";
+				if ( ! isset( $formFieldsArray['automail_submitted_time'] ) ){
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 
 				# for Date 
-				if ( ! isset( $formFieldsArray['wpgsi_submitted_date'] ) ){
-					$fieldsArray[$formID]['wpgsi_submitted_date'] = "wpgsi Form submitted date";
+				if ( ! isset( $formFieldsArray['automail_submitted_date'] ) ){
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1152,7 +1146,7 @@ class Automail_Admin {
 	*/
 	public function ninja_forms_and_fields() {
 		
-		if ( ! in_array('ninja-forms/ninja-forms.php', $this->active_plugins ) OR ! $this->wpgsi_dbTableExists( 'nf3_forms' ) ) {
+		if ( ! in_array('ninja-forms/ninja-forms.php', $this->active_plugins ) ) {
 			return array( FALSE, "Error:  Ninja form 7 is Not Installed "  );
 		}
 		global $wpdb;	
@@ -1221,7 +1215,7 @@ class Automail_Admin {
 	*/
 	public function formidable_forms_and_fields(){
 		
-		if ( ! in_array( 'formidable/formidable.php', $this->active_plugins ) OR  ! $this->wpgsi_dbTableExists( 'frm_forms' ) ) {
+		if ( ! in_array( 'formidable/formidable.php', $this->active_plugins )  ) {
 			return array( FALSE, "Error: formidable form  is Not Installed OR DB table is Not Exist" );
 		}
 		
@@ -1295,7 +1289,7 @@ class Automail_Admin {
 	*/
 	public function wpforms_forms_and_fields(){
 
-		if ( ! count( array_intersect( $this->active_plugins, array('wpforms-lite/wpforms.php', 'wpforms/wpforms.php') ) )  OR  ! $this->wpgsi_dbTableExists( 'posts' ) ) {
+		if ( ! count( array_intersect( $this->active_plugins, array('wpforms-lite/wpforms.php', 'wpforms/wpforms.php') ) )  ) {
 			return array( FALSE, "Error:  wp form is Not Installed OR DB Table is Not Exist  "  );
 		}
 
@@ -1374,7 +1368,7 @@ class Automail_Admin {
 	*/
 	public function weforms_forms_and_fields() {
 		
-		if ( ! in_array('weforms/weforms.php', $this->active_plugins )  OR  ! $this->wpgsi_dbTableExists('posts') ) {
+		if ( ! in_array('weforms/weforms.php', $this->active_plugins ) ) {
 			return array( FALSE, "Error:  weForms  is Not Active  OR DB is not exist"  );
 		}
 		
@@ -1672,21 +1666,20 @@ class Automail_Admin {
 		}
 	}
 
-	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	# ++++++++++++++++++++++++++++++++++++++  Change Below Function +++++++++++++++++++++++++++++++++++++++
-	# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	# When Event Fire This Hook Fire "automail_event" 
-	# This Thing Should be Send data 
+
 	/**
 	 * Using custom hook sending data to Google spreadsheet 
 	 * @since    	1.0.0
-	 * @param     	string    	$plugin_name       The name of this plugin.
-	 * @param      	string    	$version    The version of this plugin.
-	 * @return 	   	array 		$columns Array of all the list table columns.
+	 * 
+	 * @param     	string    	$eventDataSource       	event source, which Plugin or part generate the event 
+	 * @param     	string    	$eventDataSourceID      This is a Combination between $eventDataSource  and  name or id of that event 
+	 * @param     	array    	$eventDataArray      	Event data array with key value pair.
+	 * @param      	string    	$automationID    		Database id of that Automation.
+	 * 
+	 * @return 	   	array 		Status with first value is bool and send is data.
 	*/
 	public function automail_event( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID ){
 
-		# 
 		# data_source Empty test;
 		if ( empty( $eventDataSource ) ){
 			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: eventDataSource  is Empty." );
@@ -1700,27 +1693,16 @@ class Automail_Admin {
 		}
 
 		#  data_array Empty test;
-		if ( empty( $eventDataArray ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray  is Empty."  );
+		if ( empty( $eventDataArray ) OR !is_array( $eventDataArray ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray is empty or not array."  );
 			return FALSE;
 		}
 
-
-		# Do everything Here 
-		// Getting user by Role ends
-		$eventDataArray = array(
-			"eventSource" 	=> "cf7", 
-			"eventName" 	=> "cf7_27876",
-			"data" => array(
-				"your-name" 				=> "javed", 
-				"your-email" 				=> "javed@gmail.com", 
-				"your-subject" 				=> "hello, lol how are you doing ?",
-				"your-message" 				=> "Hmm, this is a nice message!",
-				"automail_submitted_date" 	=> "October 12, 2021",
-				"automail_submitted_time" 	=> "11:27 am"
-			),
-			"postID" => 27876
-		);
+		#  automationID Empty test;
+		if ( empty( $automationID )  OR  ! is_int( $automationID ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: automationID is empty or not INT."  );
+			return FALSE;
+		}
 
 		# Token Task Ends 
 		$emailAutomatons  = get_posts( array(
@@ -1730,21 +1712,18 @@ class Automail_Admin {
 		));
 
 		foreach ( $emailAutomatons as  $emailAutomaton ) {
-
 			# if there is a Active Automation 
 			if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $eventDataSourceID ) {
 				# Preparing Email body Content 
 				# Looping data array and add [] to keys AS you know bracket added for placeholder 
 				$bracketedKeysValue = array();
-				if( isset( $eventDataArray["data"] ) AND !empty( $eventDataArray["data"] )  ){
-					foreach( $eventDataArray["data"] as $key => $value ){
-						$bracketedKeysValue[ "[". $key."]" ] =  $value;
-					}
-					# Change The placeHolder 
-					$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
-				} else {
-					// log error || exit || 
+				
+				foreach( $eventDataArray as $key => $value ){
+					$bracketedKeysValue[ "[". $key."]" ] =  $value;
 				}
+				# Change The placeHolder 
+				$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue);
+				
 				# ===========================================================================================
 				# preparing Email Address sending 
 				# Getting post meta Data of receivers 
@@ -1759,19 +1738,19 @@ class Automail_Admin {
 					# User role Holder;
 					if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ){
 						# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
-						$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );
+						$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );  // **** there should be an error when there is no UserRole; so handel it if not empty()
 						$roles = array();
 						foreach ($userRoles as $role ) {
 							$roles[] = str_replace( "userRole_", "", $role );
 						}
-						print_r($roles);
+						
 						# Get all the Email address of every user role 
 						# Preparing query 
 						$args = array(
-							'role__in' => $roles,
-							'fields' =>  array( 'ID', 'display_name', 'user_email' ),
-							'orderby' => 'ID',
-							'order'   => 'ASC'
+							'role__in' =>  $roles,
+							'fields'   =>  array( 'ID', 'display_name', 'user_email' ),
+							'orderby'  => 'ID',
+							'order'    => 'ASC'
 						);
 						# getting user
 						$users = get_users( $args );
@@ -1785,25 +1764,28 @@ class Automail_Admin {
 						# removing duplicates
 						$roleUsersEmails = array_unique( $roleUsersEmails );
 					} else {
-						// Log error || User role is empty or False automail_userRoles()
+						$this->automail_log( get_class($this), __METHOD__, "101", "User role is empty or False automail_userRoles() func is not working!" ); 
 					}
 
 					# Get Event source
-					$eventSourceReceiver = array_intersect( array_keys( $eventDataArray["data"] ), $mailReceiver );
+					$eventSourceReceiver = array_intersect( array_keys( $eventDataArray ), $mailReceiver );
+
 					# get value from Event Source || also Check Valid
-					if( !empty($eventSourceReceiver ) ){
+					if( !empty( $eventSourceReceiver ) ){
 						foreach ($eventSourceReceiver as $value) {
-							if( isset( $eventDataArray['data'][$value] ) AND  filter_var( $eventDataArray['data'][$value], FILTER_VALIDATE_EMAIL)  ){
-								$eventSourceEmail[] =  $eventDataArray['data'][$value];
+							if( isset( $eventDataArray[$value] ) AND  filter_var( $eventDataArray[$value], FILTER_VALIDATE_EMAIL)  ){
+								$eventSourceEmail[] =  $eventDataArray[$value];
 							}
 						}
 					}
+
 					# Getting Users List Email Addresses 
 					foreach ( $mailReceiver as $value ) {
 						if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
 							$usersEmail[] = $value;
 						}
 					}
+
 					# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
 					$emailAddresses = array_unique(  array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail ) );
 					if( !empty( $emailAddresses ) ){
@@ -1814,28 +1796,23 @@ class Automail_Admin {
 						}
 					}
 
-					print_r( $validEmailAddresses );
-					// Now Send The Email || And Keep the Log
-
-					// $to			= array("javed@gmail.com", "khaled@gmail.com", "Zubayer@gmail.com");
-					// $subject	 	= "Email test subject";
-					// $message	 	= "This is message body \n nice work joe. I am doing noting. ";
-					// $headers	 	= array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>');
-					// $attachments = "";
-					// $r 			= wp_mail( $to, $subject, $message, $headers, $attachments );
-
-
+					# Sending Email 
 					$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue , array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
 					if ( $r ) {
+						# keeping log
+						$this->automail_log( get_class($this), __METHOD__, "101", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+						# return
 						return  array( TRUE, "SUCCESS: status_code is empty.");
 					} else {
+						# keeping log
+						$this->automail_log( get_class($this), __METHOD__, "101", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+						# return
 						return  array( FALSE, "ERROR: status_code is empty.");
 					}
 
-
 				} else {
-					// Empty email receiver || this automation will not work
-					// Log error || is not array or empty() array s
+					# keeping log
+					$this->automail_log( get_class($this), __METHOD__, "101", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode( array( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID ) ) );
 				}
 
 			}
@@ -1888,4 +1865,6 @@ class Automail_Admin {
 # Help user Roles 
 # https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
 # wp_capabilities
-# 
+# Trello API key
+#  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
+#  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
