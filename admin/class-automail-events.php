@@ -55,11 +55,60 @@ class Automail_Events {
 	* For Testing purpose 
 	*/
 	public function automail_event_notices() {
-		// echo "<pre>";
+		echo "<pre>";
+
+			// error_log( print_r( $data , true ) );
+			// "data_array":{"8":"{"first":"javed","last":"mahmud"}",
+			// "9":"javmah@gmail.com","2":"Single Line Text","7":"13","3":"Paragraph Text",
+			// "4":"Second Choice","5":"First Choice","6":"["First Choice"]",
+			// "10":"4","automail_submitted_date":"October 19, 2021","automail_submitted_time":"2:07 am"},
+			// "id":"28717"} 
+
+			// [19-Oct-2021 07:35:03 UTC] ["wpforms","wpforms_28717",{"8":" javed mahmud","9":"javmah@gmail.com","2":"Single Line Text","7":"13","3":"Paragraph Text","4":"Second Choice","5":"First Choice","6":"['First Choice']","10":"4","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:35 pm"},28717]
+			// [19-Oct-2021 07:36:42 UTC] ["wpforms","wpforms_28717",{"8":{"first":"javed","last":"mahmud"},"9":"javmah@gmail.com","2":"Single Line Text","7":"420","3":"Paragraph Text","4":"Third Choice","5":"Third Choice","6":["Third Choice"],"10":"3","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:36 pm"},"28717"]
+			// [19-Oct-2021 07:39:37 UTC] ["wpforms","wpforms_28717",{"8":{"first":"javed","last":"mahmud"},"9":"javmah@gmail.com","2":"Single Line Text","7":"420","3":"Paragraph Text","4":"Third Choice","5":"Third Choice","6":["Third Choice"],"10":"3","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:39 pm"},"28717"]
+						
+			// $fields 		 =  28717;
+			// $form_data["id"] =  28717;
+			// $entry["fields"] = array(
+			// 	"8" => array("first" => "javed","last" => "mahmud"),
+			// 	"9" => "javmah@gmail.com",
+			// 	"2" => "Single Line Text",
+			// 	"7" => "13",
+			// 	"3" =>  "Paragraph Text",
+			// 	"4" => array("Third Choice"),
+			// 	"5" => "First Choice",
+			// 	"6" => array("First Choice"),
+			// 	"10" => "4",
+			// 	"automail_submitted_date" => "October 19, 2021",
+			// 	"automail_submitted_time" => "2:07 am"
+			// );
+			// $entry["id"] = 28717;
 
 
+			// $r = $this->automail_wpforms_process( $fields, $entry, $form_data );
+			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
+			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]);
+			// print_r($r);
 
-		// echo "</pre>";
+			$data = array(
+				"8" => array("first" => "javed","last" => "mahmud"),
+				"9" => "javmah@gmail.com",
+				"2" => "Single Line Text",
+				"7" => "13",
+				"3" =>  "Paragraph Text",
+				"4" => array("Third Choice"),
+				"5" => "First Choice",
+				"6" => array("First Choice"),
+				"10" => "4",
+				"automail_submitted_date" => "October 19, 2021",
+				"automail_submitted_time" => "2:07 am"
+			);
+
+			$r = $this->automail_send_mail( "wpforms_28717",  $data  );
+			print_r( $r );
+
+		echo "</pre>";
 	}
 
 	/**
@@ -2007,12 +2056,6 @@ class Automail_Events {
 			} 
 		}
 
-		#======================================================================================
-		# Debug stats
-		$data = json_encode( array( 'cf7', 'cf7_' . $id , $posted_data, $id  ) );
-		error_log( print_r( $data , true ) );
-		# Debug ends
-		#======================================================================================
 	}
 
 	/**
@@ -2089,6 +2132,10 @@ class Automail_Events {
 	 * @param      array    $form_data     	data_array
 	*/
 	public function automail_wpforms_process( $fields, $entry, $form_data ) {
+
+		$this->automail_log( get_class($this), __METHOD__,"111", "TESTING: fields : ". json_encode(  $fields ));
+		$this->automail_log( get_class($this), __METHOD__,"112", "TESTING: entry : ". json_encode(  $entry ));
+		$this->automail_log( get_class($this), __METHOD__,"113", "TESTING: form_data :". json_encode(  $form_data ));
 		# if There is a integration on this Form Submission
 		if ( isset( $form_data["id"]  ) ) {
 			# extra fields value
@@ -2097,16 +2144,62 @@ class Automail_Events {
 			$entry["fields"]['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'EMPTY';
 			$entry["fields"]['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'EMPTY';
 
-			# Check And Balance 
-			if (  ! empty( $entry ) AND  ! empty( $form_data["id"] ) ) {
-				# Action 
-				$r = $this->automail_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
-			} else {
-				$this->automail_log( get_class($this), __METHOD__,"723", "Error: wpforms Form entries are empty Or form_id is empty!" );
-			}
+			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
+			$r = $this->automail_eventBoss('wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]);
+
+			// $r = $this->wpgsi_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
+
+		} else {
+			$this->automail_log( get_class($this), __METHOD__,"723", "Error: wpforms Form entries are empty Or form_id is empty!" );
 		}
+
+		#======================================================================================
+		# Debug stats
+		// $data = json_encode( array( 'wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]) );
+		$data = json_encode( array( 'wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]) );
+		error_log( print_r( $data , true ) );
+		# Debug ends
+		#======================================================================================
 	}
 
+	
+
+	
+/*
+ [ 
+	{"8":{"name":"Name","value":"javed mahmud","id":8,"type":"name","first":"javed","middle":"","last":"mahmud"},
+	 "9":{"name":"Email","value":"javmah@gmail.com","id":9,"type":"email"},
+	 "2":{"name":"Single Line Text","value":"Single Line Text","id":2,"type":"text"},
+	 "7":{"name":"Numbers","value":"13","id":7,"type":"number"},
+	 "3":{"name":"Paragraph Text","value":"Paragraph Text","id":3,"type":"textarea"},
+	 "4":{"name":"Dropdown","value":"Second Choice","value_raw":"Second Choice","id":4,"type":"select"},
+	 "5":{"name":"Multiple Choice","value":"First Choice","value_raw":"First Choice","id":5,"type":"radio"},
+	 "6":{"name":"Checkboxes","value":"First Choice","value_raw":"First Choice","id":6,"type":"checkbox"},
+	 "10":{"name":"Number Slider","value":4,"value_raw":{"value":4,"min":0,"max":10,"value_display":"Selected Value: {value}"},
+	 "id":10,
+	 "type":"number-slider"}
+	},
+	{"fields":{
+		"8":{"first":"javed","last":"mahmud"},
+	    "9":"javmah@gmail.com",
+		"2":"Single Line Text",
+		"7":"13",
+		"3":"Paragraph Text",
+		"4":"Second Choice",
+		"5":"First Choice",
+		"6":["First Choice"],
+		"10":"4",
+		"automail_submitted_date":"October 19, 2021",
+		"automail_submitted_time":"12:58 pm"},
+		"id":"28717",
+		"author":"1",
+		"post_id":"1610",
+		"submit":"wpforms-submit",
+		"token":"4a08a45a85d03745a2cb99aed413d6f5"
+	},
+		{"fields":{"8":{"id":"8","type":"name","label":"Name","format":"first-last","description":"","required":"1","size":"medium","simple_placeholder":"","simple_default":"","first_placeholder":"","first_default":"","middle_placeholder":"","middle_default":"","last_placeholder":"","last_default":"","css":""},"9":{"id":"9","type":"email","label":"Email","description":"","required":"1","size":"medium","placeholder":"","confirmation_placeholder":"","default_value":"","filter_type":"","allowlist":"","denylist":"","css":""},"2":{"id":"2","type":"text","label":"Single Line Text","description":"","size":"medium","placeholder":"","limit_count":"1","limit_mode":"characters","default_value":"","input_mask":"","css":""},"7":{"id":"7","type":"number","label":"Numbers","description":"","size":"medium","placeholder":"","default_value":"","css":""},"3":{"id":"3","type":"textarea","label":"Paragraph Text","description":"","size":"medium","placeholder":"","limit_count":"1","limit_mode":"characters","default_value":"","css":""},"4":{"id":"4","type":"select","label":"Dropdown","choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","style":"classic","size":"medium","placeholder":"","dynamic_choices":"","css":""},"5":{"id":"5","type":"radio","label":"Multiple Choice","choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","choices_images_style":"modern","input_columns":"","dynamic_choices":"","css":""},"6":{"id":"6","type":"checkbox","label":"Checkboxes",
+	"choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","choices_images_style":"modern","input_columns":"","choice_limit":"","dynamic_choices":"","css":""},"10":{"id":"10","type":"number-slider","label":"Number Slider","description":"","required":"","min":"0","max":"10","size":"medium","default_value":"0","value_display":"Selected Value: {value}","step":"1","css":""}},"id":"28717","field_id":11,"settings":{"form_title":"Second Form","form_desc":"","submit_text":"Submit","submit_text_processing":"Sending...","antispam":"1","form_class":"","submit_class":"","notification_enable":"1","notifications":{"1":{"email":"{admin_email}","subject":"New Blank Form Entry","sender_name":"WordPress Site","sender_address":"{admin_email}","replyto":"","message":"{all_fields}"}},"confirmations":{"1":{"type":"message","message":"<p>Thanks for contacting us! We will be in touch with you shortly.<\/p>","message_scroll":"1","page":"315","redirect":""}}},"meta":{"template":"blank"},"created":"2021-08-19 18:39:26"}]
+*/
 	/**
 	 * weforms forms_after_submission 
 	 * @param    string   $entry_id   		entry_id;
@@ -2283,26 +2376,26 @@ class Automail_Events {
 
 		# data_source Empty test;
 		if ( empty( $data_source ) ){
-			$this->automail_log( get_class($this), __METHOD__, "729", "Error: data_source  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
+			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: data_source  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 			return FALSE;
 		}
 
-		# event_name Empty test;
+		# event_name Empty test
 		if ( empty( $event_name ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "Error: event_name  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: event_name  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 			return FALSE;
 		}
 
 		#  data_array Empty test;
 		if ( empty( $data_array ) ){
-			$this->automail_log( get_class($this), __METHOD__, "731", "Error: data_array  is Empty!. ".  json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
+			$this->automail_log( get_class($this), __METHOD__, "731", "ERROR: data_array  is Empty!. ".  json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 			return FALSE;
 		}
 
 		# Nested array and sanitize array ;
 		foreach ( $data_array as $key => $value ) { 
 			if( is_array( $value ) OR is_object( $value )  ) {
-				$this->automail_log( get_class($this), __METHOD__, "200", "Success: value should be string, not Array or Object. Array or Object converted to json_encode_ed string! ".  json_encode( array( "data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string! ".  json_encode( array( "data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 				$data_array[$key] = json_encode( $value );
 			} else {
 				$data_array[$key] = strip_tags( $value );
@@ -2310,7 +2403,7 @@ class Automail_Events {
 		}
 		
 		# If everything okay than Proceed on
-		$this->automail_log( get_class($this), __METHOD__, "200", "Success: okay, on the event A1 . " . json_encode( array( "data_source" => $data_array, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
+		$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( "data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
 		# Event checked AND before  Passed [Custom Action Hook]  || If you Need Modify Data DO it here;
 		do_action( 'automail_event_before', $data_source, $event_name, $data_array, $id ); 
 		# Event Passed  [Custom Action Hook]  || Only for GOOGLE || Don't do Anything here - lat it go; 
@@ -2318,6 +2411,205 @@ class Automail_Events {
 		# Sending a True
 		return TRUE;
 	}
+
+	# New Code Starts From here 
+	/**
+	 * Using custom hook sending data to Google spreadsheet 
+	 * @since    	1.0.0
+	 * 
+	 * @param     	string    	$eventDataSource       	event source, which Plugin or part generate the event 
+	 * @param     	string    	$eventDataSourceID      This is a Combination between $eventDataSource  and  name or id of that event 
+	 * @param     	array    	$eventDataArray      	Event data array with key value pair.
+	 * @param      	string    	$automationID    		Database id of that Automation. || ERROR is another thing
+	 * 
+	 * @return 	   	array 		Status with first value is bool and send is data.
+	*/
+	public function automail_send_mail( $eventDataSourceID = "", $eventDataArray = "" ){
+		
+		# event_name Empty test;
+		if ( empty( $eventDataSourceID ) OR !is_string( $eventDataSourceID ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is empty or not string."  );
+			return array( FALSE, "ERROR: eventDataSourceID  is empty or not string.");;
+		}
+
+		#  data_array Empty test;
+		if ( empty( $eventDataArray ) OR !is_array( $eventDataArray ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray is empty or not array."  );
+			return array( FALSE, "ERROR: eventDataArray is empty or not array.");
+		}
+
+		# Nested array and sanitize array ||convert array to json;
+		foreach ( $eventDataArray as $key => $value ) { 
+			if( is_array( $value ) OR is_object( $value )  ) {
+				$this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string!" );
+				$eventDataArray[$key] = json_encode( $value );
+			} else {
+				$eventDataArray[$key] = strip_tags( $value );
+			}
+		}
+
+		# Token Task Ends 
+		$emailAutomatons  = get_posts( array(
+			'post_type'   	 => 'automail',
+			'post_status' 	 => 'publish',
+			'posts_per_page' => -1
+		));
+
+		if ( empty( $emailAutomatons ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "WARNING: no mail automation saved in the dataBase." );
+			return  array( FALSE, "WARNING: no mail automation saved in the dataBase.");
+		}
+
+		foreach ( $emailAutomatons as  $emailAutomaton ) {
+			# if there is a Active Automation 
+			if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $eventDataSourceID ) {
+				# Preparing Email body Content 
+				# Looping data array and add [] to keys AS you know bracket added for placeholder 
+				$bracketedKeysValue = array();
+				
+				foreach( $eventDataArray as $key => $value ){
+					$bracketedKeysValue[ "[". $key."]" ] =  $value;
+				}
+				# Change The placeHolder 
+				$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue );
+				
+				# ===========================================================================================
+				# preparing Email Address sending 
+				# Getting post meta Data of receivers 
+				$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE );
+				# Check and Balance 
+				if( is_array( $mailReceiver ) AND !empty( $mailReceiver ) ) {
+					# Empty array Holders.
+					$roleUsersEmails 	 = array();
+					$eventSourceEmail 	 = array();
+					$usersEmail 		 = array();
+					$validEmailAddresses = array();
+
+					# User role Holder;
+					if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ) {
+						# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
+						$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );  // **** there should be an error when there is no UserRole; so handel it if not empty()
+						$roles = array();
+						foreach ($userRoles as $role ) {
+							$roles[] = str_replace( "userRole_", "", $role );
+						}
+						
+						# Get all the Email address of every user role 
+						# Preparing query 
+						$args = array(
+							'role__in' =>  $roles,
+							'fields'   =>  array( 'ID', 'display_name', 'user_email' ),
+							'orderby'  => 'ID',
+							'order'    => 'ASC'
+						);
+						# getting user
+						$users = get_users( $args );
+						
+						# getting the Email addresses 
+						if( $users ){
+							foreach ($users as $user) {
+								$roleUsersEmails[ ] = $user->user_email;
+							}
+						}
+						# removing duplicates
+						$roleUsersEmails = array_unique( $roleUsersEmails );
+					} else {
+						$this->automail_log( get_class($this), __METHOD__, "101", "User role is empty or False automail_userRoles() func is not working!" ); 
+					}
+
+					# Get Event source
+					$eventSourceReceiver = array_intersect( array_keys( $eventDataArray ), $mailReceiver );
+
+					# get value from Event Source || also Check Valid
+					if( !empty( $eventSourceReceiver ) ){
+						foreach ($eventSourceReceiver as $value) {
+							if( isset( $eventDataArray[$value] ) AND  filter_var( $eventDataArray[$value], FILTER_VALIDATE_EMAIL)  ){
+								$eventSourceEmail[] =  $eventDataArray[$value];
+							}
+						}
+					}
+
+					# Getting Users List Email Addresses 
+					foreach ( $mailReceiver as $value ) {
+						if( filter_var( $value, FILTER_VALIDATE_EMAIL) ){
+							$usersEmail[] = $value;
+						}
+					}
+
+					# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
+					$emailAddresses = array_unique(  array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail ) );
+					if( !empty( $emailAddresses ) ){
+						foreach( $emailAddresses as $email ){
+							if( filter_var( $email, FILTER_VALIDATE_EMAIL) ){
+								$validEmailAddresses[] = $email;
+							}
+						}
+					}
+
+					# Sending Email 
+					$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
+					if ( $r ) {
+						# keeping log
+						$this->automail_log( get_class($this), __METHOD__, "101", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+						# return
+						return  array( TRUE, "SUCCESS: email send.");
+					} else {
+						# keeping log
+						$this->automail_log( get_class($this), __METHOD__, "101", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+						# return
+						return  array( FALSE, "ERROR: status_code is empty.");
+					}
+
+				} else {
+					# keeping log
+					$this->automail_log( get_class($this), __METHOD__, "101", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode( array( $eventDataSourceID , $eventDataArray ) ) );
+					return  array( FALSE, "ERROR: Empty email receiver : Check this automation meta :");
+				}
+			}
+		}
+	}
+	# New Code Starts Ends Here 
+	/**
+	 * Register the JavaScript for the admin area.
+	 * @since    1.0.0
+	*/
+	public function automail_userRoles() {
+		# Empty Holder 
+		$userRoles = array();
+
+		# If exist then loop
+		if( function_exists( "get_editable_roles" ) ){
+			foreach ( get_editable_roles() as $key => $valueArray) {
+				if( isset( $valueArray['name'] ) ){
+					$userRoles[ $key ] = $valueArray['name'];
+				}
+			}
+		}
+
+		# Setting the Numbers
+		if( function_exists( "count_users" ) AND isset( count_users()['avail_roles'] ) ){
+			foreach ( count_users()['avail_roles']  as $key => $value) {
+				if( isset( $userRoles[ $key ] ) AND  $value ){
+					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")" ;
+				}
+			}
+		}
+
+		# Adding user role prefix at the begging  keys 
+		$arrayWithPrefix = array();
+		foreach ( $userRoles as $key => $value ) {
+			$arrayWithPrefix["userRole_".$key ] =  $value ;
+		}
+
+		# return
+		if( empty( $arrayWithPrefix ) ){
+			return array( FALSE, "User role is empty." );
+		} else {
+			return array( TRUE, $arrayWithPrefix );
+		}
+	}
+
+
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.

@@ -275,7 +275,6 @@ class Automail_Admin {
 						"filter" 			=> "Filter",
 					);
 
-					
 					// # For Post Meta 
 					// $postsMeta = $this->automail_posts_metaKeys();
 					// if ( $postsMeta[0]  && ! empty( $postsMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
@@ -344,7 +343,6 @@ class Automail_Admin {
 						"filter" 				=> "Filter",
 					);
 
-					
 					// # For page Meta 
 					// $pagesMeta = $this->automail_pages_metaKeys();
 					// if ( $pagesMeta[0]  && ! empty( $pagesMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
@@ -399,7 +397,6 @@ class Automail_Admin {
 			} 
 			# Loop ends Here 
 
-
 			# For Comment Meta 
 			// $commentsMeta = $this->automail_comments_metaKeys();
 			// if ( $commentsMeta[0]  && ! empty( $commentsMeta[1] ) && wpgsi_fs()->can_use_premium_code__premium_only() ){
@@ -411,7 +408,6 @@ class Automail_Admin {
 			// 		}
 			// 	}
 			// }
-
 
 			# Woocommerce 
 			if( in_array('woocommerce/woocommerce.php' , $this->active_plugins) ) {
@@ -833,6 +829,8 @@ class Automail_Admin {
 	public function automail_menu_pages() {
 		# Menu
 		add_menu_page( __( 'autoMail', 'automail' ), __( 'autoMail', 'automail' ), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
+		# Sub-menu 
+		add_submenu_page( 'automail', 'Settings', 'settings','manage_options', 'automail-settings', array( $this, 'automail_settings_view' ) );
 	}
 
 	/**
@@ -882,6 +880,59 @@ class Automail_Admin {
 				echo"</form>";
 			echo"</div>";
 		}
+	}
+
+
+	/**
+	 * Submenu page  view function 
+	 * This is the Submenu page view function 
+	 * @since  1.0.0
+	*/
+	public function automail_settings_view( ) {
+		?>
+			<div class='wrap'>
+				<!-- title -->
+				<h2><?php esc_attr_e( 'autoMail Settings', 'automail' ); ?></h2>
+				<!-- tab nav -->
+				<h2 class="nav-tab-wrapper">
+					<a href="#" class="nav-tab">Email template</a>
+					<a href="#" class="nav-tab nav-tab-active">Logs</a>
+					<a href="#" class="nav-tab">Tab #3</a>
+				</h2>
+				<!-- Container body -->
+				<div id="container">
+					<?php
+						# getting the logs 
+						$automail_log = get_posts( array( 'post_type' => 'automail_log', 'posts_per_page' => -1 ) );
+
+						$i = 1 ;
+						foreach ( $automail_log as $key =>  $log ) {
+							if( $log->post_title == 200 ){
+								echo"<div class='notice notice-success inline'>";
+							} else {
+								echo"<div class='notice notice-error inline'>";
+							}
+							echo"<p><span class='automail-circle'>".$log->ID;
+							echo" .</span>";
+							echo "<code>". $log->post_title ."</code>";
+							echo "<code>";
+							if( isset( $log->post_excerpt ) ){
+								echo"<pre>";
+								echo json_encode($log->post_excerpt)  ;
+								echo"</pre>";
+							}
+							echo "</code>";
+							echo $log->post_content;
+							echo" <code>". $log->post_date  ."</code>";
+							echo"</p>";
+							echo"</div>";
+							$i++ ;
+						}
+
+					?>
+				</div>
+			</div>
+		<?php 
 	}
 
 	/**
@@ -1627,11 +1678,11 @@ class Automail_Admin {
 	 * @param     	string    	$eventDataSource       	event source, which Plugin or part generate the event 
 	 * @param     	string    	$eventDataSourceID      This is a Combination between $eventDataSource  and  name or id of that event 
 	 * @param     	array    	$eventDataArray      	Event data array with key value pair.
-	 * @param      	string    	$automationID    		Database id of that Automation.
+	 * @param      	string    	$automationID    		Database id of that Automation. || ERROR is another thing
 	 * 
 	 * @return 	   	array 		Status with first value is bool and send is data.
 	*/
-	public function automail_event( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID ){
+	public function automail_event( $eventDataSource, $eventDataSourceID, $eventDataArray, $automationID = '' ){
 		# data_source Empty test;
 		if ( empty( $eventDataSource ) ){
 			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: eventDataSource  is Empty." );
@@ -1639,8 +1690,8 @@ class Automail_Admin {
 		}
 
 		# event_name Empty test;
-		if ( empty( $eventDataSourceID ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is Empty."  );
+		if ( empty( $eventDataSourceID ) OR !is_string( $eventDataSourceID ) ){
+			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is empty or not string."  );
 			return FALSE;
 		}
 
@@ -1650,18 +1701,16 @@ class Automail_Admin {
 			return FALSE;
 		}
 
-		#  automationID Empty test;
-		if ( empty( $automationID )  OR  ! is_int( $automationID ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: automationID is empty or not INT."  );
-			return FALSE;
-		}
-
 		# Token Task Ends 
 		$emailAutomatons  = get_posts( array(
 			'post_type'   	 => 'automail',
 			'post_status' 	 => 'publish',
 			'posts_per_page' => -1
 		));
+
+		if( empty( $emailAutomatons ) ){
+			return  array( FALSE, "ERROR: no mail automation saved in the dataBase.");
+		}
 
 		foreach ( $emailAutomatons as  $emailAutomaton ) {
 			# if there is a Active Automation 
@@ -1819,3 +1868,4 @@ class Automail_Admin {
 # Trello API key
 #  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
 #  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
+# AlphaBay.com +++++
