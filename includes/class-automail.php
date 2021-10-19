@@ -89,7 +89,6 @@ class Automail {
 	 * @access   private
 	*/
 	private function set_locale() {
-
 		$plugin_i18n = new Automail_i18n();
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
@@ -124,10 +123,6 @@ class Automail {
 		$this->loader->add_action( 'forminator_custom_form_submit_field_data', 	$automail_events, 'automail_forminator_custom_form_submit_field_data', 100, 2  );	# forminator custom form submit field data		
 		# for Testing 
 		$this->loader->add_action( 'admin_notices',  							$automail_events, 'automail_event_notices');
-		
-		#------------------------------------------------------------------------------------------------------------
-		#---------------------------------------------- New Class ---------------------------------------------------
-		#------------------------------------------------------------------------------------------------------------
 
 		$plugin_admin = new Automail_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', 			$plugin_admin, 'enqueue_styles' );
@@ -137,7 +132,6 @@ class Automail {
 		$this->loader->add_action( 'admin_notices', 					$plugin_admin, 'automail_admin_notice' );
 		# Save Submitted Form 
 		$this->loader->add_action( 'admin_post_automail_saveAutomation',$plugin_admin, 'automail_saveAutomation' );
-		$this->loader->add_action( 'automail_event',  					$plugin_admin, 'automail_event', 10, 4 );	
 	}
 
 	/**

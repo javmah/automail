@@ -47,7 +47,7 @@ class Automail_Events {
 		$time_format 			= get_option( 'time_format' );
 		$this->Time			  	= ( $date_format ) ? current_time( $time_format  ) : current_time( 'g:i a' );
 		# Active Plugins 
-		$this->active_plugins 	= get_option( 'active_plugins');			# Checking Active And Inactive Plugin 
+		$this->active_plugins 	= get_option( 'active_plugins');  # Checking Active And Inactive Plugin 
 	}
 	# construct Ends Here 
 
@@ -55,60 +55,11 @@ class Automail_Events {
 	* For Testing purpose 
 	*/
 	public function automail_event_notices() {
-		echo "<pre>";
+		// echo "<pre>";
 
-			// error_log( print_r( $data , true ) );
-			// "data_array":{"8":"{"first":"javed","last":"mahmud"}",
-			// "9":"javmah@gmail.com","2":"Single Line Text","7":"13","3":"Paragraph Text",
-			// "4":"Second Choice","5":"First Choice","6":"["First Choice"]",
-			// "10":"4","automail_submitted_date":"October 19, 2021","automail_submitted_time":"2:07 am"},
-			// "id":"28717"} 
+			
 
-			// [19-Oct-2021 07:35:03 UTC] ["wpforms","wpforms_28717",{"8":" javed mahmud","9":"javmah@gmail.com","2":"Single Line Text","7":"13","3":"Paragraph Text","4":"Second Choice","5":"First Choice","6":"['First Choice']","10":"4","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:35 pm"},28717]
-			// [19-Oct-2021 07:36:42 UTC] ["wpforms","wpforms_28717",{"8":{"first":"javed","last":"mahmud"},"9":"javmah@gmail.com","2":"Single Line Text","7":"420","3":"Paragraph Text","4":"Third Choice","5":"Third Choice","6":["Third Choice"],"10":"3","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:36 pm"},"28717"]
-			// [19-Oct-2021 07:39:37 UTC] ["wpforms","wpforms_28717",{"8":{"first":"javed","last":"mahmud"},"9":"javmah@gmail.com","2":"Single Line Text","7":"420","3":"Paragraph Text","4":"Third Choice","5":"Third Choice","6":["Third Choice"],"10":"3","automail_submitted_date":"October 19, 2021","automail_submitted_time":"1:39 pm"},"28717"]
-						
-			// $fields 		 =  28717;
-			// $form_data["id"] =  28717;
-			// $entry["fields"] = array(
-			// 	"8" => array("first" => "javed","last" => "mahmud"),
-			// 	"9" => "javmah@gmail.com",
-			// 	"2" => "Single Line Text",
-			// 	"7" => "13",
-			// 	"3" =>  "Paragraph Text",
-			// 	"4" => array("Third Choice"),
-			// 	"5" => "First Choice",
-			// 	"6" => array("First Choice"),
-			// 	"10" => "4",
-			// 	"automail_submitted_date" => "October 19, 2021",
-			// 	"automail_submitted_time" => "2:07 am"
-			// );
-			// $entry["id"] = 28717;
-
-
-			// $r = $this->automail_wpforms_process( $fields, $entry, $form_data );
-			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
-			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]);
-			// print_r($r);
-
-			$data = array(
-				"8" => array("first" => "javed","last" => "mahmud"),
-				"9" => "javmah@gmail.com",
-				"2" => "Single Line Text",
-				"7" => "13",
-				"3" =>  "Paragraph Text",
-				"4" => array("Third Choice"),
-				"5" => "First Choice",
-				"6" => array("First Choice"),
-				"10" => "4",
-				"automail_submitted_date" => "October 19, 2021",
-				"automail_submitted_time" => "2:07 am"
-			);
-
-			$r = $this->automail_send_mail( "wpforms_28717",  $data  );
-			print_r( $r );
-
-		echo "</pre>";
+		// echo "</pre>";
 	}
 
 	/**
@@ -182,7 +133,7 @@ class Automail_Events {
 				
 			# Action
 			if ( $user_id ){
-				$r = $this->automail_eventBoss('wp', 'wordpress_newUser', $user_data, $user_id );
+				$r = $this->automail_send_mail( 'wordpress_newUser', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "701", "Error: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
 			}
@@ -260,7 +211,7 @@ class Automail_Events {
 
 			# Action
 			if ( $user_id && $user->ID  ) {
-				$r = $this->automail_eventBoss('wp', 'wordpress_UserProfileUpdate', $user_data, $user_id );
+				$r = $this->automail_send_mail( 'wordpress_UserProfileUpdate', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "703", "Error: wordpress_UserProfileUpdate fired but no User ID . ".json_encode( array( $user_id, $user->ID, $user_data ) ) );
 			}
@@ -340,7 +291,7 @@ class Automail_Events {
 
 			# Action
 			if ( $user_id && $user->ID ){
-				$r = $this->automail_eventBoss('wp', 'wordpress_deleteUser', $user_data, $user_id );
+				$r = $this->automail_send_mail( 'wordpress_deleteUser', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "705", "Error: wordpress_deleteUser fired but no User ID . ". json_encode( array( $user_id, $user->ID,  $user_data ) ) );
 			}
@@ -364,26 +315,26 @@ class Automail_Events {
 			$user_data 							= array(); 
 			$userMeta							= get_user_meta( $user->ID );
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 			:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 			:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 			:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  			:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
+			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 				?  $user->ID		 	:	"";
+			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 		?  $user->user_login 	:	"";
+			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 		?  $user->first_name 	:	"";
+			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 			?  $user->last_name  	:	"";
+			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 			?  $user->nickname		:	"";
+			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 		?  $user->display_name	:	"";
 			$user_data['eventName'] 			= "New User";
 			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered 		:  	"";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	: 	"";  
+			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 		 ?  $user->user_email 	 		:	"";
+			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 			 ? $user->user_url		 		:	"";
+			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 		 ? $user->user_login		 	:	"";
+			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))	 ? $user->user_registered 		:  	"";
+			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 			 ? implode (", ", $user->roles) : 	"";  
 			#
 			$user_data['userLoginTime'] 		= $this->Time;
 			$user_data['userLoginDate'] 		= $this->Date;
 			#
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time		:	'';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time	  :	'';
+			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date	  :	'';
 			# New Code Starts From Here 
 			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
 			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
@@ -423,7 +374,7 @@ class Automail_Events {
 			$user_data = array_merge( $user_data, $metaOutPut);
 			# User Meta Data Ends 
 			# Action,  Sending Data to Event Boss
-			$r = $this->automail_eventBoss('wp', 'wordpress_userLogin', $user_data, $user->ID );
+			$r = $this->automail_send_mail( 'wordpress_userLogin', $user_data );
 		} else {
 			$this->automail_log( get_class($this), __METHOD__, "707", "Error: user->ID Not Exist OR get_user_meta is not Exist" );
 		}
@@ -500,7 +451,7 @@ class Automail_Events {
 
 			# Action
 			if ( $user->ID ){
-				$r = $this->automail_eventBoss('wp', 'wordpress_userLogout', $user_data, $user->ID );
+				$r = $this->automail_send_mail( 'wordpress_userLogout', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "708", "Error:  wordpress_userLogout fired but no User ID . ". json_encode( array( $user->ID, $user_data ) ) );
 			}
@@ -564,24 +515,24 @@ class Automail_Events {
 		$post_data["post_modified_date"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'd', strtotime( "$post->post_modified" ) )	:	'';
 		$post_data["post_modified_time"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'H:i', strtotime( "$post->post_modified" ) )	:	'';
 		# New Code Ends Here
-		$post_data['post_content'] 			= ( isset( $post->post_content ) ) ? 	$post->post_content			:	'';
-		$post_data['post_excerpt'] 			= ( isset( $post->post_excerpt ) ) ? 	$post->post_excerpt			:	'';
-		$post_data['post_status'] 			= ( isset( $post->post_status ) ) ? 	$post->post_status			:	'';
+		$post_data['post_content'] 			= ( isset( $post->post_content ) ) 	? 	$post->post_content			:	'';
+		$post_data['post_excerpt'] 			= ( isset( $post->post_excerpt ) ) 	? 	$post->post_excerpt			:	'';
+		$post_data['post_status'] 			= ( isset( $post->post_status ) ) 	? 	$post->post_status			:	'';
 		$post_data['comment_status']		= ( isset( $post->comment_status )) ? 	$post->comment_status		:	'';
-		$post_data['ping_status'] 			= ( isset( $post->ping_status ) ) ? 	$post->ping_status			:	'';
+		$post_data['ping_status'] 			= ( isset( $post->ping_status ) ) 	? 	$post->ping_status			:	'';
 		$post_data['post_password'] 		= ( isset( $post->post_password ) ) ? 	$post->post_password		:	'';
-		$post_data['post_name'] 			= ( isset( $post->post_name ) ) ? 		$post->post_name			:	'';
-		$post_data['to_ping'] 				= ( isset( $post->to_ping ) ) ? 		$post->to_ping				:	'';
-		$post_data['pinged'] 				= ( isset( $post->pinged ) ) ? 			$post->pinged				:	'';
+		$post_data['post_name'] 			= ( isset( $post->post_name ) ) 	? 	$post->post_name			:	'';
+		$post_data['to_ping'] 				= ( isset( $post->to_ping ) ) 		? 	$post->to_ping				:	'';
+		$post_data['pinged'] 				= ( isset( $post->pinged ) ) 		? 	$post->pinged				:	'';
 		$post_data['post_modified'] 		= ( isset( $post->post_modified ) ) ?	$post->post_modified		:	'';
 		$post_data['post_modified_gmt']		= ( isset( $post->post_modified_gmt ))? $post->post_modified_gmt	:	'';
-		$post_data['post_parent'] 			= ( isset( $post->post_parent ) ) ? 	$post->post_parent			:	'';
-		$post_data['guid']  				= ( isset( $post->guid ) ) ? 			$post->guid					:	'';
-		$post_data['menu_order'] 			= ( isset( $post->menu_order ) ) ? 		$post->menu_order 			:	'';
-		$post_data['post_type'] 			= ( isset( $post->post_type ) ) ? 		$post->post_type			:	'';		
+		$post_data['post_parent'] 			= ( isset( $post->post_parent ) ) 	? 	$post->post_parent			:	'';
+		$post_data['guid']  				= ( isset( $post->guid ) ) 			? 	$post->guid					:	'';
+		$post_data['menu_order'] 			= ( isset( $post->menu_order ) ) 	? 	$post->menu_order 			:	'';
+		$post_data['post_type'] 			= ( isset( $post->post_type ) ) 	? 	$post->post_type			:	'';		
 		$post_data['post_mime_type'] 		= ( isset( $post->post_mime_type )) ? 	$post->post_mime_type 		:	'';
 		$post_data['comment_count'] 		= ( isset( $post->comment_count ) ) ? 	$post->comment_count  		:	'';
-		$post_data['filter'] 				= ( isset( $post->filter ) ) ?			$post->filter 				:	'';
+		$post_data['filter'] 				= ( isset( $post->filter ) ) 		?	$post->filter 				:	'';
 
 		# Post Meta Data portion Starts
 		# empty Holder array 
@@ -627,7 +578,6 @@ class Automail_Events {
 		$post_data = array_merge( $post_data, $metaOutPut );
 		# Post Meta Data portion Ends 
 
-
 		# if Post type is Post
 		if ( $post->post_type == 'post' ) {
 			# getting Time Difference 
@@ -638,9 +588,8 @@ class Automail_Events {
 			# New Post,
 			if (  $post->post_status == 'publish' AND $post_time_diff <= 1   ) {
 				$post_data['eventName'] = "New Post";
-				
 				# Action
-				$r = $this->automail_eventBoss( 'wp', 'wordpress_newPost', $post_data, $post->ID );
+				$r = $this->automail_send_mail( 'wordpress_newPost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing the post from new post. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -648,9 +597,8 @@ class Automail_Events {
 			# Updated post 
 			if (  $post->post_status == 'publish' AND $post_time_diff > 1 ) {
 				$post_data['eventName'] = "Posts Edited";
-				
 				# Action
-				$r = $this->automail_eventBoss('wp', 'wordpress_editPost', $post_data, $post->ID );
+				$r = $this->automail_send_mail( 'wordpress_editPost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -658,7 +606,7 @@ class Automail_Events {
 		    # Post Is trash  || If Post is Trashed This Will fired
 		    if ( $post->post_status == 'trash') {
 				$post_data['eventName'] = "Trash";
-				$r = $this->automail_eventBoss( 'wp', 'wordpress_deletePost', $post_data, $post->ID );
+				$r = $this->automail_send_mail( 'wordpress_deletePost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing the post from trash. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -668,7 +616,7 @@ class Automail_Events {
 		if ( $post->post_type == 'page' ) {
 			$post_data['eventName'] = "New Page";
 			# Action
-			$r = $this->automail_eventBoss('wp' ,'wordpress_page' ,$post_data ,$post->ID );
+			$r = $this->automail_send_mail( 'wordpress_page', $post_data );
 			# event Log for Trash
 			$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing page. ". json_encode( array(  $post_id, $post, $update, $post_data  ) )  );
 		}
@@ -686,14 +634,14 @@ class Automail_Events {
 				if ( $post_time_diff < 5 ) {
 					$post_data['eventName'] = 'cpt_new_'.$post->post_type ;
 					# Action
-					$r = $this->automail_eventBoss('cpt', 'cpt_new_'.$post->post_type , $post_data, $post->ID );
+					$r = $this->automail_send_mail( 'cpt_new_'.$post->post_type , $post_data );
 					# event Log for Trash
 					$this->automail_log( get_class( $this ), __METHOD__,"200", "Success: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 				
 				} else {
 					$post_data['eventName'] = 'cpt_update_'.$post->post_type ;
 					# Action
-					$r = $this->automail_eventBoss('cpt',  'cpt_update_'.$post->post_type , $post_data, $post->ID );
+					$r = $this->automail_send_mail( 'cpt_update_'.$post->post_type , $post_data );
 					# event Log for Trash
 					$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 				}
@@ -702,7 +650,7 @@ class Automail_Events {
 			if ( $post->post_status == 'trash' ) {
 				$post_data['eventName'] = 'cpt_delete_'.$post->post_type;
 				# Action
-				$r = $this->automail_eventBoss('cpt',  'cpt_delete_'.$post->post_type , $post_data, $post->ID );
+				$r = $this->automail_send_mail( 'cpt_delete_'.$post->post_type , $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "Success: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -739,10 +687,10 @@ class Automail_Events {
 		$Data['site_time'] 				=  ( isset( $this->Time ) ) ? 	$this->Time		: '';
 		$Data['site_date'] 				=  ( isset( $this->Date ) ) ? 	$this->Date		: '';
 		# New Code Starts From Here
-		$Data["year_of_comment"]		= get_comment_date(	"Y", 	$commentID);
-		$Data["month_of_comment"]		= get_comment_date(	"m", 	$commentID);
-		$Data["date_of_comment"]		= get_comment_date(	"d", 	$commentID);
-		$Data["time_of_comment"]		= get_comment_date(	"H:t", 	$commentID);
+		$Data["year_of_comment"]		= 	get_comment_date(	"Y", 	$commentID);
+		$Data["month_of_comment"]		= 	get_comment_date(	"m", 	$commentID);
+		$Data["date_of_comment"]		= 	get_comment_date(	"d", 	$commentID);
+		$Data["time_of_comment"]		=	get_comment_date(	"H:t", 	$commentID);
 		# New Code Ends Here
 		$Data["filtered"]  				=  ( isset( $commentData["filtered"] )) 	? 		$commentData["filtered"]			: '';
 		$Data["comment_approved"]  		=  ( isset( $commentData["comment_approved"] ) &&   $commentData["comment_approved"] )  ? "True" : "False";
@@ -782,7 +730,7 @@ class Automail_Events {
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
 			$this->automail_log( get_class($this), __METHOD__,"711", "Error:  commentID or commentData is empty !" );
 		} else {
-			$r = $this->automail_eventBoss( 'wp', 'wordpress_comment', $Data, $commentID );	
+			$r = $this->automail_send_mail( 'wordpress_comment', $Data );
 		}
 	}
 
@@ -860,7 +808,7 @@ class Automail_Events {
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
 			$this->automail_log( get_class($this), __METHOD__,"713", "Error: commentID or commentData is empty !" );
 		}else{
-			$r = $this->automail_eventBoss( 'wp', 'wordpress_edit_comment', $Data, $commentID );	
+			$r = $this->automail_send_mail( 'wordpress_edit_comment', $Data );
 		}
 	}
 
@@ -887,20 +835,20 @@ class Automail_Events {
 		$product_data['date_created'] 				= 	( method_exists( $product, 'get_date_created' )  	&& is_object( $product->get_date_created() )) 		?  	$product->get_date_created()->date("F j, Y, g:i:s A T")  : "--";
 		$product_data['date_modified'] 				=   ( method_exists( $product, 'get_date_modified' ) 	&& is_object( $product->get_date_modified() )) 		?  	$product->get_date_modified()->date("F j, Y, g:i:s A T") : "--";
 		# site Current Time
-		$product_data['site_time'] 					= ( isset( $this->Time ) ) ? 	$this->Time		:	'';
-		$product_data['site_date'] 					= ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+		$product_data['site_time'] 					= 	( isset( $this->Time ) ) ? 	$this->Time	 :	'';
+		$product_data['site_date'] 					= 	( isset( $this->Date ) ) ? 	$this->Date	 :	'';
 		# New Code Ends Here
 
 		# New Code Starts From Here
-		$product_data["date_created_year"]			= ( method_exists( $product, 'get_date_created' )  && ! empty($product->get_date_created()) 	&&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("Y")  	: "";
-		$product_data["date_created_month"]			= ( method_exists( $product, 'get_date_created' )  && ! empty($product->get_date_created()) 	&&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("m")  	: "";
-		$product_data["date_created_date"]			= ( method_exists( $product, 'get_date_created' )  && ! empty($product->get_date_created()) 	&&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("d")  	: "";
-		$product_data["date_created_time"]			= ( method_exists( $product, 'get_date_created' )  && ! empty($product->get_date_created())		&&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("H:i")  	: "";
+		$product_data["date_created_year"]			= 	( method_exists( $product, 'get_date_created' )  	&& ! empty($product->get_date_created())  &&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("Y")  	: "";
+		$product_data["date_created_month"]			= 	( method_exists( $product, 'get_date_created' )  	&& ! empty($product->get_date_created())  &&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("m")  	: "";
+		$product_data["date_created_date"]			= 	( method_exists( $product, 'get_date_created' )  	&& ! empty($product->get_date_created())  &&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("d")  	: "";
+		$product_data["date_created_time"]			= 	( method_exists( $product, 'get_date_created' )  	&& ! empty($product->get_date_created())  &&	is_string( $product->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$product->get_date_created()->date("H:i")  	: "";
 		# for Two Different Kind Of Date Set 
-		$product_data["date_modified_year"]			= ( method_exists( $product, 'get_date_modified' )  && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ?	$product->get_date_modified()->date("Y")  	: "";
-		$product_data["date_modified_month"]		= ( method_exists( $product, 'get_date_modified' )  && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("m")  	: "";
-		$product_data["date_modified_date"]			= ( method_exists( $product, 'get_date_modified' )  && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("d")  	: "";
-		$product_data["date_modified_time"]			= ( method_exists( $product, 'get_date_modified' )  && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("H:i")	: "";
+		$product_data["date_modified_year"]			= 	( method_exists( $product, 'get_date_modified' )  	&& ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ?	$product->get_date_modified()->date("Y")  	: "";
+		$product_data["date_modified_month"]		= 	( method_exists( $product, 'get_date_modified' )  	&& ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("m")  	: "";
+		$product_data["date_modified_date"]			= 	( method_exists( $product, 'get_date_modified' )    && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("d")  	: "";
+		$product_data["date_modified_time"]			=   ( method_exists( $product, 'get_date_modified' )    && ! empty($product->get_date_modified()) &&	is_string( $product->get_date_modified()->date("F j, Y, g:i:s A T")) )  ? 	$product->get_date_modified()->date("H:i")	: "";
 
 		$product_data['status'] 					=   ( method_exists( $product, 'get_status' )   	 	&& is_string( $product->get_status())) 				?  	$product->get_status()  		 	: "--";
 		$product_data['featured'] 					=   ( method_exists( $product, 'get_featured' ) 	 	&& is_bool(   $product->get_featured() )) 			?  	$product->get_featured()      		: "--";
@@ -947,7 +895,6 @@ class Automail_Events {
 		$product_data['gallery_image_ids'] 			=   ( method_exists( $product, 'get_gallery_image_ids') && is_array( $product->get_gallery_image_ids())) 	? 	implode(", ", $product->get_gallery_image_ids()) 	: "--";	
 		$product_data['get_attachment_image_url'] 	=  	((method_exists( $product, 'get_image_id')			AND function_exists('wp_get_attachment_image_url') ) AND !empty( $product->get_image_id() ) )  ?  wp_get_attachment_image_url( $product->get_image_id() )	:	"--";
 		#
-
 		# Post Meta Data portion Starts
 		# Empty Holder array 
 		$metaOutPut = array();	
@@ -987,17 +934,18 @@ class Automail_Events {
 			$product_data['sale_price'] 	= wp_strip_all_tags( $_POST['_sale_price'] );
 			$product_data['eventName'] 		= "New Product";
 			# Action
-			$r = $this->automail_eventBoss('Woocommerce', 'wc-new_product', $product_data, $post->ID );
+			$r = $this->automail_send_mail( 'wc-new_product', $product_data );
+
 		} elseif ( $new_status == 'trash' ) {
 			# Delete  Product ;
 			$product_data['eventName'] = "Trash";
 			# Action
-			$r = $this->automail_eventBoss('Woocommerce', 'wc-delete_product', $product_data, $product->ID );
+			$r = $this->automail_send_mail( 'wc-delete_product', $product_data );
 		} else {
 			# Update 
 			$product_data['eventName']  = "Update Product";
 			# Action
-			$r = $this->automail_eventBoss('Woocommerce', 'wc-edit_product', $product_data, $post->ID );
+			$r = $this->automail_send_mail( 'wc-edit_product', $product_data );
 		}
 	}
 
@@ -1040,7 +988,7 @@ class Automail_Events {
 		$order_data['currency'] 					= ( method_exists( $order, 'get_currency' ) 	  		&& 	is_string( $order->get_currency()  ))		? 	$order->get_currency() 			  : "";
 		$order_data['discount_tax'] 				= ( method_exists( $order, 'get_discount_tax' )   		&& 	is_string( $order->get_discount_tax() ))	?	$order->get_discount_tax() 		  : "";
 		$order_data['discount_total'] 				= ( method_exists( $order, 'get_discount_total' ) 		&& 	is_string( $order->get_discount_total() ))	? 	$order->get_discount_total()	  : "";
-		$order_data['fees'] 						= ( method_exists( $order, 'get_fees' ) 		  		&&  ! empty( $order->get_fees() ) && is_array( $order->get_fees()) ) 			?   json_encode( $order->get_fees()) 	:   "";
+		$order_data['fees'] 						= ( method_exists( $order, 'get_fees' ) 		  		&&  ! empty( $order->get_fees() ) && is_array( $order->get_fees()) ) 	?   json_encode( $order->get_fees()) 	:   "";
 		$order_data['shipping_method'] 				= ( method_exists( $order, 'get_shipping_method' )		&& 	is_string( $order->get_shipping_method() ))	? 	$order->get_shipping_method() 	  :	"";
 		$order_data['shipping_tax'] 				= ( method_exists( $order, 'get_shipping_tax' ) 		&& 	is_string( $order->get_shipping_tax()  ))	? 	$order->get_shipping_tax() 		  :	"";
 		$order_data['shipping_total'] 				= ( method_exists( $order, 'get_shipping_total' ) 		&& 	is_string( $order->get_shipping_total()  ))	? 	$order->get_shipping_total()	  :	"";
@@ -1223,8 +1171,8 @@ class Automail_Events {
 		# Joining the Product meta to Order data 
 		$order_data = array_merge( $order_data, $itemMetaKeyValue );	
 		# Order Item process Ends
-		$order_data['item_count'] 			    	=  ( method_exists( $order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 			? 	$order->get_item_count() : "";
-		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items' ) 	&& ! empty($order->get_downloadable_items())&&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
+		$order_data['item_count'] 			    	=  ( method_exists( $order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 	? 	$order->get_item_count() : "";
+		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items') 	&& ! empty($order->get_downloadable_items()) &&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
 		#
 		$order_data['date_created'] 				=  ( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T") ) ) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
 		$order_data['date_modified'] 				=  ( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) ) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
@@ -1346,7 +1294,7 @@ class Automail_Events {
 		if ( empty( $order_id ) ){
 			$this->automail_log( get_class($this), __METHOD__,"714", "Error: Order is empty !" );
 		} else {
-			$r = $this->automail_eventBoss('Woocommerce', 'wc-' . $this_status_transition_to ,$order_data, $order_id );
+			$r = $this->automail_send_mail( 'wc-' . $this_status_transition_to, $order_data );
 		}
 	}
 
@@ -1388,7 +1336,7 @@ class Automail_Events {
 		$order_data['shipping_total'] 				= ( method_exists( $order, 'get_shipping_total' ) 		&& 	is_string( $order->get_shipping_total()  ))		? 	$order->get_shipping_total()			:	"";
 		$order_data['subtotal'] 					= ( method_exists( $order, 'get_subtotal' ) 			&& 	is_float( $order->get_subtotal()  ))			? 	$order->get_subtotal()					:	"";
 		
-		$order_data['subtotal_to_display'] 			= ( method_exists( $order, 'get_subtotal_to_display') 	&& 	is_string( $order->get_subtotal_to_display()))? $order->get_subtotal_to_display() 			: 	"";
+		$order_data['subtotal_to_display'] 			= ( method_exists( $order, 'get_subtotal_to_display') 	&& 	is_string( $order->get_subtotal_to_display()))  ? $order->get_subtotal_to_display() 		: 	"";
 		$order_data['tax_totals'] 					= ( method_exists( $order, 'get_tax_totals' ) 			&&  ! empty($order->get_tax_totals()) 	&& is_array( $order->get_tax_totals())) ?  json_encode( $order->get_tax_totals()) 	: ""; 
 		$order_data['taxes'] 						= ( method_exists( $order, 'get_taxes' ) 				&&  ! empty($order->get_taxes()) 		&& is_array( $order->get_taxes()) ) 	?  json_encode( $order->get_taxes()) 		: "";  
 		$order_data['total'] 						= ( method_exists( $order, 'get_total' ) 				&& 	is_string( $order->get_total() ))			 	 ?  $order->get_total() 		 			:	"";
@@ -1687,7 +1635,7 @@ class Automail_Events {
 		if ( empty( $order_id ) ){
 			$this->automail_log( get_class($this), __METHOD__,"715", "Error: Order is empty !" );
 		} else {
-			$r = $this->automail_eventBoss( 'Woocommerce', $order_data['status'], $order_data, $order_id );
+			$r = $this->automail_send_mail( $order_data['status'], $order_data );
 		}
 	}
 
@@ -2001,7 +1949,6 @@ class Automail_Events {
 			foreach ( $metaKeys[1]  as $key => $value ){
 				$metaOutPut[ $value ] = "--";
 			}
-
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach ( $orderMetaKeyValue  as $oneArray ) {
 				if ( is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
@@ -2024,7 +1971,7 @@ class Automail_Events {
 		if ( empty( $order_id ) ){
 			$this->automail_log( get_class($this), __METHOD__,"716", "Error: Order is empty !" );
 		} else {
-			$r = $this->automail_eventBoss('Woocommerce', 'wc-new_order', $order_data, $order_id );
+			$r = $this->automail_send_mail(  'wc-new_order', $order_data );
 		}
 	}
 
@@ -2039,8 +1986,6 @@ class Automail_Events {
 		$submission  = WPCF7_Submission::get_instance();
 		$posted_data = $submission->get_posted_data();
 
-		
-
 		# if There is a integration on this Form Submission
 		if ( ! empty( $id ) ) {
 			# extra fields values
@@ -2048,14 +1993,13 @@ class Automail_Events {
 			$posted_data['automail_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date  :	'';
 			$posted_data['automail_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time  :	'';
 			# check and balance
-			if ( isset( $id  ) && !empty( $id  ) ) {
-				# Calling Event Boss 
-				$r = $this->automail_eventBoss( 'cf7', 'cf7_' . $id , $posted_data, $id  );
+			if ( !empty( $id  ) ) {
+				# Sending data to mail function
+				$r = $this->automail_send_mail( 'cf7_'.$id , $posted_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"717", "Error: Contact form 7 Form Submitted But No Form ID !" );
-			} 
+			}
 		}
-
 	}
 
 	/**
@@ -2074,13 +2018,13 @@ class Automail_Events {
 			}
 			# extra fields value
 			# Site date and time 
-			$data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-			$data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+			$data['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date	 :	'';
+			$data['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time	 :	'';
 
 			# Check And Balance 
-			if ( ! empty( $form_data )  AND  isset(  $form_data["form_id"] ) ) {
+			if ( ! empty( $form_data )  AND  ! empty(  $form_data["form_id"] ) ) {
 				# Action
-				$r = $this->automail_eventBoss( 'ninja', 'ninja_' . $form_data["form_id"], $data, $form_data["form_id"] );
+				$r = $this->automail_send_mail( 'ninja_' . $form_data["form_id"] , $data  );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"718", "Error: ninja Form entries are empty Or form_id is empty!" );
 			}
@@ -2105,19 +2049,17 @@ class Automail_Events {
 				foreach ( $entrees as $entre ) {
 					$dataArray[$entre->field_id] = $entre->meta_value;
 				}
-				# extra fields value
-				# Site date and time 
-				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
-				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
+				# extra fields value # Site date and time 
+				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date	: '';
+				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time	: '';
 
 				# Check And Balance 
 				if ( ! empty( $entry_id ) ){
-					# Action
-					$r = $this->automail_eventBoss( 'formidable', 'frm_'.$form_id, $dataArray, $form_id );
+					# Sending data to mail function.
+					$r = $this->automail_send_mail( 'frm_'.$form_id, $dataArray );
 				} else {
 					$this->automail_log( get_class($this), __METHOD__,"720", "Error: formidable Form entries ID is empty!" );
 				}
-					
 			} else {
 				$this->automail_log( get_class( $this ), __METHOD__,"721", "Error: formidable frm_item_metas table is Not Exist!" );
 			}
@@ -2132,74 +2074,21 @@ class Automail_Events {
 	 * @param      array    $form_data     	data_array
 	*/
 	public function automail_wpforms_process( $fields, $entry, $form_data ) {
-
 		$this->automail_log( get_class($this), __METHOD__,"111", "TESTING: fields : ". json_encode(  $fields ));
 		$this->automail_log( get_class($this), __METHOD__,"112", "TESTING: entry : ". json_encode(  $entry ));
 		$this->automail_log( get_class($this), __METHOD__,"113", "TESTING: form_data :". json_encode(  $form_data ));
 		# if There is a integration on this Form Submission
 		if ( isset( $form_data["id"]  ) ) {
-			# extra fields value
-			
 			# Site date and time 
 			$entry["fields"]['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'EMPTY';
 			$entry["fields"]['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'EMPTY';
-
-			// $r = $this->automail_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
-			$r = $this->automail_eventBoss('wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]);
-
-			// $r = $this->wpgsi_eventBoss('wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]);
-
+			# Sending data to mail function
+			$r = $this->automail_send_mail( 'wpforms_'.$entry["id"], $entry["fields"]  );
 		} else {
 			$this->automail_log( get_class($this), __METHOD__,"723", "Error: wpforms Form entries are empty Or form_id is empty!" );
 		}
-
-		#======================================================================================
-		# Debug stats
-		// $data = json_encode( array( 'wpforms', 'wpforms_' . $form_data["id"], $entry["fields"], $form_data["id"]) );
-		$data = json_encode( array( 'wpforms', 'wpforms_' . $entry["id"], $entry["fields"],  $entry["id"]) );
-		error_log( print_r( $data , true ) );
-		# Debug ends
-		#======================================================================================
 	}
 
-	
-
-	
-/*
- [ 
-	{"8":{"name":"Name","value":"javed mahmud","id":8,"type":"name","first":"javed","middle":"","last":"mahmud"},
-	 "9":{"name":"Email","value":"javmah@gmail.com","id":9,"type":"email"},
-	 "2":{"name":"Single Line Text","value":"Single Line Text","id":2,"type":"text"},
-	 "7":{"name":"Numbers","value":"13","id":7,"type":"number"},
-	 "3":{"name":"Paragraph Text","value":"Paragraph Text","id":3,"type":"textarea"},
-	 "4":{"name":"Dropdown","value":"Second Choice","value_raw":"Second Choice","id":4,"type":"select"},
-	 "5":{"name":"Multiple Choice","value":"First Choice","value_raw":"First Choice","id":5,"type":"radio"},
-	 "6":{"name":"Checkboxes","value":"First Choice","value_raw":"First Choice","id":6,"type":"checkbox"},
-	 "10":{"name":"Number Slider","value":4,"value_raw":{"value":4,"min":0,"max":10,"value_display":"Selected Value: {value}"},
-	 "id":10,
-	 "type":"number-slider"}
-	},
-	{"fields":{
-		"8":{"first":"javed","last":"mahmud"},
-	    "9":"javmah@gmail.com",
-		"2":"Single Line Text",
-		"7":"13",
-		"3":"Paragraph Text",
-		"4":"Second Choice",
-		"5":"First Choice",
-		"6":["First Choice"],
-		"10":"4",
-		"automail_submitted_date":"October 19, 2021",
-		"automail_submitted_time":"12:58 pm"},
-		"id":"28717",
-		"author":"1",
-		"post_id":"1610",
-		"submit":"wpforms-submit",
-		"token":"4a08a45a85d03745a2cb99aed413d6f5"
-	},
-		{"fields":{"8":{"id":"8","type":"name","label":"Name","format":"first-last","description":"","required":"1","size":"medium","simple_placeholder":"","simple_default":"","first_placeholder":"","first_default":"","middle_placeholder":"","middle_default":"","last_placeholder":"","last_default":"","css":""},"9":{"id":"9","type":"email","label":"Email","description":"","required":"1","size":"medium","placeholder":"","confirmation_placeholder":"","default_value":"","filter_type":"","allowlist":"","denylist":"","css":""},"2":{"id":"2","type":"text","label":"Single Line Text","description":"","size":"medium","placeholder":"","limit_count":"1","limit_mode":"characters","default_value":"","input_mask":"","css":""},"7":{"id":"7","type":"number","label":"Numbers","description":"","size":"medium","placeholder":"","default_value":"","css":""},"3":{"id":"3","type":"textarea","label":"Paragraph Text","description":"","size":"medium","placeholder":"","limit_count":"1","limit_mode":"characters","default_value":"","css":""},"4":{"id":"4","type":"select","label":"Dropdown","choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","style":"classic","size":"medium","placeholder":"","dynamic_choices":"","css":""},"5":{"id":"5","type":"radio","label":"Multiple Choice","choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","choices_images_style":"modern","input_columns":"","dynamic_choices":"","css":""},"6":{"id":"6","type":"checkbox","label":"Checkboxes",
-	"choices":{"1":{"label":"First Choice","value":"","image":""},"2":{"label":"Second Choice","value":"","image":""},"3":{"label":"Third Choice","value":"","image":""}},"description":"","choices_images_style":"modern","input_columns":"","choice_limit":"","dynamic_choices":"","css":""},"10":{"id":"10","type":"number-slider","label":"Number Slider","description":"","required":"","min":"0","max":"10","size":"medium","default_value":"0","value_display":"Selected Value: {value}","step":"1","css":""}},"id":"28717","field_id":11,"settings":{"form_title":"Second Form","form_desc":"","submit_text":"Submit","submit_text_processing":"Sending...","antispam":"1","form_class":"","submit_class":"","notification_enable":"1","notifications":{"1":{"email":"{admin_email}","subject":"New Blank Form Entry","sender_name":"WordPress Site","sender_address":"{admin_email}","replyto":"","message":"{all_fields}"}},"confirmations":{"1":{"type":"message","message":"<p>Thanks for contacting us! We will be in touch with you shortly.<\/p>","message_scroll":"1","page":"315","redirect":""}}},"meta":{"template":"blank"},"created":"2021-08-19 18:39:26"}]
-*/
 	/**
 	 * weforms forms_after_submission 
 	 * @param    string   $entry_id   		entry_id;
@@ -2210,7 +2099,7 @@ class Automail_Events {
 	*/
 	public function automail_weforms_entry_submission( $entry_id, $form_id, $page_id, $form_settings  ) {
 		# if There is a integration on this Form Submission
-		if ( ! empty( $form_id  ) ) {
+		if ( ! empty( $form_id  ) AND !empty( $entry_id )   ) {
 			# Check if frm_item_metas table exists or not 
 			if ( $this->automail_dbTableExists("frm_item_metas") ) {
 				# code
@@ -2221,23 +2110,23 @@ class Automail_Events {
 				foreach ( $entrees as $entre ) {
 					$dataArray[ $entre->meta_key ] = $entre->meta_value;
 				}
-
 				# extra fields value
 				# Site date and time 
 				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
 				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
-
 				# Check And Balance 
-				if (  !empty( $entry_id ) AND  !empty( $form_id ) ){
+				if ( !empty( $form_id ) ){
 					# Action
-					$r = $this->automail_eventBoss('weforms', 'we_' . $form_id, $dataArray, $form_id );
+					$r = $this->automail_send_mail( 'we_'.$form_id, $dataArray );
 				} else {
-					$this->automail_log( get_class($this), __METHOD__,"725", "Error: weforms Form entries are empty Or form_id is empty!" );
+					$this->automail_log( get_class($this), __METHOD__,"725", "ERROR: weforms Form entries are empty Or form_id is empty!" );
 				}
 					
 			} else {
-				$this->automail_log( get_class( $this ), __METHOD__,"726", "Error: weform frm_item_metas table is Not Exist!" );
+				$this->automail_log( get_class( $this ), __METHOD__,"726", "ERROR: weform frm_item_metas table is Not Exist!" );
 			}
+		} else {
+			$this->automail_log( get_class( $this ), __METHOD__,"726", "ERROR: weform form_id or entry_id is empty." );
 		}
 	}
 
@@ -2257,7 +2146,7 @@ class Automail_Events {
 				$entry['automail_submitted_date'] = ( isset( $this->Date ) ) ? 	$this->Date		:	'';
 				$entry['automail_submitted_time'] = ( isset( $this->Time ) ) ? 	$this->Time		:	'';
 				# Action
-				$r = $this->automail_eventBoss('gravityForm', 'gravity_' . $entry['form_id'], $entry, $entry['form_id'] );
+				$r = $this->automail_send_mail( 'gravity_'.$entry['form_id'], $entry );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"728", "Error: gravity Form entries are empty Or form_id is empty!" );
 			}
@@ -2285,10 +2174,10 @@ class Automail_Events {
 			# Calling the Event Boss
 			if ( ! empty( $dataArray ) AND ! empty( $form_id )  ) {
 				# Site date and time 
-				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time		:	'';
-				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date		:	'';
+				$dataArray['automail_submitted_time'] = ( isset( $this->Time ) ) ? $this->Time	:  '';
+				$dataArray['automail_submitted_date'] = ( isset( $this->Date ) ) ? $this->Date	:  '';
 				# Action
-				$r = $this->automail_eventBoss('forminator', 'forminator_' . $form_id, $dataArray, $form_id );
+				$r = $this->automail_send_mail( 'forminator_'.$form_id, $dataArray );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"728", "Error: forminator Form entries are empty Or form_id is empty!" );
 			}
@@ -2360,84 +2249,28 @@ class Automail_Events {
 			return array( FALSE, "Error: Checkout Field Editor aka Checkout Manager for WooCommerce is not installed " );
 		}
 	}
-	
-	/**
-	 * Centralized Events , All events Will call this Function & feed Data to this Func || It Will Do All event Job 
-	 * Creating new token if token is not valid . as you know frontend user comes and goes without Notice !
-	 * @since      1.0.0
-	 * @param      string    $data_source    Which platform call this function 
-	 * @param      string    $event_name     event_name 
-	 * @param      array     $data_array     data_array
-	 * @param      int    	 $id    		 ID is optional so that , 
-	*/
-	public function automail_eventBoss( $data_source = '', $event_name = '', $data_array = '', $id = '' ) {
-		# Got the Event Data [Custom Action Hook]	||  raw data hook 
-		do_action('automail_event_raw', $data_source, $event_name, $data_array, $id ); 
-
-		# data_source Empty test;
-		if ( empty( $data_source ) ){
-			$this->automail_log( get_class($this), __METHOD__, "729", "ERROR: data_source  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
-			return FALSE;
-		}
-
-		# event_name Empty test
-		if ( empty( $event_name ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: event_name  is Empty!. ". json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
-			return FALSE;
-		}
-
-		#  data_array Empty test;
-		if ( empty( $data_array ) ){
-			$this->automail_log( get_class($this), __METHOD__, "731", "ERROR: data_array  is Empty!. ".  json_encode( array("data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
-			return FALSE;
-		}
-
-		# Nested array and sanitize array ;
-		foreach ( $data_array as $key => $value ) { 
-			if( is_array( $value ) OR is_object( $value )  ) {
-				$this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string! ".  json_encode( array( "data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
-				$data_array[$key] = json_encode( $value );
-			} else {
-				$data_array[$key] = strip_tags( $value );
-			}
-		}
-		
-		# If everything okay than Proceed on
-		$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( "data_source" => $data_source, "event_name" => $event_name, "data_array" => $data_array, "id"=>$id ) ) );
-		# Event checked AND before  Passed [Custom Action Hook]  || If you Need Modify Data DO it here;
-		do_action( 'automail_event_before', $data_source, $event_name, $data_array, $id ); 
-		# Event Passed  [Custom Action Hook]  || Only for GOOGLE || Don't do Anything here - lat it go; 
-		do_action( 'automail_event', $data_source, $event_name, $data_array, $id ); 
-		# Sending a True
-		return TRUE;
-	}
 
 	# New Code Starts From here 
 	/**
 	 * Using custom hook sending data to Google spreadsheet 
 	 * @since    	1.0.0
 	 * 
-	 * @param     	string    	$eventDataSource       	event source, which Plugin or part generate the event 
 	 * @param     	string    	$eventDataSourceID      This is a Combination between $eventDataSource  and  name or id of that event 
 	 * @param     	array    	$eventDataArray      	Event data array with key value pair.
-	 * @param      	string    	$automationID    		Database id of that Automation. || ERROR is another thing
 	 * 
 	 * @return 	   	array 		Status with first value is bool and send is data.
 	*/
 	public function automail_send_mail( $eventDataSourceID = "", $eventDataArray = "" ){
-		
 		# event_name Empty test;
 		if ( empty( $eventDataSourceID ) OR !is_string( $eventDataSourceID ) ){
 			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is empty or not string."  );
 			return array( FALSE, "ERROR: eventDataSourceID  is empty or not string.");;
 		}
-
 		#  data_array Empty test;
 		if ( empty( $eventDataArray ) OR !is_array( $eventDataArray ) ){
 			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray is empty or not array."  );
 			return array( FALSE, "ERROR: eventDataArray is empty or not array.");
 		}
-
 		# Nested array and sanitize array ||convert array to json;
 		foreach ( $eventDataArray as $key => $value ) { 
 			if( is_array( $value ) OR is_object( $value )  ) {
@@ -2447,19 +2280,18 @@ class Automail_Events {
 				$eventDataArray[$key] = strip_tags( $value );
 			}
 		}
-
 		# Token Task Ends 
 		$emailAutomatons  = get_posts( array(
 			'post_type'   	 => 'automail',
 			'post_status' 	 => 'publish',
 			'posts_per_page' => -1
 		));
-
+		# if automail automation is empty 
 		if ( empty( $emailAutomatons ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "WARNING: no mail automation saved in the dataBase." );
+			$this->automail_log( get_class( $this ), __METHOD__, "730", "WARNING: no mail automation saved in the dataBase." );
 			return  array( FALSE, "WARNING: no mail automation saved in the dataBase.");
 		}
-
+		# Looping the Automation 
 		foreach ( $emailAutomatons as  $emailAutomaton ) {
 			# if there is a Active Automation 
 			if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $eventDataSourceID ) {
@@ -2516,7 +2348,7 @@ class Automail_Events {
 					} else {
 						$this->automail_log( get_class($this), __METHOD__, "101", "User role is empty or False automail_userRoles() func is not working!" ); 
 					}
-
+					
 					# Get Event source
 					$eventSourceReceiver = array_intersect( array_keys( $eventDataArray ), $mailReceiver );
 
