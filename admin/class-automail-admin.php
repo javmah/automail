@@ -884,7 +884,7 @@ class Automail_Admin {
 
 
 	/**
-	 * Submenu page  view function 
+	 * Sub-menu page  view function 
 	 * This is the Submenu page view function 
 	 * @since  1.0.0
 	*/
@@ -1092,7 +1092,7 @@ class Automail_Admin {
 	public function cf7_forms_and_fields(){
 		# is there CF7 
 		if ( ! in_array('contact-form-7/wp-contact-form-7.php' , $this->active_plugins ) ) {
-			return array(FALSE, "Error:  Contact form 7 is Not installed or DB Table is Not Exist  " );
+			return array(FALSE, "ERROR:  Contact form 7 is Not installed or DB Table is Not Exist  " );
 		}
 
 		$cf7forms 		= array();
@@ -1149,8 +1149,6 @@ class Automail_Admin {
 			}
 		}
 			
-		
-		
 		return array( TRUE, $cf7forms, $fieldsArray );
 	}
 
@@ -1161,9 +1159,8 @@ class Automail_Admin {
 	 *  @since     1.0.0
 	*/
 	public function ninja_forms_and_fields() {
-		
 		if ( ! in_array('ninja-forms/ninja-forms.php', $this->active_plugins ) ) {
-			return array( FALSE, "Error:  Ninja form 7 is Not Installed "  );
+			return array( FALSE, "ERROR:  Ninja form 7 is Not Installed "  );
 		}
 		global $wpdb;	
 		$FormArray 	 	= array();																								# Empty Array for Value Holder 
@@ -1228,16 +1225,16 @@ class Automail_Admin {
 	public function formidable_forms_and_fields(){
 		
 		if ( ! in_array( 'formidable/formidable.php', $this->active_plugins )  ) {
-			return array( FALSE, "Error: formidable form  is Not Installed OR DB table is Not Exist" );
+			return array( FALSE, "ERROR: formidable form  is Not Installed OR DB table is Not Exist" );
 		}
 		
 		global $wpdb;
-		$FormArray 	 = array();																						# Empty Array for Value Holder 
-		$fieldsArray = array();																						# Empty Array for Holder 
-		$frmForms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_forms");								# Getting  Forms Database 
+		$FormArray 	 = array();																		# Empty Array for Value Holder 
+		$fieldsArray = array();																		# Empty Array for Holder 
+		$frmForms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_forms");				# Getting  Forms Database 
 		
 		foreach ( $frmForms as $form ) {
-			$FormArray["frm_".$form->id] =  "Formidable - " . $form->name ;											# Inserting ARRAY title 
+			$FormArray["frm_".$form->id] =  "Formidable - " . $form->name ;							# Inserting ARRAY title 
 			# Getting Meta Fields || maybe i don't Know ;-D
 			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= " . $form->id . " ORDER BY field_order"); 	# Getting  Data from Database 
 			foreach ($fields as $field) {
@@ -1288,7 +1285,7 @@ class Automail_Admin {
 			}
 		}
 
-		return array( TRUE, $FormArray, $fieldsArray );																# Inserting Data to the Main [$eventsAndTitles ] Array 
+		return array( TRUE, $FormArray, $fieldsArray );		# Inserting Data to the Main [$eventsAndTitles ] Array 
 	}
 
 	/**
@@ -1298,7 +1295,7 @@ class Automail_Admin {
 	public function wpforms_forms_and_fields(){
 
 		if ( ! count( array_intersect( $this->active_plugins, array('wpforms-lite/wpforms.php', 'wpforms/wpforms.php') ) )  ) {
-			return array( FALSE, "Error:  wp form is Not Installed OR DB Table is Not Exist  "  );
+			return array( FALSE, "ERROR:  wp form is Not Installed OR DB Table is Not Exist  "  );
 		}
 
 		$FormArray	 = array();
@@ -1373,7 +1370,7 @@ class Automail_Admin {
 	public function weforms_forms_and_fields() {
 		
 		if ( ! in_array('weforms/weforms.php', $this->active_plugins ) ) {
-			return array( FALSE, "Error:  weForms  is Not Active  OR DB is not exist"  );
+			return array( FALSE, "ERROR:  weForms  is Not Active  OR DB is not exist"  );
 		}
 
 		$FormArray	 	= array();
@@ -1423,18 +1420,18 @@ class Automail_Admin {
 	public function gravity_forms_and_fields( ) {
 		
 		if ( ! in_array('gravityforms/gravityforms.php', $this->active_plugins )  ) {
-			return array( FALSE, "Error:  gravity forms  is Not Active  OR DB is not exist"  );
+			return array( FALSE, "ERROR:  gravity forms  is Not Active  OR DB is not exist"  );
 		}
 
 		if ( ! class_exists('GFAPI')) {
-    		return array( FALSE, "Error:  gravityForms class GFAPI is not exist"  );
+    		return array( FALSE, "ERROR:  gravityForms class GFAPI is not exist"  );
 		}
 
 		$gravityForms = GFAPI::get_forms();
 		#check and Test 
 		if ( ! empty( $gravityForms ) ){
 			# Empty array holder Declared
-			$FormArray 	 	= array();																								# Empty Array for Value Holder 
+			$FormArray 	 	= array();												
 			$fieldsArray 	= array();	
 			$fieldTypeArray = array();	
 			# New Code Loop
@@ -1459,7 +1456,7 @@ class Automail_Admin {
 			}
 
 		} else {
-			return array( FALSE, "Error:  gravityForms form object is empty."  );
+			return array( FALSE, "ERROR:  gravityForms form object is empty."  );
 		}
 
 		return array( TRUE, $FormArray, $fieldsArray, $fieldTypeArray );
@@ -1473,7 +1470,7 @@ class Automail_Admin {
 	public function forminator_forms_and_fields( ) {
 		
 		if ( ! in_array( 'forminator/forminator.php', $this->active_plugins ) ) {
-			return array( FALSE, "Error: forminator form  is Not Installed OR no integration Exist" );
+			return array( FALSE, "ERROR: forminator form  is Not Installed OR no integration Exist" );
 		}
 
 		$FormArray 	 = array();			# Empty Array for Value Holder 
@@ -1520,7 +1517,7 @@ class Automail_Admin {
 		$meta_keys = $wpdb->get_col( $query );
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ){
-			return array( FALSE, 'Error: Empty! No Meta key exist on comment meta.');
+			return array( FALSE, 'ERROR: Empty! No Meta key exist on comment meta.');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
@@ -1662,11 +1659,11 @@ class Automail_Admin {
 				# Everything seems ok, Now send the CPT events and Related Data source;
 				return array( TRUE, $cpts, $cptEvents, $eventDataFields, $meta_keys );
 			} else {
-				return array( FALSE, "Error: cpts Array is Empty." );
+				return array( FALSE, "ERROR: cpts Array is Empty." );
 			}
 
 		} else {
-			return array( FALSE, "Error: wp_post_types global array is not exists or Empty." );
+			return array( FALSE, "ERROR: wp_post_types global array is not exists or Empty." );
 		}
 	}
 
