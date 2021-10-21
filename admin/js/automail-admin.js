@@ -26,7 +26,16 @@ if ( document.getElementById("automailNewVue") ) {
 				}, function(err) {
 					console.error('Async: Could not copy text: ', err);
 				});
+			},
+			inputValidation: function(e){
+				if( (this.automatonName && this.selectedEvent) && (this.selectedEventsAndTitles && this.mailReceiver.length > 0 ) ){
+					return true;
+				} else {
+					e.preventDefault();
+					alert("Please fill all the fields!");
+				}
 			}
+
 		}, beforeMount() {
 			// Inserting data to the data.eventsAndTitles element
 			this.eventsAndTitles = automailJsData.eventsAndTitles;
@@ -63,7 +72,16 @@ if ( document.getElementById("automailEditVue") ) {
 				}, function(err) {
 					console.error('Async: Could not copy text: ', err);
 				});
+			},
+			inputValidation: function(e){
+				if( (this.automatonName && this.selectedEvent) && (this.selectedEventsAndTitles && this.mailReceiver.length > 0 ) ){
+					return true;
+				} else {
+					e.preventDefault();
+					alert("Please fill all the fields!");
+				}
 			}
+
 		}, beforeMount() {
 			// Inserting data to the data.eventsAndTitles element
 			this.ID 			 		 = automailJsData.ID;

@@ -2085,7 +2085,7 @@ class Automail_Events {
 			# Sending data to mail function
 			$r = $this->automail_send_mail( 'wpforms_'.$entry["id"], $entry["fields"]  );
 		} else {
-			$this->automail_log( get_class($this), __METHOD__,"723", "Error: wpforms Form entries are empty Or form_id is empty!" );
+			$this->automail_log( get_class($this), __METHOD__,"723", "ERROR: wpforms Form entries are empty Or form_id is empty!" );
 		}
 	}
 
@@ -2233,7 +2233,7 @@ class Automail_Events {
 			}
 
 			if ( empty(  $woo_checkout_field_editor_pro ) ) {
-				return array( FALSE, "Error: Checkout Field Editor aka Checkout Manager for WooCommerce is EMPTY no Custom Field. " );
+				return array( FALSE, "ERROR: Checkout Field Editor aka Checkout Manager for WooCommerce is EMPTY no Custom Field. " );
 			} else {
 				return array( TRUE, $woo_checkout_field_editor_pro );
 			}	
@@ -2302,7 +2302,7 @@ class Automail_Events {
 				foreach( $eventDataArray as $key => $value ){
 					$bracketedKeysValue[ "[". $key."]" ] =  $value;
 				}
-				# Change The placeHolder 
+				# Change The placeHolder with Real Data in Email body
 				$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue );
 				
 				# ===========================================================================================
@@ -2507,7 +2507,7 @@ class Automail_Events {
 		$meta_keys = $wpdb->get_col( $query );
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ){
-			return array( FALSE, 'Error: Empty! No Meta key exist of the Post type page.');
+			return array( FALSE, 'ERROR: Empty! No Meta key exist of the Post type page.');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
@@ -2533,7 +2533,7 @@ class Automail_Events {
 		$meta_keys = $wpdb->get_col( $query );
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ){
-			return array( FALSE, 'Error: Empty! No Meta key exist of the post type WooCommerce Order.');
+			return array( FALSE, 'ERROR: Empty! No Meta key exist of the post type WooCommerce Order.');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
@@ -2558,7 +2558,7 @@ class Automail_Events {
 		$meta_keys = $wpdb->get_col( $query );
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ) {
-			return array( FALSE, 'Error: Empty! No Meta key exist of the Post type WooCommerce Product.');
+			return array( FALSE, 'ERROR: Empty! No Meta key exist of the Post type WooCommerce Product.');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
@@ -2578,7 +2578,7 @@ class Automail_Events {
 		$meta_keys = $wpdb->get_col( $query );
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ){
-			return array( FALSE, 'Error: Empty! No Meta key exist on comment meta');
+			return array( FALSE, 'ERROR: Empty! No Meta key exist on comment meta');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
@@ -2802,7 +2802,7 @@ class Automail_Events {
 		// } 
 		# Check and Balance 
 		if ( empty( $status_code ) or empty( $status_message ) ){
-			return  array( FALSE, "Error: status_code OR status_message is Empty");
+			return  array( FALSE, "ERROR: status_code OR status_message is Empty");
 		}
 		# Inserting The log custom Post 
 		$r = wp_insert_post( 

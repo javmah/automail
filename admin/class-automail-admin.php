@@ -942,7 +942,7 @@ class Automail_Admin {
 	public function automail_admin_notice() {
 		echo"<pre>";
 
-
+			// print_r($this->automail_userRoles());
 
 		echo"</pre>";
 	}

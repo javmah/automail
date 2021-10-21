@@ -15,14 +15,14 @@
 	<div id="poststuff">
         <div id="automailNewVue">
             <!-- Testing is in Here  -->
-            <pre> ID : {{$data.ID}}                         </pre>
+            <!-- <pre> ID : {{$data.ID}}                         </pre>
             <pre> Name : {{$data.automatonName}}                   </pre>
             <pre> Selected Event : {{$data.selectedEvent}}                </pre>
             <pre> selected Events And Titles : {{$data.selectedEventsAndTitles}} </pre>
-            <pre> Mail Receiver : {{$data.mailReceiver}}                              </pre>
+            <pre> Mail Receiver : {{$data.mailReceiver}}                              </pre> -->
 
             <!-- Form Starts  -->
-            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" >
+            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"  @submit="inputValidation" method="post" >
                 <input type="hidden" name="action" value="automail_saveAutomation">
                 <input type="hidden" name="status" value="newAutomation" />
 
@@ -99,7 +99,7 @@
                                             if( !empty( $results ) ){
                                                 echo"<optgroup label='User'>";
                                                     foreach ( $results as $key => $singleUserArray ) {
-                                                        echo "<option value='".  $singleUserArray['user_email'] ."'> " .  $singleUserArray['user_nicename'] . " </option>";
+                                                        echo "<option value='".  $singleUserArray['user_email'] ."'> " .  $singleUserArray['user_nicename'] . " - " .$singleUserArray['user_email'] . "</option>";
                                                     }
                                                 echo"</optgroup>";
                                             }
@@ -109,7 +109,7 @@
                                     <!-- <b> Email Body: </b> -->
                                     <?php
                                         wp_editor( 
-                                                    "Please write your Email here, Use &#123; &#123; Data_tags &#125; &#125;", 
+                                                    "Please write your email here, use event data [Tags] from the right as a placeholder.", 
                                                     "automailEmail", 
                                                     array(
                                                         'textarea_rows' => '6',
@@ -136,7 +136,7 @@
                                 <div class="inside">
                                     <input type="checkbox" name="automatonStatus" checked > Automaton Status
                                     <br><br>
-                                    <input class="button-secondary" type="submit" value="SAVE" />
+                                    <input class="button-secondary" type="submit" v-on:keydown.enter.prevent='inputValidation' value="SAVE" />
                                 </div>
                                 <!-- .inside -->
                             </div>
@@ -147,10 +147,13 @@
                         <!-- Conditionally rendered div -->
                         <div class="meta-box-sortables" v-show="selectedEventsAndTitles" >
                             <div class="postbox">
-                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> </h2>
+
+                                <h2 v-if="selectedEvent" ><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> <span class="dashicons dashicons-info" title="Paste event placeholder data [Tags] to email body as Placeholder, So that in the event it replace with the real data." ></span> </h2>
+                                <h2 v-else="selectedEvent" ><span><?php esc_attr_e('Select event to display event Data [Tags]. Data [Tags] are event dependent  ¯\_(ツ)_/¯ ', 'automail'); ?></span> </h2>
+                                
                                 <div class="inside">
                                     <!-- tag cloud list start -->
-                                    <ul style="height:350px; overflow:hidden; overflow-y:scroll;" >
+                                    <ul :style="[selectedEvent ? { 'height':'350px', 'overflow':'hidden', 'overflow-y':'scroll' } : {'height':'350px'} ]" >
                                         <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)"  :class=" index % 2 ? '' : 'alternate' "  style="padding: 10px;">
                                             {{ item }}
                                             <br>
