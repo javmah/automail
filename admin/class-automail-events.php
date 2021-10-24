@@ -133,7 +133,7 @@ class Automail_Events {
 				
 			# Action
 			if ( $user_id ){
-				$r = $this->automail_send_mail( 'wordpress_newUser', $user_data );
+				$r = $this->automail_send_mail( 'wp_newUser', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "701", "ERROR: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
 			}
@@ -211,7 +211,7 @@ class Automail_Events {
 
 			# Action
 			if ( $user_id && $user->ID  ) {
-				$r = $this->automail_send_mail( 'wordpress_UserProfileUpdate', $user_data );
+				$r = $this->automail_send_mail( 'wp_UserProfileUpdate', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "703", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".json_encode( array( $user_id, $user->ID, $user_data ) ) );
 			}
@@ -291,7 +291,7 @@ class Automail_Events {
 
 			# Action
 			if ( $user_id && $user->ID ){
-				$r = $this->automail_send_mail( 'wordpress_deleteUser', $user_data );
+				$r = $this->automail_send_mail( 'wp_deleteUser', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "705", "ERROR: wordpress_deleteUser fired but no User ID . ". json_encode( array( $user_id, $user->ID,  $user_data ) ) );
 			}
@@ -331,7 +331,6 @@ class Automail_Events {
 			#
 			$user_data['userLoginTime'] 		= $this->Time;
 			$user_data['userLoginDate'] 		= $this->Date;
-			#
 			# site Current Time
 			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time	  :	'';
 			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date	  :	'';
@@ -368,13 +367,12 @@ class Automail_Events {
 						}
 					}
 				}
-
 			}
 			# Append New metaOutPut array to $commentData data array;
 			$user_data = array_merge( $user_data, $metaOutPut);
 			# User Meta Data Ends 
 			# Action,  Sending Data to Event Boss
-			$r = $this->automail_send_mail( 'wordpress_userLogin', $user_data );
+			$r = $this->automail_send_mail( 'wp_userLogin', $user_data );
 		} else {
 			$this->automail_log( get_class($this), __METHOD__, "707", "ERROR: user->ID Not Exist OR get_user_meta is not Exist" );
 		}
@@ -451,11 +449,10 @@ class Automail_Events {
 
 			# Action
 			if ( $user->ID ){
-				$r = $this->automail_send_mail( 'wordpress_userLogout', $user_data );
+				$r = $this->automail_send_mail( 'wp_userLogout', $user_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__, "708", "ERROR:  wordpress_userLogout fired but no User ID . ". json_encode( array( $user->ID, $user_data ) ) );
 			}
-
 		} else {
 			$this->automail_log( get_class($this), __METHOD__, "709", "ERROR: User ID OR  Function  wp_get_current_user() is not exists " );
 		}
@@ -589,7 +586,7 @@ class Automail_Events {
 			if (  $post->post_status == 'publish' AND $post_time_diff <= 1   ) {
 				$post_data['eventName'] = "New Post";
 				# Action
-				$r = $this->automail_send_mail( 'wordpress_newPost', $post_data );
+				$r = $this->automail_send_mail( 'wp_newPost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -598,7 +595,7 @@ class Automail_Events {
 			if (  $post->post_status == 'publish' AND $post_time_diff > 1 ) {
 				$post_data['eventName'] = "Posts Edited";
 				# Action
-				$r = $this->automail_send_mail( 'wordpress_editPost', $post_data );
+				$r = $this->automail_send_mail( 'wp_editPost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -606,7 +603,7 @@ class Automail_Events {
 		    # Post Is trash  || If Post is Trashed This Will fired
 		    if ( $post->post_status == 'trash') {
 				$post_data['eventName'] = "Trash";
-				$r = $this->automail_send_mail( 'wordpress_deletePost', $post_data );
+				$r = $this->automail_send_mail( 'wp_deletePost', $post_data );
 				# event Log for Trash
 				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
 			}
@@ -616,7 +613,7 @@ class Automail_Events {
 		if ( $post->post_type == 'page' ) {
 			$post_data['eventName'] = "New Page";
 			# Action
-			$r = $this->automail_send_mail( 'wordpress_page', $post_data );
+			$r = $this->automail_send_mail( 'wp_page', $post_data );
 			# event Log for Trash
 			$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing page. ". json_encode( array(  $post_id, $post, $update, $post_data  ) )  );
 		}
@@ -730,7 +727,7 @@ class Automail_Events {
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
 			$this->automail_log( get_class($this), __METHOD__,"711", "ERROR:  commentID or commentData is empty !" );
 		} else {
-			$r = $this->automail_send_mail( 'wordpress_comment', $Data );
+			$r = $this->automail_send_mail( 'wp_comment', $Data );
 		}
 	}
 
@@ -808,7 +805,7 @@ class Automail_Events {
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
 			$this->automail_log( get_class($this), __METHOD__,"713", "ERROR: commentID or commentData is empty !" );
 		}else{
-			$r = $this->automail_send_mail( 'wordpress_edit_comment', $Data );
+			$r = $this->automail_send_mail( 'wp_edit_comment', $Data );
 		}
 	}
 
