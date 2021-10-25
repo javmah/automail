@@ -194,13 +194,13 @@ class Automail_Admin {
 				}
 
 				# For user Meta 
-				// $usersMeta = $this->automail_users_metaKeys();
-				// if ( $usersMeta[0]  && ! empty( $usersMeta[1] ) && wpgsi_fs()->can_use_premium_code() ) {
-				// 	# Looping comment Meta 
-				// 	foreach ( $usersMeta[1] as $metaKey ) {
-				// 		$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
-				// 	}
-				// }
+				$usersMeta = $this->automail_users_metaKeys();
+				if ( $usersMeta[0]  && ! empty( $usersMeta[1] ) ) {
+					# Looping comment Meta 
+					foreach ( $usersMeta[1] as $metaKey ) {
+						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
+					}
+				}
 					
 			}
 
@@ -276,13 +276,13 @@ class Automail_Admin {
 					);
 
 					// # For Post Meta 
-					// $postsMeta = $this->automail_posts_metaKeys();
-					// if ( $postsMeta[0]  && ! empty( $postsMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
-					// 	# Looping comment Meta 
-					// 	foreach ( $postsMeta[1] as $metaKey ) {
-					// 		$this->eventsAndTitles[ $key ][$metaKey] = "Post Meta  " . $metaKey;
-					// 	}	
-					// }
+					$postsMeta = $this->automail_posts_metaKeys();
+					if ( $postsMeta[0]  && ! empty( $postsMeta[1] ) ){
+						# Looping comment Meta 
+						foreach ( $postsMeta[1] as $metaKey ) {
+							$this->eventsAndTitles[ $key ][$metaKey] = "Post Meta  " . $metaKey;
+						}	
+					}
 
 				}
 
@@ -344,13 +344,13 @@ class Automail_Admin {
 					);
 
 					// # For page Meta 
-					// $pagesMeta = $this->automail_pages_metaKeys();
-					// if ( $pagesMeta[0]  && ! empty( $pagesMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
-					// 	# Looping comment Meta 
-					// 	foreach ( $pagesMeta[1] as $metaKey ) {
-					// 		$this->eventsAndTitles[ $key ][$metaKey] = "Page Meta  " . $metaKey;
-					// 	}	
-					// }
+					$pagesMeta = $this->automail_pages_metaKeys();
+					if ( $pagesMeta[0]  && ! empty( $pagesMeta[1] ) ){
+						# Looping comment Meta 
+						foreach ( $pagesMeta[1] as $metaKey ) {
+							$this->eventsAndTitles[ $key ][$metaKey] = "Page Meta  " . $metaKey;
+						}	
+					}
 				}
 			} # Loop Ends 
 
@@ -398,16 +398,16 @@ class Automail_Admin {
 			# Loop ends Here 
 
 			# For Comment Meta 
-			// $commentsMeta = $this->automail_comments_metaKeys();
-			// if ( $commentsMeta[0]  && ! empty( $commentsMeta[1] ) && wpgsi_fs()->can_use_premium_code__premium_only() ){
-			// 	# Looping the comment event 
-			// 	foreach ( $wordpressCommentEvents as $key => $value ) {
-			// 		# Looping comment Meta 
-			// 		foreach ( $commentsMeta[1] as $metaKey ) {
-			// 			$this->eventsAndTitles[ $key ][$metaKey] = "Comment Meta  " . $metaKey;
-			// 		}
-			// 	}
-			// }
+			$commentsMeta = $this->automail_comments_metaKeys();
+			if ( $commentsMeta[0]  && ! empty( $commentsMeta[1] ) ){
+				# Looping the comment event 
+				foreach ( $wordpressCommentEvents as $key => $value ) {
+					# Looping comment Meta 
+					foreach ( $commentsMeta[1] as $metaKey ) {
+						$this->eventsAndTitles[ $key ][$metaKey] = "Comment Meta  " . $metaKey;
+					}
+				}
+			}
 
 			# Woocommerce 
 			if( in_array('woocommerce/woocommerce.php' , $this->active_plugins) ) {
@@ -492,18 +492,18 @@ class Automail_Admin {
 					);
 				}
 
-				// # For WooCommerce Product Meta to the product  event
-				// $productsMeta = $this->automail_wooCommerce_product_metaKeys();
-				// # Check and Balance & Premium Code only 
-				// if ( $productsMeta[0]  && ! empty( $productsMeta[1] ) && wpgsi_fs()->can_use_premium_code() ){
-				// 	# Looping the WooCommerce Product Event
-				// 	foreach ( $wooCommerceProductEvents as $key => $value) {
-				// 		# Looping comment Meta 
-				// 		foreach ( $productsMeta[1] as $metaKey ) {
-				// 			$this->eventsAndTitles[ $key ][$metaKey] = "Product Meta  " . $metaKey;
-				// 		}	
-				// 	}
-				// }
+				# For WooCommerce Product Meta to the product  event
+				$productsMeta = $this->automail_wooCommerce_product_metaKeys();
+				# Check and Balance & Premium Code only 
+				if ( $productsMeta[0]  && ! empty( $productsMeta[1] ) ){
+					# Looping the WooCommerce Product Event
+					foreach ( $wooCommerceProductEvents as $key => $value) {
+						# Looping comment Meta 
+						foreach ( $productsMeta[1] as $metaKey ) {
+							$this->eventsAndTitles[ $key ][$metaKey] = "Product Meta  " . $metaKey;
+						}	
+					}
+				}
 
 				# Inserting WooCommerce Order Events to All Events 
 				$this->events += $this->wooCommerceOrderStatuses;
@@ -667,29 +667,29 @@ class Automail_Admin {
 
 				# **************************** Items Meta ****************************
 				# For WooCommerce order item Meta.
-				// $itemsMeta = $this->automail_wooCommerce_product_metaKeys();
-				// if ( $itemsMeta[0]  && ! empty( $itemsMeta[1] ) ) {
-				// 	# Looping the WooCommerce Product Event
-				// 	foreach (  $this->wooCommerceOrderStatuses as $key => $value) {
-				// 		# Looping comment Meta 
-				// 		foreach ( $itemsMeta[1] as $metaKey ) {
-				// 			$this->eventsAndTitles[ $key ][$metaKey] = "Items Meta  " . $metaKey;
-				// 		}	
-				// 	}
-				// }
+				$itemsMeta = $this->automail_wooCommerce_product_metaKeys();
+				if ( $itemsMeta[0]  && ! empty( $itemsMeta[1] ) ) {
+					# Looping the WooCommerce Product Event
+					foreach (  $this->wooCommerceOrderStatuses as $key => $value) {
+						# Looping comment Meta 
+						foreach ( $itemsMeta[1] as $metaKey ) {
+							$this->eventsAndTitles[ $key ][$metaKey] = "Items Meta  " . $metaKey;
+						}	
+					}
+				}
 
 				# For WooCommerce Order Meta Data insert to the order Events
-				// $ordersMeta = $this->automail_wooCommerce_order_metaKeys();
-				// # Check and Balance & Premium Code only 
-				// if ( $ordersMeta[0]  && ! empty( $ordersMeta[1] ) && wpgsi_fs()->can_use_premium_code__premium_only() ) {
-				// 	# Looping the WooCommerce Product Event
-				// 	foreach (  $this->wooCommerceOrderStatuses as $key => $value) {
-				// 		# Looping comment Meta s
-				// 		foreach ( $ordersMeta[1] as $metaKey ) {
-				// 			$this->eventsAndTitles[ $key ][$metaKey] = "Order Meta  " . $metaKey;
-				// 		}
-				// 	}
-				// }
+				$ordersMeta = $this->automail_wooCommerce_order_metaKeys();
+				# Check and Balance & Premium Code only 
+				if ( $ordersMeta[0]  && ! empty( $ordersMeta[1] ) ) {
+					# Looping the WooCommerce Product Event
+					foreach (  $this->wooCommerceOrderStatuses as $key => $value) {
+						# Looping comment Meta s
+						foreach ( $ordersMeta[1] as $metaKey ) {
+							$this->eventsAndTitles[ $key ][$metaKey] = "Order Meta  " . $metaKey;
+						}
+					}
+				}
 			}
 
 			# Below are Contact forms 
@@ -1504,6 +1504,76 @@ class Automail_Admin {
 	}
 
 	/**
+	 * This Function will return [wordPress Pages] Meta keys.
+	 * @since      3.3.0
+	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	*/
+	public function automail_pages_metaKeys(){
+		# Global Db object 
+		global $wpdb;
+		# Query 
+		$query  =  "SELECT DISTINCT($wpdb->postmeta.meta_key) 
+					FROM $wpdb->posts 
+					LEFT JOIN $wpdb->postmeta 
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+					WHERE $wpdb->posts.post_type = 'page' 
+					AND $wpdb->postmeta.meta_key != '' ";
+		# execute Query
+		$meta_keys = $wpdb->get_col( $query );
+		# return Depend on the Query result 
+		if ( empty( $meta_keys ) ){
+			return array( FALSE, 'Error: Empty! No Meta key exist of the Post type page.');
+		} else {
+			return array( TRUE, $meta_keys );
+		}
+	}
+
+	/**
+	 * This Function will return [wordPress Posts] Meta keys.
+	 * @since      3.3.0
+	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	*/
+	public function automail_posts_metaKeys(){
+		# Global Db object 
+		global $wpdb;
+		# Query 
+		$query  =  "SELECT DISTINCT($wpdb->postmeta.meta_key) 
+				  	FROM $wpdb->posts 
+					LEFT JOIN $wpdb->postmeta 
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+					WHERE $wpdb->posts.post_type = 'post' 
+					AND $wpdb->postmeta.meta_key != '' ";
+		# execute Query
+		$meta_keys = $wpdb->get_col( $query );
+		# return Depend on the Query result 
+		if ( empty( $meta_keys ) ){
+			return array( FALSE, 'Error: Empty! No Meta key exist of the Post.');
+		} else {
+			return array( TRUE, $meta_keys );
+		}
+	}
+
+	/**
+	 * This Function will return [wordPress Users] Meta keys.
+	 * @since      3.3.0
+	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	*/
+	public function automail_users_metaKeys(){
+		# Global Db object 
+		global $wpdb;
+		# Query 
+		$query = "SELECT DISTINCT( $wpdb->usermeta.meta_key ) FROM $wpdb->usermeta ";
+		# execute Query
+		$meta_keys = $wpdb->get_col( $query );
+		# return Depend on the Query result 
+		if ( empty( $meta_keys ) ){
+			return array( FALSE, 'Error: Empty! No Meta key exist of users.');
+		} else {
+			return array( TRUE, $meta_keys );
+		}
+	}
+
+	/**
 	 * This Function will return [wordPress Users] Meta keys.
 	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
@@ -1518,6 +1588,56 @@ class Automail_Admin {
 		# return Depend on the Query result 
 		if ( empty( $meta_keys ) ){
 			return array( FALSE, 'ERROR: Empty! No Meta key exist on comment meta.');
+		} else {
+			return array( TRUE, $meta_keys );
+		}
+	}
+
+	/**
+	 * This Function will return [WooCommerce product] Meta keys.
+	 * @since      3.3.0
+	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	*/
+	public function automail_wooCommerce_product_metaKeys(){
+		# Global Db object 
+		global $wpdb;
+		# Query 
+		$query  =  "SELECT DISTINCT($wpdb->postmeta.meta_key) 
+					FROM $wpdb->posts 
+					LEFT JOIN $wpdb->postmeta 
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+					WHERE $wpdb->posts.post_type = 'product' 
+					AND $wpdb->postmeta.meta_key != '' ";
+		# execute Query
+		$meta_keys = $wpdb->get_col( $query );
+		# return Depend on the Query result 
+		if ( empty( $meta_keys ) ){
+			return array( FALSE, 'Error: Empty! No Meta key exist of the Post type WooCommerce Product.');
+		} else {
+			return array( TRUE, $meta_keys );
+		}
+	}
+
+	/**
+	 * This Function will return [WooCommerce Order] Meta keys.
+	 * @since      3.3.0
+	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	*/
+	public function automail_wooCommerce_order_metaKeys(){
+		# Global Db object 
+		global $wpdb;
+		# Query 
+		$query  =  "SELECT DISTINCT($wpdb->postmeta.meta_key) 
+					FROM $wpdb->posts 
+					LEFT JOIN $wpdb->postmeta 
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+					WHERE $wpdb->posts.post_type = 'shop_order' 
+					AND $wpdb->postmeta.meta_key != '' ";
+		# execute Query
+		$meta_keys = $wpdb->get_col( $query );
+		# return Depend on the Query result 
+		if ( empty( $meta_keys ) ){
+			return array( FALSE, 'Error: Empty! No Meta key exist of the post type WooCommerce Order.');
 		} else {
 			return array( TRUE, $meta_keys );
 		}
