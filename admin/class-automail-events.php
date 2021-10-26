@@ -55,11 +55,19 @@ class Automail_Events {
 	* For Testing purpose 
 	*/
 	public function automail_event_notices() {
-		// echo "<pre>";
-
+		echo "<pre>";
 			
+			// echo"hello How are you doing : ";
+			// $automailThisLastFired = (int)get_post_meta( 28934 ,'automailThisLastFired', TRUE );
+			// # Started 
+			// if( $automailThisLastFired  AND  ( time() - $automailThisLastFired ) < 25   ){
+			// 	echo"Already in the database and Time 25 is over. value is :  " . $automailThisLastFired ;
+			// } else {
+			// 	echo "Not in the database ! inserted now.";
+			// 	update_post_meta( 28934, 'automailThisLastFired', time() );
+			// }
 
-		// echo "</pre>";
+		echo "</pre>";
 	}
 
 	/**
@@ -135,10 +143,10 @@ class Automail_Events {
 			if ( $user_id ){
 				$r = $this->automail_send_mail( 'wp_newUser', $user_data );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__, "701", "ERROR: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "101", "ERROR: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
 			}
 		} else {
-			$this->automail_log( get_class($this), __METHOD__, "702", "ERROR: get_userdata or get_user_meta is not Exist" );
+			$this->automail_log( get_class($this), __METHOD__, "102", "ERROR: get_userdata or get_user_meta is not Exist" );
 		}
 	}
 
@@ -213,11 +221,11 @@ class Automail_Events {
 			if ( $user_id && $user->ID  ) {
 				$r = $this->automail_send_mail( 'wp_UserProfileUpdate', $user_data );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__, "703", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".json_encode( array( $user_id, $user->ID, $user_data ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "103", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".json_encode( array( $user_id, $user->ID, $user_data ) ) );
 			}
 
 		} else {
-			$this->automail_log( get_class($this), __METHOD__, "704", "ERROR:  get_userdata or get_user_meta or User id is not Exist" );
+			$this->automail_log( get_class($this), __METHOD__, "104", "ERROR:  get_userdata or get_user_meta or User id is not Exist" );
 		}
 	}
 
@@ -293,11 +301,11 @@ class Automail_Events {
 			if ( $user_id && $user->ID ){
 				$r = $this->automail_send_mail( 'wp_deleteUser', $user_data );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__, "705", "ERROR: wordpress_deleteUser fired but no User ID . ". json_encode( array( $user_id, $user->ID,  $user_data ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "105", "ERROR: wordpress_deleteUser fired but no User ID . ". json_encode( array( $user_id, $user->ID,  $user_data ) ) );
 			}
 
 		} else {
-			$this->automail_log( get_class($this), __METHOD__, "706", "ERROR: get_userdata or get_user_meta or user_id is not Exist" );
+			$this->automail_log( get_class($this), __METHOD__, "106", "ERROR: get_userdata or get_user_meta or user_id is not Exist" );
 		}
 	}
 
@@ -374,7 +382,7 @@ class Automail_Events {
 			# Action,  Sending Data to Event Boss
 			$r = $this->automail_send_mail( 'wp_userLogin', $user_data );
 		} else {
-			$this->automail_log( get_class($this), __METHOD__, "707", "ERROR: user->ID Not Exist OR get_user_meta is not Exist" );
+			$this->automail_log( get_class($this), __METHOD__, "107", "ERROR: user->ID Not Exist OR get_user_meta is not Exist" );
 		}
 	}
 
@@ -451,10 +459,10 @@ class Automail_Events {
 			if ( $user->ID ){
 				$r = $this->automail_send_mail( 'wp_userLogout', $user_data );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__, "708", "ERROR:  wordpress_userLogout fired but no User ID . ". json_encode( array( $user->ID, $user_data ) ) );
+				$this->automail_log( get_class($this), __METHOD__, "108", "ERROR:  wordpress_userLogout fired but no User ID . ". json_encode( array( $user->ID, $user_data ) ) );
 			}
 		} else {
-			$this->automail_log( get_class($this), __METHOD__, "709", "ERROR: User ID OR  Function  wp_get_current_user() is not exists " );
+			$this->automail_log( get_class($this), __METHOD__, "109", "ERROR: User ID OR  Function  wp_get_current_user() is not exists " );
 		}
 	}
 
@@ -664,7 +672,7 @@ class Automail_Events {
 	public function automail_wp_comment( $commentID, $commentApprovedStatus, $commentData ) {
 		# Check Comment ID is exist 
 		if ( empty( $commentID ) ){
-			$this->automail_log( get_class($this), __METHOD__,"710", "ERROR:  Comment ID is Empty! "  );
+			$this->automail_log( get_class($this), __METHOD__,"110", "ERROR:  Comment ID is Empty! "  );
 		}
 		# Setting Data 
 		$Data 							=  array(); 
@@ -725,7 +733,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
-			$this->automail_log( get_class($this), __METHOD__,"711", "ERROR:  commentID or commentData is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"111", "ERROR:  commentID or commentData is empty !" );
 		} else {
 			$r = $this->automail_send_mail( 'wp_comment', $Data );
 		}
@@ -742,7 +750,7 @@ class Automail_Events {
 	public function automail_wp_edit_comment( $commentID, $commentData ) {
 		# Check Comment ID is exist 
 		if ( empty( $commentID ) ){
-			$this->automail_log( get_class($this), __METHOD__,"712", " Comment ID is Empty! "  );
+			$this->automail_log( get_class($this), __METHOD__,"112", " Comment ID is Empty! "  );
 		}
 		
 		$Data 							=  array(); 
@@ -803,7 +811,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $commentID ) OR empty( $commentData ) OR empty( $Data )  ){
-			$this->automail_log( get_class($this), __METHOD__,"713", "ERROR: commentID or commentData is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"113", "ERROR: commentID or commentData is empty !" );
 		}else{
 			$r = $this->automail_send_mail( 'wp_edit_comment', $Data );
 		}
@@ -962,7 +970,7 @@ class Automail_Events {
 		$timDiffMin 			=  round( ( $currentDateTimeStamp - $orderDateTimeStamp ) / 60 );
 		# check the arguments || if time difference is less than 5 mints stop  
 		if ( $order->get_created_via() == 'checkout' AND $timDiffMin < 5 ){
-			$this->automail_log( get_class($this), __METHOD__,"400", "ERROR: Dabble Submission Stopped!");
+			$this->automail_log( get_class($this), __METHOD__,"114", "ERROR: Dabble Submission Stopped!");
 			return;
 		}
 		# ++++++++++++ This above of Code Is Not Working | change the Code  ++++++++++++
@@ -1289,7 +1297,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $order_id ) ){
-			$this->automail_log( get_class($this), __METHOD__,"714", "ERROR: Order is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"115", "ERROR: Order is empty !" );
 		} else {
 			$r = $this->automail_send_mail( 'wc-' . $this_status_transition_to, $order_data );
 		}
@@ -1630,7 +1638,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $order_id ) ){
-			$this->automail_log( get_class($this), __METHOD__,"715", "ERROR: Order is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"116", "ERROR: Order is empty !" );
 		} else {
 			$r = $this->automail_send_mail( $order_data['status'], $order_data );
 		}
@@ -1966,7 +1974,7 @@ class Automail_Events {
 
 		# Action
 		if ( empty( $order_id ) ){
-			$this->automail_log( get_class($this), __METHOD__,"716", "ERROR: Order is empty !" );
+			$this->automail_log( get_class($this), __METHOD__,"117", "ERROR: Order is empty !" );
 		} else {
 			$r = $this->automail_send_mail(  'wc-new_order', $order_data );
 		}
@@ -1994,7 +2002,7 @@ class Automail_Events {
 				# Sending data to mail function
 				$r = $this->automail_send_mail( 'cf7_'.$id , $posted_data );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__,"717", "ERROR: Contact form 7 Form Submitted But No Form ID !" );
+				$this->automail_log( get_class($this), __METHOD__,"118", "ERROR: Contact form 7 Form Submitted But No Form ID !" );
 			}
 		}
 	}
@@ -2023,7 +2031,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail( 'ninja_' . $form_data["form_id"] , $data  );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__,"718", "ERROR: ninja Form entries are empty Or form_id is empty!" );
+				$this->automail_log( get_class($this), __METHOD__,"119", "ERROR: ninja Form entries are empty Or form_id is empty!" );
 			}
 		}
 	}
@@ -2055,10 +2063,10 @@ class Automail_Events {
 					# Sending data to mail function.
 					$r = $this->automail_send_mail( 'frm_'.$form_id, $dataArray );
 				} else {
-					$this->automail_log( get_class($this), __METHOD__,"720", "ERROR: formidable Form entries ID is empty!" );
+					$this->automail_log( get_class($this), __METHOD__,"120", "ERROR: formidable Form entries ID is empty!" );
 				}
 			} else {
-				$this->automail_log( get_class( $this ), __METHOD__,"721", "ERROR: formidable frm_item_metas table is Not Exist!" );
+				$this->automail_log( get_class( $this ), __METHOD__,"121", "ERROR: formidable frm_item_metas table is Not Exist!" );
 			}
 		}
 	}
@@ -2082,7 +2090,7 @@ class Automail_Events {
 			# Sending data to mail function
 			$r = $this->automail_send_mail( 'wpforms_'.$entry["id"], $entry["fields"]  );
 		} else {
-			$this->automail_log( get_class($this), __METHOD__,"723", "ERROR: wpforms Form entries are empty Or form_id is empty!" );
+			$this->automail_log( get_class($this), __METHOD__,"122", "ERROR: wpforms Form entries are empty Or form_id is empty!" );
 		}
 	}
 
@@ -2116,14 +2124,14 @@ class Automail_Events {
 					# Action
 					$r = $this->automail_send_mail( 'we_'.$form_id, $dataArray );
 				} else {
-					$this->automail_log( get_class($this), __METHOD__,"725", "ERROR: weforms Form entries are empty Or form_id is empty!" );
+					$this->automail_log( get_class($this), __METHOD__,"123", "ERROR: weforms Form entries are empty Or form_id is empty!" );
 				}
 					
 			} else {
-				$this->automail_log( get_class( $this ), __METHOD__,"726", "ERROR: weform frm_item_metas table is Not Exist!" );
+				$this->automail_log( get_class( $this ), __METHOD__,"124", "ERROR: weform frm_item_metas table is Not Exist!" );
 			}
 		} else {
-			$this->automail_log( get_class( $this ), __METHOD__,"726", "ERROR: weform form_id or entry_id is empty." );
+			$this->automail_log( get_class( $this ), __METHOD__,"125", "ERROR: weform form_id or entry_id is empty." );
 		}
 	}
 
@@ -2145,7 +2153,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail( 'gravity_'.$entry['form_id'], $entry );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__,"728", "ERROR: gravity Form entries are empty Or form_id is empty!" );
+				$this->automail_log( get_class($this), __METHOD__,"126", "ERROR: gravity Form entries are empty Or form_id is empty!" );
 			}
 		}
 	}
@@ -2176,7 +2184,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail( 'forminator_'.$form_id, $dataArray );
 			} else {
-				$this->automail_log( get_class($this), __METHOD__,"728", "ERROR: forminator Form entries are empty Or form_id is empty!" );
+				$this->automail_log( get_class($this), __METHOD__,"127", "ERROR: forminator Form entries are empty Or form_id is empty!" );
 			}
 		}
 	}
@@ -2251,48 +2259,71 @@ class Automail_Events {
 	/**
 	 * Using custom hook sending data to Google spreadsheet 
 	 * @since    	1.0.0
-	 * 
 	 * @param     	string    	$eventDataSourceID      This is a Combination between $eventDataSource  and  name or id of that event 
 	 * @param     	array    	$eventDataArray      	Event data array with key value pair.
-	 * 
 	 * @return 	   	array 		Status with first value is bool and send is data.
 	*/
 	public function automail_send_mail( $eventDataSourceID = "", $eventDataArray = "" ){
 		# event_name Empty test;
 		if ( empty( $eventDataSourceID ) OR !is_string( $eventDataSourceID ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataSourceID  is empty or not string."  );
+			$this->automail_log( get_class($this), __METHOD__, "128", "ERROR: eventDataSourceID  is empty or not string."  );
 			return array( FALSE, "ERROR: eventDataSourceID  is empty or not string.");;
 		}
+
 		#  data_array Empty test;
 		if ( empty( $eventDataArray ) OR !is_array( $eventDataArray ) ){
-			$this->automail_log( get_class($this), __METHOD__, "730", "ERROR: eventDataArray is empty or not array."  );
+			$this->automail_log( get_class($this), __METHOD__, "129", "ERROR: eventDataArray is empty or not array."  );
 			return array( FALSE, "ERROR: eventDataArray is empty or not array.");
 		}
-		# Nested array and sanitize array ||convert array to json;
+
+		# Nested array and sanitize array || convert array to json;
 		foreach ( $eventDataArray as $key => $value ) { 
 			if( is_array( $value ) OR is_object( $value )  ) {
 				$this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string!" );
-				$eventDataArray[$key] = json_encode( $value );
+				# Change in here || Convert array to space Separated String 
+				$commaSeparatedString = "";
+				if( !empty( $value ) And is_array( $value ) ){
+					# Loop the array
+					foreach(  $value as $arrKey => $arrValue ){
+						# check nested array or not 
+						if(!is_array( $arrValue ) ){
+							# space separated string 
+							$commaSeparatedString .= $arrValue . " ";
+						} else {
+							# if value is also an array
+							$commaSeparatedString .= json_encode( $arrValue ) . " ";
+						}
+					}
+				} else{
+					# For Object type;
+					$commaSeparatedString = json_encode( $value );
+				}
+				# inserting space separated string to the Holder;
+				$eventDataArray[$key] = strip_tags( $commaSeparatedString );
 			} else {
+				# if value is not an array, value is string or number;
 				$eventDataArray[$key] = strip_tags( $value );
 			}
 		}
+
 		# Token Task Ends 
 		$emailAutomatons  = get_posts( array(
 			'post_type'   	 => 'automail',
 			'post_status' 	 => 'publish',
 			'posts_per_page' => -1
 		));
+
 		# if automail automation is empty 
 		if ( empty( $emailAutomatons ) ){
-			$this->automail_log( get_class( $this ), __METHOD__, "730", "WARNING: no mail automation saved in the dataBase." );
+			$this->automail_log( get_class( $this ), __METHOD__, "130", "WARNING: no mail automation saved in the dataBase." );
 			return  array( FALSE, "WARNING: no mail automation saved in the dataBase.");
 		}
+
 		# Looping the Automation 
 		foreach ( $emailAutomatons as  $emailAutomaton ) {
 			# if there is a Active Automation 
 			if( isset( $emailAutomaton->post_excerpt ) AND  $emailAutomaton->post_excerpt == $eventDataSourceID ) {
-				# Preparing Email body Content 
+				# Preparing Email body Content.
 				# Looping data array and add [] to keys AS you know bracket added for placeholder 
 				$bracketedKeysValue = array();
 				
@@ -2301,8 +2332,6 @@ class Automail_Events {
 				}
 				# Change The placeHolder with Real Data in Email body
 				$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue );
-				
-				# ===========================================================================================
 				# preparing Email Address sending 
 				# Getting post meta Data of receivers 
 				$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE );
@@ -2315,7 +2344,7 @@ class Automail_Events {
 					$validEmailAddresses = array();
 
 					# User role Holder;
-					if( $this->automail_userRoles()[0] AND !empty( $this->automail_userRoles()[1] ) ) {
+					if( $this->automail_userRoles()[0] ) {
 						# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
 						$userRoles = array_intersect( array_keys($this->automail_userRoles()[1] ), $mailReceiver );  // **** there should be an error when there is no UserRole; so handel it if not empty()
 						$roles = array();
@@ -2343,7 +2372,7 @@ class Automail_Events {
 						# removing duplicates
 						$roleUsersEmails = array_unique( $roleUsersEmails );
 					} else {
-						$this->automail_log( get_class($this), __METHOD__, "101", "User role is empty or False automail_userRoles() func is not working!" ); 
+						$this->automail_log( get_class($this), __METHOD__, "131", "User role is empty or False automail_userRoles() func is not working!" ); 
 					}
 					
 					# Get Event source
@@ -2375,23 +2404,32 @@ class Automail_Events {
 						}
 					}
 
-					# Sending Email 
-					$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
-					if ( $r ) {
-						# keeping log
-						$this->automail_log( get_class($this), __METHOD__, "101", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
-						# return
-						return  array( TRUE, "SUCCESS: email send.");
+					# ***Repeated Submission Stop Starts
+					$automailThisLastFired = (int)get_post_meta( $integration->ID ,'automailThisLastFired', TRUE );
+					if( $automailThisLastFired  AND  ( time() - $automailThisLastFired ) < 45   ){
+						# keeping error log
+						$this->automail_log( get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b> ". $emailAutomaton->ID ." </b> ". $emailAutomaton->post_title  );
 					} else {
-						# keeping log
-						$this->automail_log( get_class($this), __METHOD__, "101", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
-						# return
-						return  array( FALSE, "ERROR: status_code is empty.");
+						# Sending Email 
+						$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
+						if ( $r ) {
+							# keeping log
+							$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+							# return
+							return  array( TRUE, "SUCCESS: email send.");
+						} else {
+							# keeping log
+							$this->automail_log( get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+							# return
+							return  array( FALSE, "ERROR: status_code is empty.");
+						}
+						# New Code for preventing Dual Submission || saving last Fired time 
+						update_post_meta( $integration->ID, 'automailThisLastFired', time() );
 					}
-
+					# ***Repeated Submission Stop Ends
 				} else {
-					# keeping log
-					$this->automail_log( get_class($this), __METHOD__, "101", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode( array( $eventDataSourceID , $eventDataArray ) ) );
+					# keeping log is receiver address is empty or not array;
+					$this->automail_log( get_class($this), __METHOD__, "134", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode( array( $eventDataSourceID , $eventDataArray ) ) );
 					return  array( FALSE, "ERROR: Empty email receiver : Check this automation meta :");
 				}
 			}
