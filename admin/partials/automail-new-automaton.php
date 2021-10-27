@@ -130,7 +130,6 @@
                     <div id="postbox-container-1" class="postbox-container">
                         
                         <div class="meta-box-sortables">
-
                             <div class="postbox">
                                 <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?></span></h2>
                                 <div class="inside">

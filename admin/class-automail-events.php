@@ -2,7 +2,6 @@
 /**
  * Define the internationalization functionality.
  * Loads and defines the internationalization files for this plugin
- *
  * @since      1.0.0
  * @package    Automail
  * @subpackage Automail/includes
@@ -12,7 +11,6 @@ class Automail_Events {
 
 	/**
 	 * The current Date.
-	 *
 	 * @since    1.0.0
 	 * @access   Public
 	 * @var      string    $Date    The current version of the plugin.
@@ -55,19 +53,9 @@ class Automail_Events {
 	* For Testing purpose 
 	*/
 	public function automail_event_notices() {
-		echo "<pre>";
+		// echo "<pre>";
 			
-			// echo"hello How are you doing : ";
-			// $automailThisLastFired = (int)get_post_meta( 28934 ,'automailThisLastFired', TRUE );
-			// # Started 
-			// if( $automailThisLastFired  AND  ( time() - $automailThisLastFired ) < 25   ){
-			// 	echo"Already in the database and Time 25 is over. value is :  " . $automailThisLastFired ;
-			// } else {
-			// 	echo "Not in the database ! inserted now.";
-			// 	update_post_meta( 28934, 'automailThisLastFired', time() );
-			// }
-
-		echo "</pre>";
+		// echo "</pre>";
 	}
 
 	/**
@@ -133,7 +121,6 @@ class Automail_Events {
 						}
 					}
 				}
-
 			}
 			# Append New metaOutPut array to $commentData data array;
 			$user_data = array_merge( $user_data, $metaOutPut);
@@ -2000,7 +1987,7 @@ class Automail_Events {
 			# check and balance
 			if ( !empty( $id  ) ) {
 				# Sending data to mail function
-				$r = $this->automail_send_mail( 'cf7_'.$id , $posted_data );
+				$r = $this->automail_send_mail( 'cf7_'.$id, $posted_data );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"118", "ERROR: Contact form 7 Form Submitted But No Form ID !" );
 			}
@@ -2029,7 +2016,7 @@ class Automail_Events {
 			# Check And Balance 
 			if ( ! empty( $form_data )  AND  ! empty(  $form_data["form_id"] ) ) {
 				# Action
-				$r = $this->automail_send_mail( 'ninja_' . $form_data["form_id"] , $data  );
+				$r = $this->automail_send_mail( 'ninja_'.$form_data["form_id"], $data  );
 			} else {
 				$this->automail_log( get_class($this), __METHOD__,"119", "ERROR: ninja Form entries are empty Or form_id is empty!" );
 			}
@@ -2279,7 +2266,8 @@ class Automail_Events {
 		# Nested array and sanitize array || convert array to json;
 		foreach ( $eventDataArray as $key => $value ) { 
 			if( is_array( $value ) OR is_object( $value )  ) {
-				$this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string!" );
+				// FALSE WARNING 
+				// $this->automail_log( get_class($this), __METHOD__, "200", "WARNING: value should be string, not Array or Object. Array or Object converted to json_encode_ed string!" );
 				# Change in here || Convert array to space Separated String 
 				$commaSeparatedString = "";
 				if( !empty( $value ) And is_array( $value ) ){
@@ -2405,26 +2393,28 @@ class Automail_Events {
 					}
 
 					# ***Repeated Submission Stop Starts
-					$automailThisLastFired = (int)get_post_meta( $integration->ID ,'automailThisLastFired', TRUE );
-					if( $automailThisLastFired  AND  ( time() - $automailThisLastFired ) < 45   ){
+					$automailThisLastFired = (int)get_post_meta( $emailAutomaton->ID ,'automailThisLastFired', TRUE );
+					# if automailThisLastFired is set and time is Greater then 25
+					if( $automailThisLastFired  AND  ( time() - $automailThisLastFired ) < 25   ){
 						# keeping error log
-						$this->automail_log( get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b> ". $emailAutomaton->ID ." </b> ". $emailAutomaton->post_title  );
+						$this->automail_log( get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title  );
+						return  array( FALSE, "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title );
 					} else {
 						# Sending Email 
 						$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
 						if ( $r ) {
 							# keeping log
 							$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+							# New Code for preventing Dual Submission || saving last Fired time 
+							update_post_meta( $emailAutomaton->ID, 'automailThisLastFired', time() );
 							# return
 							return  array( TRUE, "SUCCESS: email send.");
 						} else {
 							# keeping log
-							$this->automail_log( get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+							$this->automail_log( get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray , $r ) ) ); 
 							# return
 							return  array( FALSE, "ERROR: status_code is empty.");
 						}
-						# New Code for preventing Dual Submission || saving last Fired time 
-						update_post_meta( $integration->ID, 'automailThisLastFired', time() );
 					}
 					# ***Repeated Submission Stop Ends
 				} else {
@@ -2475,8 +2465,6 @@ class Automail_Events {
 			return array( TRUE, $arrayWithPrefix );
 		}
 	}
-
-
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.
@@ -2829,12 +2817,7 @@ class Automail_Events {
 	 * @param      string    $status_message    The version of this plugin.
 	*/
 	public function automail_log( $file_name = '', $function_name = '', $status_code = '', $status_message = '' ){
-		# Log status
-		// $logStatusOption = get_option( 'automail_logStatus', false );
-		# check log status 
-		// if(  $logStatusOption  AND  $logStatusOption == 'disable' ){
-		// 	return  array( FALSE, "Log is disable." ); 
-		// } 
+		
 		# Check and Balance 
 		if ( empty( $status_code ) or empty( $status_message ) ){
 			return  array( FALSE, "ERROR: status_code OR status_message is Empty");
@@ -2924,3 +2907,8 @@ if ( class_exists('WCFE_Checkout_Fields_Utils') ) {
 # 6. Add Hook For Custom Platform						[x] Fix it Toady 
 # 7. Release Version 3.6.0  							[x] Fix it Toady 
 #-------------------------------- FIXME: -----------------------------
+
+# Frequent Query's
+# SELECT * FROM `wp_posts` WHERE post_type='automail' 
+# SELECT * FROM `wp_posts` WHERE post_type = 'automail_log'
+# SELECT wp_posts.ID, wp_posts.post_title, wp_postmeta.meta_key, wp_postmeta.meta_value FROM wp_postmeta, wp_posts WHERE wp_posts.id = wp_postmeta.post_id AND wp_posts.post_type = 'automail'

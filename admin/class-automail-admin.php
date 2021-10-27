@@ -912,18 +912,16 @@ class Automail_Admin {
 							} else {
 								echo"<div class='notice notice-error inline'>";
 							}
-							echo"<p><span class='automail-circle'>".$log->ID;
+							echo"<p><span class='automail-circle'>" . $log->ID;
 							echo" .</span>";
 							echo "<code>". $log->post_title ."</code>";
 							echo "<code>";
 							if( isset( $log->post_excerpt ) ){
-								echo"<pre>";
-								echo json_encode($log->post_excerpt)  ;
-								echo"</pre>";
+								echo $log->post_excerpt ;
 							}
 							echo "</code>";
 							echo $log->post_content;
-							echo" <code>". $log->post_date  ."</code>";
+							echo" <code>".  $log->post_date  ."</code>";
 							echo"</p>";
 							echo"</div>";
 							$i++ ;
@@ -978,7 +976,21 @@ class Automail_Admin {
 
 		# For Email Body  
 		if( isset( $_POST['automailEmail'] ) AND !empty( $_POST['automailEmail'] ) ){
-			$automailEmail  =  $_POST['automailEmail'];
+			$allowed_html = array(
+				'a' 	=> array(
+					'href' 	=> array(),
+					'title' => array()
+				),
+				'br' 		=> array(),
+				'em' 		=> array(),
+				'strong'	=> array(),
+				'ol'		=> array(),
+				'li'		=> array(),
+				'del'		=> array(),
+				'blockquote'=> array(),
+				'ins'		=> array(),
+			);
+			$automailEmail  =  wp_kses( $_POST['automailEmail'], $allowed_html );
 		} else {
 			wp_redirect( admin_url( 'admin.php?page=automail&status=automailEmail is not set or empty !' ) );
        		exit;
@@ -1223,7 +1235,6 @@ class Automail_Admin {
 	 *  @since    1.0.0
 	*/
 	public function formidable_forms_and_fields(){
-		
 		if ( ! in_array( 'formidable/formidable.php', $this->active_plugins )  ) {
 			return array( FALSE, "ERROR: formidable form  is Not Installed OR DB table is Not Exist" );
 		}
