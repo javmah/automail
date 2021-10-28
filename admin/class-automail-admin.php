@@ -834,7 +834,7 @@ class Automail_Admin {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
+	 * autoMail Main landing page and Router 
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages_view() {
@@ -856,8 +856,11 @@ class Automail_Admin {
 				wp_redirect( admin_url( 'admin.php?page=automail&status=Post ID is Incorrect ! No post in the Database.' ) );
        			exit;
 			}
-			# including the view File 
+			# including edit view File 
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-edit-automaton.php';
+		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'status' AND !empty( $_GET['id'] ) ) ){
+			# Change Automation status Redirect;
+			$this->automail_automation_status( $_GET['id'] );
 		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'delete' AND !empty( $_GET['id'] ) ) ){
 			# Delete and Redirect;
 			wp_delete_post( $_GET['id'] ) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
@@ -881,7 +884,6 @@ class Automail_Admin {
 			echo"</div>";
 		}
 	}
-
 
 	/**
 	 * Sub-menu page  view function 
@@ -926,7 +928,6 @@ class Automail_Admin {
 							echo"</div>";
 							$i++ ;
 						}
-
 					?>
 				</div>
 			</div>
@@ -934,15 +935,41 @@ class Automail_Admin {
 	}
 
 	/**
+	 * Change connection status;
+	 * @since    	1.0.0
+	 * @return 	   	array 	Integrations details  .
+	*/
+	public function  automail_automation_status( $id ){
+		# Check Valid INT
+		if( ! is_numeric( $id ) ) {
+			$this->automail_log( get_class( $this ), __METHOD__, "200", "ERROR: status change ID " . $id . " is not numeric." );
+		}
+		# check the Post type status
+		if ( get_post( $id )->post_status == 'publish' ) {
+			$custom_post = array( 'ID' => $id, 'post_status' => 'pending' );
+		} else {
+			$custom_post = array( 'ID' => $id, 'post_status' => 'publish' );
+		}
+		# Keeping Log
+		$this->automail_log( get_class( $this ), __METHOD__, "200", "SUCCESS: ID " . $id . " Integration status  change to .". get_post( $id )->post_status );
+		# redirect
+		if( wp_update_post( $custom_post  ) ) {
+		 	wp_redirect( admin_url('/admin.php?page=automail&rms=success_from_status_change') );
+		} else {
+			wp_redirect(admin_url('/admin.php?page=automail&rms=fail'));
+		}
+	}
+
+	/**
 	 * Register the JavaScript for the admin area.
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice() {
-		echo"<pre>";
+		// echo"<pre>";
 
 			// print_r($this->automail_userRoles());
 
-		echo"</pre>";
+		// echo"</pre>";
 	}
 
 	/**
@@ -1174,7 +1201,7 @@ class Automail_Admin {
 		if ( ! in_array('ninja-forms/ninja-forms.php', $this->active_plugins ) ) {
 			return array( FALSE, "ERROR:  Ninja form 7 is Not Installed "  );
 		}
-		global $wpdb;	
+		global $wpdb;
 		$FormArray 	 	= array();																								# Empty Array for Value Holder 
 		$fieldsArray 	= array();		
 		$ninjaForms 	= $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_forms", ARRAY_A);

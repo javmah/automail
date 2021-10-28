@@ -2320,6 +2320,9 @@ class Automail_Events {
 				}
 				# Change The placeHolder with Real Data in Email body
 				$emailBodyWithValue = strtr( $emailAutomaton->post_content, $bracketedKeysValue );
+				# Change Email subject placeHolder with Real Data in Email body
+				$emailSubject = strtr( $emailAutomaton->post_title, $bracketedKeysValue );
+
 				# preparing Email Address sending 
 				# Getting post meta Data of receivers 
 				$mailReceiver = get_post_meta( $emailAutomaton->ID, "mailReceiver", TRUE );
@@ -2400,17 +2403,24 @@ class Automail_Events {
 						$this->automail_log( get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title  );
 						return  array( FALSE, "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title );
 					} else {
+						// Test and debug starts
+						// $email_title_encoding  = mb_detect_encoding( $post_title  );
+						// $email_body_encoding   = mb_detect_encoding( $emailBodyWithValue );
+						// $this->automail_log( get_class($this), __METHOD__, "786", "WARNING: " . $email_title_encoding . " ** Body : " .$email_body_encoding  ); 
+						// Test and debug Ends
+
 						# Sending Email 
-						$r = wp_mail( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
+						$r = wp_mail( $validEmailAddresses, $emailSubject, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
+						# Check & Balance 
 						if ( $r ) {
-							# keeping log
-							$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray  ) ) ); 
+							# keeping OK log
+							$this->automail_log( get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailSubject, $emailBodyWithValue, $eventDataSourceID, $emailAutomaton->ID ) ) ); 
 							# New Code for preventing Dual Submission || saving last Fired time 
 							update_post_meta( $emailAutomaton->ID, 'automailThisLastFired', time() );
 							# return
 							return  array( TRUE, "SUCCESS: email send.");
 						} else {
-							# keeping log
+							# keeping ERROR log
 							$this->automail_log( get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray , $r ) ) ); 
 							# return
 							return  array( FALSE, "ERROR: status_code is empty.");

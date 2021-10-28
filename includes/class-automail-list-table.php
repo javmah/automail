@@ -197,11 +197,11 @@ class Automail_List_Table extends WP_List_Table {
 	*/
     public function column_status( $item ) {
         if ( $item->post_status == 'publish' ) {
-            $actions = "<br><span title='Enable or Disable this Automation'  onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . "\"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' checked=checked > </a></span>" ;
+            $actions = "<br><span title='Enable or Disable this Automation'  onclick='window.location=\"admin.php?page=automail&action=status&id=" . $item->ID . "\"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' checked=checked > </a></span>" ;
         } else {
-            $actions = "<br><span title='Enable or Disable this Automation' onclick='window.location=\"admin.php?page=automaton&action=status&id=" . $item->ID . " \"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' > </a></span>" ;
+            $actions = "<br><span title='Enable or Disable this Automation' onclick='window.location=\"admin.php?page=automail&action=status&id=" . $item->ID . " \"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' > </a></span>" ;
         }
-        $actions .= "<br><br> <a href='" . admin_url() . "admin.php?page=automaton&action=columnTitle&id=" . $item->ID . " ' class='dashicons dashicons-controls-repeat' title='Test Fire ! Please check your Google Spreadsheet for effects' ></a>";
+        $actions .= "<br><br> <a href='" . admin_url() . "admin.php?page=automail&action=columnTitle&id=" . $item->ID . " ' class='dashicons dashicons-controls-repeat' title='Test Fire ! Please check your Google Spreadsheet for effects' ></a>";
 
         return   $actions ;
     }
@@ -300,12 +300,12 @@ class Automail_List_Table extends WP_List_Table {
 	*/
 	public function automail_getIntegrations( ) {
 		# Setting Empty Array
-		$integrationsArray 		= array();
+		$integrationsArray 	 = array();
 		# Getting All Posts
-		$listOfConnections   	=  get_posts( array(
-			'post_type'   	 	=> 'automail',
-			'post_status' 		=>  array('publish', 'pending'),
-			'posts_per_page' 	=>  -1
+		$listOfConnections   =  get_posts( array(
+			'post_type'   	 => 'automail',
+			'post_status' 	 =>  array('publish', 'pending'),
+			'posts_per_page' =>  -1
 		));
 
 		# integration loop starts
