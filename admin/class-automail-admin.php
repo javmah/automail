@@ -133,7 +133,6 @@ class Automail_Admin {
 					"wc-failed"		=> "WooCommerce Order Failed",
 				);
 			}
-
 			# User Starts
 			# wordpress user events 
 			$wordpressUserEvents =  array( 
@@ -143,7 +142,6 @@ class Automail_Admin {
 				"wp_userLogin" 			=> 'Wordpress User Login', 
 				"wp_userLogout" 		=> 'Wordpress User Logout',
 			);
-
 			# Inserting User Events to All Events 
 			$this->events += $wordpressUserEvents ;
 
@@ -394,7 +392,7 @@ class Automail_Admin {
 			if ( $commentsMeta[0]  && ! empty( $commentsMeta[1] ) ){
 				# Looping the comment event 
 				foreach ( $wordpressCommentEvents as $key => $value ) {
-					# Looping comment Meta 
+					# Looping comment Meta
 					foreach ( $commentsMeta[1] as $metaKey ) {
 						$this->eventsAndTitles[ $key ][$metaKey] = "Comment Meta  " . $metaKey;
 					}
@@ -1831,3 +1829,5 @@ class Automail_Admin {
 # https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
 # wp_capabilities
 # AlphaBay.com +++++
+#----------------------------------------------------------------------------------------------
+# https://developer.wordpress.org/plugins/cron/

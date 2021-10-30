@@ -337,11 +337,7 @@ class Automail_List_Table extends WP_List_Table {
 	}
 
     /**
-     * ***********************************************
-     * **************** Edit This Function ***********
-     * ***********************************************
-     * 
-	 * Check this Function! may be useless 
+	 * Display Table CSS, Admin table style 
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
@@ -354,12 +350,10 @@ class Automail_List_Table extends WP_List_Table {
         
         echo '<style type="text/css">';
         echo '.wp-list-table .column-id { width: 10%; }';
-        echo '.wp-list-table .column-IntegrationTitle { width: 10%; }';
-        echo '.wp-list-table .column-DataSource { width: 15%; }';
-        echo '.wp-list-table .column-Worksheet { width: 15%; }';
-        echo '.wp-list-table .column-Spreadsheet { width: 20%; }';
-        echo '.wp-list-table .column-Relations { width: 25%; }';
-        echo '.wp-list-table .column-status { width: 5%; }';
+        echo '.wp-list-table .column-automatonName { width: 35%; }';
+        echo '.wp-list-table .column-AutomatonEvent { width: 15%; }';
+        echo '.wp-list-table .column-emailReceiver { width: 30%; }';
+        echo '.wp-list-table .column-status { width: 10%; }';
         echo '</style>';
     }
 }

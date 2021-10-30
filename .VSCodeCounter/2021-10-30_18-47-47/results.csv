@@ -1,0 +1,27 @@
+"filename", "language", "PHP", "CSS", "JSON with Comments", "JavaScript", "Ini", "comment", "blank", "total"
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\class-automail-admin.php", "PHP", 1513, 0, 0, 0, 0, 187, 134, 1834
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\class-automail-events.php", "PHP", 2493, 0, 0, 0, 0, 226, 206, 2925
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\css\automail-admin.css", "CSS", 0, 0, 0, 0, 0, 4, 0, 4
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\index.php", "PHP", 1, 0, 0, 0, 0, 0, 0, 1
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\js\automail-admin.js", "JavaScript", 0, 0, 0, 86, 0, 7, 4, 97
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\js\vue.js", "JavaScript", 0, 0, 0, 9376, 0, 1486, 1153, 12015
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\partials\automail-edit-automaton.php", "PHP", 161, 0, 0, 0, 0, 7, 18, 186
+"c:\xampp\htdocs\office\wp-content\plugins\automail\admin\partials\automail-new-automaton.php", "PHP", 159, 0, 0, 0, 0, 7, 19, 185
+"c:\xampp\htdocs\office\wp-content\plugins\automail\automail.php", "PHP", 21, 0, 0, 0, 0, 43, 9, 73
+"c:\xampp\htdocs\office\wp-content\plugins\automail\desktop.ini", "Ini", 0, 0, 0, 0, 6, 0, 1, 7
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail-activator.php", "PHP", 13, 0, 0, 0, 0, 11, 2, 26
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail-deactivator.php", "PHP", 5, 0, 0, 0, 0, 26, 6, 37
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail-i18n.php", "PHP", 10, 0, 0, 0, 0, 28, 10, 48
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail-list-table.php", "PHP", 236, 0, 0, 0, 0, 94, 32, 362
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail-loader.php", "PHP", 33, 0, 0, 0, 0, 58, 11, 102
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\class-automail.php", "PHP", 89, 0, 0, 0, 0, 81, 16, 186
+"c:\xampp\htdocs\office\wp-content\plugins\automail\includes\index.php", "PHP", 1, 0, 0, 0, 0, 0, 0, 1
+"c:\xampp\htdocs\office\wp-content\plugins\automail\index.php", "PHP", 1, 0, 0, 0, 0, 0, 0, 1
+"c:\xampp\htdocs\office\wp-content\plugins\automail\public\class-automail-public.php", "PHP", 15, 0, 0, 0, 0, 51, 9, 75
+"c:\xampp\htdocs\office\wp-content\plugins\automail\public\css\automail-public.css", "CSS", 0, 0, 0, 0, 0, 4, 0, 4
+"c:\xampp\htdocs\office\wp-content\plugins\automail\public\index.php", "PHP", 1, 0, 0, 0, 0, 0, 0, 1
+"c:\xampp\htdocs\office\wp-content\plugins\automail\public\js\automail-public.js", "JavaScript", 0, 0, 0, 3, 0, 27, 3, 33
+"c:\xampp\htdocs\office\wp-content\plugins\automail\public\partials\automail-public-display.php", "PHP", 3, 0, 0, 0, 0, 11, 3, 17
+"c:\xampp\htdocs\office\wp-content\plugins\automail\uninstall.php", "PHP", 4, 0, 0, 0, 0, 25, 3, 32
+"c:\xampp\htdocs\office\wp-content\plugins\automail\workspace.code-workspace", "JSON with Comments", 0, 0, 21, 0, 0, 0, 0, 21
+"Total", "-", 4759, 0, 21, 9465, 6, 2383, 1639, 18273
