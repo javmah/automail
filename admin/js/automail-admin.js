@@ -92,7 +92,6 @@ if ( document.getElementById("automailEditVue") ) {
 			this.selectedEventsAndTitles = this.eventsAndTitles[automailJsData.selectedEvent];
 		}
 	})
-
 }
 
 // (function) eventSelected  has a Room for Improvement || Do the Thing in HTML not in JS File 

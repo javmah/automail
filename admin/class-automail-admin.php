@@ -101,7 +101,6 @@ class Automail_Admin {
 	public function enqueue_scripts() {
 		# Limit The Code scope only for #toplevel_page_automail
 		if (get_current_screen()->id == 'toplevel_page_automail') {
-			# +++++++++++++++++++++++++++++++ Below code should Fix ++++++++++++++++++++++++++++++++++++++++++++
 			# There are come Default function for This, So Why Custom  Thing
 			# Set date 
 			# Current Date 
@@ -112,8 +111,6 @@ class Automail_Admin {
 			$this->Time		= ( $date_format ) ? current_time( $time_format  ) : current_time( 'g:i a' );
 			# Active Plugins, Checking Active And Inactive Plugin 
 			$this->active_plugins = get_option( 'active_plugins');		
-			
-			# ++++++++++++++++++++++++++++++ below Code also Should Change as you see Custom Order Status will not Display +++++++++++++++++++
 			# WooCommerce order Statuses 
 			if ( function_exists ( "wc_get_order_statuses" ) ) {
 				$woo_order_statuses =  wc_get_order_statuses();
@@ -791,19 +788,20 @@ class Automail_Admin {
 
 		# End of Scope 
 		if ( get_current_screen()->id == 'toplevel_page_automail' ) {
-			wp_register_script( 'Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
-			wp_enqueue_script( 'automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('Vue'), '1.0', TRUE );  
+			wp_register_script('Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
+			wp_enqueue_script('automail-admin', plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('Vue'), '1.0', TRUE );  
 			
 			# Change from Here 
-			if ( isset( $_GET["action"] , $_GET["id"] ) ){
-				# getting the integration
-				$post  = get_post( sanitize_text_field($_GET["id"]), ARRAY_A );
+			if ( isset($_GET["action"], $_GET["id"]) AND !empty($_GET["id"])){
+				# getting the integration post from DB
+				$wpPost  = get_post( sanitize_text_field($_GET["id"]), ARRAY_A );
+				# Creating an array for Frontend, for Preselecting 
 				$frontEnd = array( 
-					"ID"  					=> ( isset( $post['ID']  ) AND !empty( $post['ID'] ) ) 						? $post['ID'] 				: "" ,
-					"automatonName"  		=> ( isset( $post['post_title']  ) 	AND !empty( $post['post_title'] ) ) 	? $post['post_title'] 		: "" ,
-					"selectedEvent"  		=> ( isset( $post['post_excerpt']) 	AND !empty( $post['post_excerpt'] ) ) 	? $post['post_excerpt'] 	: "" ,
+					"ID"  					=> ( isset( $wpPost['ID']  ) AND !empty( $wpPost['ID'] ) ) 					? $wpPost['ID'] 			: "" ,
+					"automatonName"  		=> ( isset( $wpPost['post_title']  ) AND !empty( $wpPost['post_title'] ) ) 	? $wpPost['post_title'] 	: "" ,
+					"selectedEvent"  		=> ( isset( $wpPost['post_excerpt']) AND !empty( $wpPost['post_excerpt'] ) )? $wpPost['post_excerpt'] 	: "" ,
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
-					"mailReceiver"  		=> json_encode( get_post_meta( $_GET['id'], "mailReceiver", TRUE ) ) , 
+					"mailReceiver"  		=> json_encode(get_post_meta(sanitize_text_field($_GET["id"]), "mailReceiver", TRUE)) , 
 				);
 			} else {
 				$frontEnd = array( 
@@ -835,15 +833,15 @@ class Automail_Admin {
 		if (isset( $_GET['action'] ) AND $_GET['action'] == 'new') {
 			# including the new automaton view File;
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-new-automaton.php';
-		} elseif (isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'edit' AND !empty($_GET['id']))) {
+		} elseif (isset( $_GET['action'], $_GET['id'] ) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))) {
 			# Getting the Post data;
-			$post   		    = get_post($_GET['id'], ARRAY_A);
+			$post   		    = get_post(sanitize_text_field($_GET["id"]), ARRAY_A);
 			if( $post ){
-				$ID             = (isset( $post['ID']  ) 			AND !empty($post['ID'])) 		   ? $post['ID'] 			: "";		
-				$automatonName  = (isset( $post['post_title']  ) 	AND !empty($post['post_title']))   ? $post['post_title'] 	: "";
-				$eventName  	= (isset( $post['post_excerpt']) 	AND !empty($post['post_excerpt'])) ? $post['post_excerpt'] 	: "";
-				$automailEmail  = (isset( $post['post_content']  )  AND !empty($post['post_content'])) ? $post['post_content'] 	: "";
-				$mailReceiver  	= get_post_meta( $_GET['id'], "mailReceiver", TRUE );
+				$ID             = (isset($post['ID']) 			    AND !empty($post['ID'])) 		   ? $post['ID'] 			: "";		
+				$automatonName  = (isset($post['post_title']) 	    AND !empty($post['post_title']))   ? $post['post_title'] 	: "";
+				$eventName  	= (isset($post['post_excerpt']) 	AND !empty($post['post_excerpt'])) ? $post['post_excerpt'] 	: "";
+				$automailEmail  = (isset($post['post_content'])     AND !empty($post['post_content'])) ? $post['post_content'] 	: "";
+				$mailReceiver  	= get_post_meta(sanitize_text_field($_GET["id"]), "mailReceiver", TRUE);
 			} else {
 				# No Post found in the database so redirecting.
 				wp_redirect( admin_url( 'admin.php?page=automail&status=Post ID is Incorrect ! No post in the Database.' ) );
@@ -851,19 +849,19 @@ class Automail_Admin {
 			}
 			# including edit view File 
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-edit-automaton.php';
-		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'status' AND !empty( $_GET['id'] ) ) ){
+		} elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'status' AND !empty($_GET['id']))){
 			# Change Automation status Redirect;
-			$this->automail_automation_status( $_GET['id'] );
-		} elseif ( isset( $_GET['action'], $_GET['id'] ) AND ( $_GET['action'] == 'delete' AND !empty( $_GET['id'] ) ) ){
+			$this->automail_automation_status(sanitize_text_field($_GET["id"]));
+		} elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'delete' AND !empty($_GET['id']))){
 			# Delete and Redirect;
-			wp_delete_post( $_GET['id'] ) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
+			wp_delete_post(sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 		} else {
 			# Adding List table
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-list-table.php';
+			require_once plugin_dir_path( dirname( __FILE__ )) .'includes/class-automail-list-table.php';
 			# Creating view Page layout 
 			echo"<div class='wrap'>";
 				echo "<h1 class='wp-heading-inline'> Email Automatons  </h1>";
-				echo "<a href=". admin_url('/admin.php?page=automail&action=new') . " class='page-title-action'>Add New Email Automaton</a>";
+				echo "<a href=". admin_url('/admin.php?page=automail&action=new') ." class='page-title-action'>Add New Email Automaton</a>";
 				# Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions
 				echo"<form id='newIntegration' method='get'>";
 					# For plugins, we also need to ensure that the form posts back to our current page 
@@ -969,7 +967,7 @@ class Automail_Admin {
 	*/
 	public function automail_saveAutomation() {
 		# automatonName
-		if(isset($_POST['automatonName']) AND !empty($_POST['automatonName'])){
+		if( isset($_POST['automatonName']) AND !empty($_POST['automatonName']) ){
 			$automatonName  =  sanitize_text_field($_POST['automatonName']);
 		} else {
 			wp_redirect( admin_url( 'admin.php?page=automail&status=automatonName is not set or empty !' ) );
@@ -1008,14 +1006,14 @@ class Automail_Admin {
 				'blockquote'=> array(),
 				'ins'		=> array(),
 			);
-			$automailEmail  =  wp_kses( $_POST['automailEmail'], $allowed_html );
+			$automailEmail  =  wp_kses($_POST['automailEmail'], $allowed_html);
 		} else {
 			wp_redirect( admin_url( 'admin.php?page=automail&status=automailEmail is not set or empty !' ) );
        		exit;
 		}
 
 		# Post Status
-		if( isset($_POST['automatonStatus']) AND  $_POST['automatonStatus'] == "on" ){
+		if(isset($_POST['automatonStatus']) AND  $_POST['automatonStatus'] == "on"){
 			$post_status  =  "publish" ;
 		} else {
 			$post_status  =  "pending";
@@ -1043,7 +1041,7 @@ class Automail_Admin {
 		} elseif ($_POST['status'] == "editAutomation" AND !empty($_POST['postID'])) {
 			# Preparing Post array for status Change 
 			$customPost = array(
-				'ID'				=> sanitize_text_field( $_POST['postID'] ),
+				'ID'				=> sanitize_text_field($_POST['postID']),
 				'post_content'  	=> $automailEmail, 						// Post Email Content
 				'post_title'    	=> $automatonName, 						// Post Title
 				'post_status'   	=> $post_status, 
@@ -1193,8 +1191,6 @@ class Automail_Admin {
 			$FormArray[ "ninja_". $form["id"] ] = "Ninja - ". $form["title"];	
 			$ninjaFields =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_fields where parent_id = '".$form["id"]."'", ARRAY_A);
 			foreach ($ninjaFields as $field) {
-				
-				// $field_list = array( "textbox", "textarea", "number" );
 				# freemius 
 				$field_list = array( 
 					"textbox",
@@ -1259,7 +1255,6 @@ class Automail_Admin {
 			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= " . $form->id . " ORDER BY field_order"); 	# Getting  Data from Database 
 			foreach ($fields as $field) {
 				# Default fields
-				// $field_list = array("text", "textarea", "number");
 
 				# freemius
 				$field_list = array( 
@@ -1304,7 +1299,6 @@ class Automail_Admin {
 				}
 			}
 		}
-
 		return array( TRUE, $FormArray, $fieldsArray );	 # Inserting Data to the Main [$eventsAndTitles ] Array 
 	}
 
@@ -1329,7 +1323,7 @@ class Automail_Admin {
 			
 			foreach( $post_content->fields as $field ){
 				# Default fields
-				// $field_list = array( "name", "text", "textarea" );
+
 				# freemius
 				$field_list = array( 
 					"name", 
@@ -1481,7 +1475,7 @@ class Automail_Admin {
 	 * @return     array   First one is CPS and Second one is CPT's Field source.
 	*/
 	public function forminator_forms_and_fields(){
-		if (!in_array( 'forminator/forminator.php', $this->active_plugins )) {
+		if (!in_array('forminator/forminator.php', $this->active_plugins)) {
 			return array( FALSE, "ERROR: forminator form  is Not Installed OR no integration Exist" );
 		}
 
@@ -1516,7 +1510,7 @@ class Automail_Admin {
 
 	/**
 	 * This Function will return [wordPress Pages] Meta keys.
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_pages_metaKeys(){
@@ -1541,7 +1535,7 @@ class Automail_Admin {
 
 	/**
 	 * This Function will return [wordPress Posts] Meta keys.
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_posts_metaKeys(){
@@ -1566,7 +1560,7 @@ class Automail_Admin {
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_users_metaKeys(){
@@ -1606,7 +1600,7 @@ class Automail_Admin {
 
 	/**
 	 * This Function will return [WooCommerce product] Meta keys.
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_product_metaKeys(){
@@ -1631,7 +1625,7 @@ class Automail_Admin {
 
 	/**
 	 * This Function will return [WooCommerce Order] Meta keys.
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_order_metaKeys(){
@@ -1796,7 +1790,6 @@ class Automail_Admin {
 		}
 	}
 
-
 	/**
 	 * LOG ! For Good , This the log Method 
 	 * @since      1.0.0
@@ -1837,7 +1830,4 @@ class Automail_Admin {
 # Help user Roles 
 # https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
 # wp_capabilities
-# Trello API key
-#  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
-#  b074f1b36e4e4d53a1ae3fe158d2860d8807e3407d8c6a1993b57a95c6d3542f
 # AlphaBay.com +++++
