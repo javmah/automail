@@ -875,6 +875,9 @@ class Automail_Admin {
 	}
 
 	/**
+	 * 
+	 * Improve this function  || 
+	 * 
 	 * Sub-menu page  view function 
 	 * This is the Submenu page view function 
 	 * @since  1.0.0
@@ -886,9 +889,9 @@ class Automail_Admin {
 				<h2><?php esc_attr_e( 'autoMail Settings', 'automail' ); ?></h2>
 				<!-- tab nav -->
 				<h2 class="nav-tab-wrapper">
-					<a href="#" class="nav-tab">Email template</a>
+					<!-- <a href="#" class="nav-tab">Email template</a> -->
 					<a href="#" class="nav-tab nav-tab-active">Logs</a>
-					<a href="#" class="nav-tab">Tab #3</a>
+					<!-- <a href="#" class="nav-tab">Tab #3</a> -->
 				</h2>
 				<!-- Container body -->
 				<div id="container">
@@ -1828,6 +1831,9 @@ class Automail_Admin {
 # Help user Roles 
 # https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
 # wp_capabilities
-# AlphaBay.com +++++
 #----------------------------------------------------------------------------------------------
 # https://developer.wordpress.org/plugins/cron/
+#----------------------------------------------------------------------------------------------
+# Creating Custom Email template, Help link 
+# 1. https://webdesign.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770
+# 2. IDEA for a Drag and Drop Email Template Builder 
