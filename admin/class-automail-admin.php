@@ -852,7 +852,15 @@ class Automail_Admin {
 			$this->automail_automation_status(sanitize_text_field($_GET["id"]));
 		} elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'delete' AND !empty($_GET['id']))){
 			# Delete and Redirect;
-			wp_delete_post(sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
+			if( is_array($_GET['id'])){
+				# deleting Bulk Automation
+				foreach ( $_GET['id'] as $id ) {
+                	wp_delete_post( $id );
+            	}
+			} else {
+				# Deleting Single Automation 
+				wp_delete_post( sanitize_text_field( $_GET["id"] ) ) ? wp_redirect( admin_url('/admin.php?page=automail&status=success') ) : wp_redirect( admin_url('/admin.php?page=automail&status=failed') );
+			}
 		} else {
 			# Adding List table
 			require_once plugin_dir_path( dirname( __FILE__ )) .'includes/class-automail-list-table.php';

@@ -105,21 +105,20 @@ class Automail_List_Table extends WP_List_Table {
 	*/
     public function process_bulk_actions() {
         # getting the ids
-        $ids = isset( $_GET['id'] ) ? $_GET['id'] : array();
-        # security and ID Check 
-        if ( $this->current_action() == 'delete' && wp_verify_nonce( $_GET['automail_nonce'], 'automail_nonce_bulk_action' ) && ! empty( $ids )  ) {
-            # Loop the Ids
-            foreach ( $ids as $id ) {
-                wp_delete_post( $id );
-            }
+        // $ids = isset( $_GET['id'] ) ? $_GET['id'] : array();
+        // # security and ID Check 
+        // if ( $this->current_action() == 'delete' && wp_verify_nonce( $_GET['automail_nonce'], 'automail_nonce_bulk_action' ) && ! empty( $ids )  ) {
+        //     # Loop the Ids
+        //     foreach ( $ids as $id ) {
+        //         wp_delete_post( $id );
+        //     }
+        // }
 
-            # Caching the integrations 
-            $integrations =  $this->automail_getIntegrations();
-            if ( $integrations[0] ){
-                # setting or updating the transient;
-                set_transient( 'automail_integrations', $integrations[1] );
-            }
-        }
+        #***************************************************************************************************
+        # Bulk Action is Processes in >> class_automail_admin.php >> automail_menu_pages_view() function 
+        #***************************************************************************************************
+        # This Function is useless now 
+        #***************************************************************************************************
     }
 
     /**

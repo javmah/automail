@@ -1,20 +1,72 @@
 === AutoMail - Event Based Email automation Plugin for WordPress, WooCommerce, Contact Form 7, and Other Plugin  ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: 
 Donate link: https://profiles.wordpress.org/javmah/
-Tags: email, automation, Automatic email reply, wooCommerce, CF7, auto reply,
+Tags: email, automation, email reply, email auto reply, wooCommerce, CF7,
 Requires at least: 4.7.0
 Tested up to: 5.8.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-AutoMail is an Email automation plugin, It works with wordpress, WooCommerce, Contact form seven, and other Plugins
+AutoMail is an Email Automation plugin, It works with wordpress, WooCommerce, Contact form seven, and other Plugins
 
 == Description ==
 
 WordPress platform along with its Plugin generates many events and event base data, those data are vital for day-to-day operations.
 This plugin sends an Email notification with generated data when there is an event occurred. This Plugin supports Around all WordPress 
-events along with Many Third-party Plugins. 
+events along with Many Third-party Plugins. List of events are:
+
+== Email Automation Events are ==
+
+* Contact form 7 forms submission to automatic email notification.
+
+* WordPress New user registration to automatic email notification.
+
+* WordPress User Profile Updates to automatic email notification.
+
+* WordPress User Login to automatic email notification.
+
+* WordPress User Logout to automatic email notification.
+
+* WordPress Delete User to automatic email notification.
+
+* WordPress New post to automatic email notification.
+
+* WordPress update post to automatic email notification.
+
+* WordPress New page automatic email notification.
+
+* WordPress New Comment to automatic email notification.
+
+* WordPress Edit Comment to automatic email notification.
+
+* WooCommerce New order to automatic email notification.
+
+* WooCommerce Order status change to automatic email notification.
+
+* WooCommerce new product to automatic email notification.
+
+* WooCommerce Update product to automatic email notification.
+
+* Gravity Forms to automatic email notification.
+
+* ninja form to automatic email notification.
+
+* Formidable form to automatic email notification.
+
+* WPform form to automatic email notification.
+
+* weForms form to automatic email notification.
+
+
+**Thanks:** Heartiest Gratitude to all of my users who inspired me and suggest me and compliment me in many ways, you guys are Awesome. Without yours support and love it was impossible to maintain this huge codebase (Around 14,000 line of code). Please accept my sincere thanks.
+
+
+== Upcoming Features  ==
+
+1. Email Template.
+2. More Customization Option 
+3. New platforms for Mail Automation 
 
 == Installation ==
 
@@ -29,27 +81,14 @@ events along with Many Third-party Plugins.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Follow the step-by-step documentation on settings page
 
-
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
 == Screenshots ==
-1. Overall plugin view.
-2. Integration list.
-3. Create new integration.
-4. Settings page.
-5. Google Service Account  Create new Api project.
-
+1. List of email automaton. Also Plugin Landing Page.
+2. New email automaton settings. 
+3. Edit existing email automaton.
 
 == Changelog ==
 
 = v1.0.0-beta.1 (31 October, 2021)  =
 * Initial Release version.
-
+* All default and third-party platform included.
+* Provision for more platform.
