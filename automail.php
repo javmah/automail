@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Currently plugin version.Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
 */
-define( 'AUTOMAIL_VERSION', '1.0.0' );
+define('AUTOMAIL_VERSION', '1.0.0');
 
 /**
  * The code that runs during plugin activation. This action is documented in includes/class-automail-activator.php
@@ -52,8 +52,8 @@ function deactivate_automail() {
 	Automail_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_automail' );
-register_deactivation_hook( __FILE__, 'deactivate_automail' );
+register_activation_hook( __FILE__, 'activate_automail');
+register_deactivation_hook( __FILE__, 'deactivate_automail');
 
 /**
  * The core plugin class that is used to define internationalization, admin-specific hooks, and public-facing site hooks.
@@ -65,7 +65,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-automail.php';
  * then kicking off the plugin from this point in the file does not affect the page life cycle.
  * @since    1.0.0
 */
-function run_automail() {
+function run_automail(){
 	$plugin = new Automail();
 	$plugin->run();
 }

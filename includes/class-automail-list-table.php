@@ -15,13 +15,12 @@ class Automail_List_Table extends WP_List_Table {
 
     
     public $eventsAndTitles ;
-
    /**
    * Construct function
    * Set default settings.
    * @since      1.0.0
    */
-    function __construct( $eventsAndTitles ) {
+    function __construct($eventsAndTitles){
         global $status, $page;
         $this->eventsAndTitles = $eventsAndTitles;
         //Set parent defaults
@@ -36,11 +35,11 @@ class Automail_List_Table extends WP_List_Table {
    * Renders the columns.
    * @since 1.0.0
    */
-    public function column_default( $item, $column_name ) {
-        $post_excerpt = unserialize( $item->post_excerpt );
+    public function column_default($item, $column_name){
+        $post_excerpt = unserialize($item->post_excerpt);
         $post_content = '';
 
-        switch ($column_name) {
+        switch($column_name){
             case 'id':
                 $value = $item->ID;
                 break;
@@ -66,13 +65,13 @@ class Automail_List_Table extends WP_List_Table {
      * @since 1.0.0
      * @return array $columns Array of all the list table columns.
      */
-    public function get_columns() {
+    public function get_columns(){
         $columns = array(
             'cb'                 => '<input type="checkbox" />',
-            'automatonName'      => esc_html__( 'Automaton Name',   'automail' ),
-            'AutomatonEvent'     => esc_html__( 'Automaton Event',  'automail' ),
-            'emailReceiver'      => esc_html__( 'Email Receiver',   'automail' ),
-            'status'             => esc_html__( 'Status',           'automail' )
+            'automatonName'      => esc_html__('Automaton Name',   'automail'),
+            'AutomatonEvent'     => esc_html__('Automaton Event',  'automail'),
+            'emailReceiver'      => esc_html__('Email Receiver',   'automail'),
+            'status'             => esc_html__('Status',           'automail')
         );
         return $columns;
     }
@@ -82,8 +81,8 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function column_cb( $item ) {
-        return '<input type="checkbox" name="id[]" value="' . absint( $item->ID ) . '" />';
+    public function column_cb($item){
+        return '<input type="checkbox" name="id[]" value="' . absint($item->ID) . '" />';
     }
 
     /**
@@ -91,9 +90,9 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function get_bulk_actions() {
+    public function get_bulk_actions(){
         $actions = array(
-            'delete' => esc_html__( 'Delete', 'automail' ),
+            'delete' => esc_html__('Delete', 'automail'),
         );
         return $actions;
     }
@@ -103,7 +102,7 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function process_bulk_actions() {
+    public function process_bulk_actions(){
         # getting the ids
         // $ids = isset( $_GET['id'] ) ? $_GET['id'] : array();
         // # security and ID Check 
@@ -126,11 +125,11 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function column_AutomatonEvent( $item ) {
-        if ( $item->post_excerpt ) {
-            return esc_attr( $item->post_excerpt );
-        } else {
-            _e( "Not Set !" , "automail" );
+    public function column_AutomatonEvent($item){
+        if($item->post_excerpt){
+            return esc_attr($item->post_excerpt);
+        }else{
+            _e("Not Set !" , "automail");
         }
     }
 
@@ -139,9 +138,9 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function column_emailReceiver( $item ) {
-        $mailReceiverArray =  get_post_meta( $item->ID, 'mailReceiver', TRUE );
-        echo json_encode( $mailReceiverArray );
+    public function column_emailReceiver($item){
+        $mailReceiverArray =  get_post_meta($item->ID, 'mailReceiver', TRUE);
+        echo json_encode($mailReceiverArray);
     }
 
     /**
@@ -149,9 +148,9 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function column_automatonName( $item ) {
+    public function column_automatonName($item){
         $name = ! empty( $item->post_title ) ? $item->post_title : '--';
-        $name = sprintf( '<span><strong>%s</strong></span>', esc_html__( $name ) );
+        $name = sprintf('<span><strong>%s</strong></span>', esc_html__($name));
         # Build all of the row action links.
         $row_actions = array();
         # Edit.
@@ -162,10 +161,10 @@ class Automail_List_Table extends WP_List_Table {
                     'action' => 'edit',
                     'id'     => $item->ID,
                 ),
-                admin_url( 'admin.php?page=automail' )
+                admin_url('admin.php?page=automail')
             ),
-            esc_html__( 'Edit This Relation', 'automail' ),
-            esc_html__( 'Edit', 'automail' )
+            esc_html__('Edit This Relation', 'automail'),
+            esc_html__('Edit', 'automail')
         );
 
         # Delete.
@@ -181,12 +180,12 @@ class Automail_List_Table extends WP_List_Table {
                 ),
                 'automail_delete_relation_nonce'
             ),
-            esc_html__( 'Delete this relation', 'automail' ),
-            esc_html__( 'Delete', 'automail' )
+            esc_html__('Delete this relation', 'automail'),
+            esc_html__('Delete', 'automail' )
         );
 
         # Build the row action links and return the value.
-        return $name . $this->row_actions( apply_filters( 'fts_relation_row_actions', $row_actions, $item ) );
+        return $name . $this->row_actions(apply_filters('fts_relation_row_actions', $row_actions, $item));
     }
 
     /**
@@ -194,10 +193,10 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function column_status( $item ) {
-        if ( $item->post_status == 'publish' ) {
+    public function column_status($item){
+        if($item->post_status == 'publish'){
             $actions = "<br><span title='Enable or Disable this Automation'  onclick='window.location=\"admin.php?page=automail&action=status&id=" . $item->ID . "\"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' checked=checked > </a></span>" ;
-        } else {
+        }else{
             $actions = "<br><span title='Enable or Disable this Automation' onclick='window.location=\"admin.php?page=automail&action=status&id=" . $item->ID . " \"'  class='a_activation_checkbox'  ><a class='a_activation_checkbox' href='?page=automail&action=edit&id=".$item->ID."'>  <input type='checkbox' name='status' > </a></span>" ;
         }
         $actions .= "<br><br> <a href='" . admin_url() . "admin.php?page=automail&action=columnTitle&id=" . $item->ID . " ' class='dashicons dashicons-controls-repeat' title='Test Fire ! Please check your Google Spreadsheet for effects' ></a>";
@@ -210,7 +209,7 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function no_items() {
+    public function no_items(){
         printf(
             wp_kses(
                 __( 'Whoops, you haven\'t created a relation yet. Want to <a href="%s">give it a go</a>?', 'automail' ),
@@ -220,7 +219,7 @@ class Automail_List_Table extends WP_List_Table {
                     ),
                 )
             ),
-            admin_url( 'admin.php?page=automail&action=new' )
+            admin_url('admin.php?page=automail&action=new')
         );
     }
 
@@ -229,7 +228,7 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function get_sortable_columns() {
+    public function get_sortable_columns(){
         return array(
             'automatonName'     => array('automatonName', TRUE),
             'AutomatonEvent'    => array('AutomatonEvent', TRUE),
@@ -242,8 +241,8 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function fetch_table_data() {
-        return get_posts( array( 
+    public function fetch_table_data(){
+        return get_posts(array( 
             'post_type'         =>  'automail',
             'post_status'       =>  'any',
             'posts_per_page'    =>  -1 ,
@@ -255,7 +254,7 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function prepare_items() {
+    public function prepare_items(){
         # Process bulk actions if found.
         $this->process_bulk_actions();
         # Defining Values
@@ -283,8 +282,8 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function count() {
-        $automail_posts = get_posts( array( 
+    public function count(){
+        $automail_posts = get_posts(array( 
             'post_type'     => 'automail',
             'post_status'   => 'any',
             'posts_per_page'=> -1,
@@ -297,22 +296,22 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      3.4.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-	public function automail_getIntegrations( ) {
+	public function automail_getIntegrations(){
 		# Setting Empty Array
 		$integrationsArray 	 = array();
 		# Getting All Posts
-		$listOfConnections   =  get_posts( array(
+		$listOfConnections   =  get_posts(array(
 			'post_type'   	 => 'automail',
 			'post_status' 	 =>  array('publish', 'pending'),
 			'posts_per_page' =>  -1
 		));
 
 		# integration loop starts
-		foreach ( $listOfConnections as $key => $value ) {
+		foreach($listOfConnections as $key => $value){
 			# Compiled to JSON String 
-			$post_excerpt = json_decode( $value->post_excerpt, TRUE );
+			$post_excerpt = json_decode($value->post_excerpt, TRUE);
 			# if JSON Compiled successfully 
-			if ( is_array( $post_excerpt ) AND !empty( $post_excerpt ) ) {
+			if(is_array($post_excerpt) AND !empty($post_excerpt)){
 				$integrationsArray[$key]["IntegrationID"] 	= $value->ID;
 				$integrationsArray[$key]["DataSource"] 		= $post_excerpt["DataSource"];
 				$integrationsArray[$key]["DataSourceID"] 	= $post_excerpt["DataSourceID"];
@@ -321,17 +320,17 @@ class Automail_List_Table extends WP_List_Table {
 				$integrationsArray[$key]["Spreadsheet"] 	= $post_excerpt["Spreadsheet"];
 				$integrationsArray[$key]["SpreadsheetID"] 	= $post_excerpt["SpreadsheetID"];
 				$integrationsArray[$key]["Status"] 			= $value->post_status;
-			} else {
+			}else{
 				# Display Error, Because Data is corrected or Empty 
 			}
 		}
 
 		# integration loop Ends
 		# return  array with First Value as Bool and second one is integrationsArray array
-		if ( count( $integrationsArray ) ) {
-			return array( TRUE, $integrationsArray );
+		if(count($integrationsArray)){
+			return array(TRUE, $integrationsArray);
 		} else {
-			return array( FALSE, $integrationsArray );
+			return array(FALSE, $integrationsArray);
 		}
 	}
 
@@ -340,10 +339,10 @@ class Automail_List_Table extends WP_List_Table {
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
-    public function admin_header() {
-        $page = ( isset($_GET['page'] ) ) ? esc_attr( $_GET['page'] ) : false;
+    public function admin_header(){
+        $page = (isset($_GET['page'])) ? esc_attr($_GET['page']) : false;
         # if another page redirect user;
-        if ( 'automail' != $page ){
+        if ('automail' != $page){
             return;
         }
         
