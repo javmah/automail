@@ -189,7 +189,7 @@ class Automail_Admin {
 				$usersMeta = $this->automail_users_metaKeys();
 				if($usersMeta[0]  && ! empty($usersMeta[1])){
 					# Looping comment Meta 
-					foreach ($usersMeta[1] as $metaKey) {
+					foreach($usersMeta[1] as $metaKey){
 						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  ".$metaKey;
 					}
 				}
@@ -277,7 +277,6 @@ class Automail_Admin {
 				}
 
 				if($key == 'wp_page'){
-					
 					$this->eventsAndTitles[$key] = array(
 						"postID" 				=> "Page ID",
 						"post_authorID"			=> "Page Author ID",
@@ -781,13 +780,13 @@ class Automail_Admin {
 				}
 			}
 
-			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array( 'jquery' ), $this->version, false);
+			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('jquery'), $this->version, false);
 		} 
 
 		# End of Scope 
 		if(get_current_screen()->id == 'toplevel_page_automail'){
 			wp_register_script('Vue', plugin_dir_url( __FILE__ ).'js/vue.js', array(), FALSE, FALSE );
-			wp_enqueue_script('automail-admin', plugin_dir_url( __FILE__ ).'js/automail-admin.js', array('Vue'), '1.0', TRUE );
+			wp_enqueue_script('automail-admin', plugin_dir_url( __FILE__ ).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
 			
 			# Change from Here 
 			if(isset($_GET["action"], $_GET["id"]) AND !empty($_GET["id"])){
@@ -817,9 +816,9 @@ class Automail_Admin {
 	*/
 	public function automail_menu_pages(){
 		# Menu
-		add_menu_page( __( 'autoMail', 'automail' ), __( 'autoMail', 'automail' ), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
+		add_menu_page(__('autoMail', 'automail'), __('autoMail', 'automail'), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
 		# Sub-menu 
-		add_submenu_page( 'automail', 'Settings', 'settings','manage_options', 'automail-settings', array( $this, 'automail_settings_view'));
+		add_submenu_page('automail', 'Settings', 'settings','manage_options', 'automail-settings', array( $this, 'automail_settings_view'));
 	}
 
 	/**
@@ -828,10 +827,10 @@ class Automail_Admin {
 	*/
 	public function automail_menu_pages_view(){
 		# router aka request dispatcher;
-		if(isset( $_GET['action'] ) AND $_GET['action'] == 'new'){
+		if(isset($_GET['action']) AND $_GET['action'] == 'new'){
 			# including the new automaton view File;
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-new-automaton.php';
-		}elseif (isset( $_GET['action'], $_GET['id'] ) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))){
+		}elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))){
 			# Getting the Post data;
 			$post   		    = get_post(sanitize_text_field($_GET["id"]), ARRAY_A);
 			if($post){
@@ -859,11 +858,11 @@ class Automail_Admin {
             	}
 			}else{
 				# Deleting Single Automation 
-				wp_delete_post( sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
+				wp_delete_post(sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 			}
 		}else{
 			# Adding List table
-			require_once plugin_dir_path(dirname( __FILE__ )).'includes/class-automail-list-table.php';
+			require_once plugin_dir_path(dirname(__FILE__)).'includes/class-automail-list-table.php';
 			# Creating view Page layout 
 			echo"<div class='wrap'>";
 				echo "<h1 class='wp-heading-inline'> Email Automatons  </h1>";
@@ -911,16 +910,16 @@ class Automail_Admin {
 							}else{
 								echo"<div class='notice notice-error inline'>";
 							}
-							echo"<p><span class='automail-circle'>" . $log->ID;
+							echo"<p><span class='automail-circle'>".$log->ID;
 							echo" .</span>";
-							echo "<code>". $log->post_title ."</code>";
+							echo "<code>".$log->post_title."</code>";
 							echo "<code>";
 							if(isset($log->post_excerpt)){
 								echo $log->post_excerpt;
 							}
 							echo "</code>";
 							echo $log->post_content;
-							echo" <code>".  $log->post_date  ."</code>";
+							echo" <code>".$log->post_date."</code>";
 							echo"</p>";
 							echo"</div>";
 							$i++ ;
@@ -938,7 +937,7 @@ class Automail_Admin {
 	*/
 	public function  automail_automation_status($id){
 		# Check Valid INT
-		if(!is_numeric($id)) {
+		if(!is_numeric($id)){
 			$this->automail_log(get_class( $this ), __METHOD__, "200", "ERROR: status change ID ".$id." is not numeric.");
 		}
 		# check the Post type status
@@ -948,7 +947,7 @@ class Automail_Admin {
 			$custom_post = array('ID' => $id, 'post_status' => 'publish');
 		}
 		# Keeping Log
-		$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: ID " . $id . " Integration status  change to .". get_post($id)->post_status);
+		$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: ID ".$id." Integration status  change to .". get_post($id)->post_status);
 		# redirect
 		if(wp_update_post($custom_post)){
 		 	wp_redirect(admin_url('/admin.php?page=automail&rms=success_from_status_change'));
@@ -990,9 +989,9 @@ class Automail_Admin {
 
 		# For mailReceiver
 		if((isset($_POST['mailReceiver']) AND !empty($_POST['mailReceiver'])) AND is_array($_POST['mailReceiver'])){
-			$mailReceiver  =  array_map( 'sanitize_text_field',  $_POST['mailReceiver'] );
+			$mailReceiver  =  array_map('sanitize_text_field',  $_POST['mailReceiver']);
 		}else{
-			wp_redirect(admin_url( 'admin.php?page=automail&status=mailReceiver_is_not_set_or_empty_or_not_array !'));
+			wp_redirect(admin_url('admin.php?page=automail&status=mailReceiver_is_not_set_or_empty_or_not_array !'));
        		exit;
 		}
 
@@ -1022,7 +1021,7 @@ class Automail_Admin {
 		if(isset($_POST['automatonStatus']) AND $_POST['automatonStatus'] == "on"){
 			$post_status  =  "publish" ;
 		}else{
-			$post_status = "pending";
+			$post_status  = "pending";
 		}
 		
 		# Save new integration
@@ -1094,8 +1093,8 @@ class Automail_Admin {
 		# Setting the Numbers
 		if(function_exists("count_users") AND isset(count_users()['avail_roles'])){
 			foreach(count_users()['avail_roles'] as $key => $value) {
-				if(isset( $userRoles[ $key ] ) AND  $value){
-					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")" ;
+				if(isset($userRoles[$key]) AND  $value){
+					$userRoles[$key] = $userRoles[$key] . " (".$value.")" ;
 				}
 			}
 		}
@@ -1131,7 +1130,7 @@ class Automail_Admin {
 			# Inserting Fields 																			# Loop the Custom Post ;
 			$cf7forms[ "cf7_" . $form->ID ] = "Cf7 - " . $form->post_title;	
 			# Getting Fields Meta 
-			$formFieldsMeta = get_post_meta( $form->ID, '_form', true );
+			$formFieldsMeta =  get_post_meta($form->ID, '_form', true);
 			# Replacing Quoted string 
 			$formFieldsMeta =  preg_replace('/"((?:""|[^"])*)"/', "", $formFieldsMeta);
 			# Removing : txt 
@@ -1139,21 +1138,21 @@ class Automail_Admin {
 			# Removing submit
 			$formFieldsMeta =  preg_replace('/\bsubmit\b/', "", $formFieldsMeta);
 			# if txt is Not empty 
-			if ( ! empty( $formFieldsMeta )){
+			if(!empty($formFieldsMeta)){
 				# Getting Only [] txt 
 				$bracketTxt = array();
 				# Separating bracketed txt and inserting theme to  $bracketTxt array
 				preg_match_all('/\[(.*?)\]/', $formFieldsMeta, $bracketTxt);
 				# Check is set & not empty
-				if (isset( $bracketTxt[1] ) && !empty( $bracketTxt[1] )){
+				if(isset($bracketTxt[1]) && !empty($bracketTxt[1])){
 					# Field Loop 
-					foreach( $bracketTxt[1] as $txt ){
+					foreach($bracketTxt[1] as $txt){
 						# Divide the TXT after every space 
 						$tmpArr =  explode(' ', $txt);
 						# taking Only the second Element of every array || first one is Field type || Second One is Field key 
 						$singleItem =  array_slice($tmpArr, 1, 1);
 						# Remove Submit Empty Array || important i am removing submit 
-						if ( isset( $singleItem[0]  ) && !empty( $singleItem[0] ) ){
+						if(isset($singleItem[0]) && !empty( $singleItem[0])){
 							$fieldsArray["cf7_" . $form->ID][$singleItem[0]] = $singleItem[0];
 						}
 					}
@@ -1165,12 +1164,12 @@ class Automail_Admin {
 		if(!empty($fieldsArray)){
 			foreach($fieldsArray as $formID => $formFieldsArray){
 				# For Time
-				if (!isset( $formFieldsArray['automail_submitted_time'])){
+				if(!isset( $formFieldsArray['automail_submitted_time'])){
 					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
 				}
 
 				# for Date 
-				if (!isset( $formFieldsArray['automail_submitted_date'])){
+				if(!isset( $formFieldsArray['automail_submitted_date'])){
 					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
 				}
 			}
@@ -1256,7 +1255,7 @@ class Automail_Admin {
 		$frmForms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_forms");				# Getting  Forms Database 
 		
 		foreach($frmForms as $form){
-			$FormArray["frm_".$form->id] =  "Formidable - ".$form->name ;							# Inserting ARRAY title 
+			$FormArray["frm_".$form->id] =  "Formidable - ".$form->name;							# Inserting ARRAY title 
 			# Getting Meta Fields || maybe i don't Know ;-D
 			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= ".$form->id." ORDER BY field_order"); 	# Getting  Data from Database 
 			foreach($fields as $field){
@@ -1325,7 +1324,7 @@ class Automail_Admin {
 		
 		foreach($wpforms as $wpform){
 			$FormArray["wpforms_". $wpform->ID] = "WPforms - ".$wpform->post_title;	
-			$post_content =  json_decode( $wpform->post_content );
+			$post_content =  json_decode($wpform->post_content);
 			
 			foreach($post_content->fields as $field){
 				# Default fields
@@ -1393,8 +1392,8 @@ class Automail_Admin {
 		$fieldTypeArray = array();
 
 		global $wpdb;
-		$weforms 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_contact_form'  ");
-		$weFields 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_input'  ");
+		$weforms 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_contact_form' ");
+		$weFields 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_input' ");
 		
 		foreach($weforms as $weform){
 			$FormArray[ "we_".$weform->ID ] = 'weForms - '.$weform->post_title;
@@ -1404,8 +1403,8 @@ class Automail_Admin {
 			foreach($FormArray as $weformID => $weformTitle){
 				if( $weformID  ==  "we_".$Field->post_parent){
 					$content_arr = unserialize($Field->post_content);
-					$fieldsArray[$weformID][$content_arr['name']] 	  =   $content_arr['label'] ;
-					$fieldTypeArray[$weformID][$content_arr['name']]  =   $content_arr['template'] ;
+					$fieldsArray[$weformID][$content_arr['name']] 	  =   $content_arr['label'];
+					$fieldTypeArray[$weformID][$content_arr['name']]  =   $content_arr['template'];
 				}
 			}
 		}
@@ -1456,8 +1455,8 @@ class Automail_Admin {
 					foreach($form['fields'] as $field){
 						if(empty( $field['inputs'])){
 							# if there is no subfields
-							$fieldsArray["gravity_" . $form["id"]] [$field["id"]] 		= $field["label"];
-							$fieldTypeArray["gravity_" . $form["id"]] [$field["id"]] 	= $field["type"];
+							$fieldsArray["gravity_" . $form["id"]] [$field["id"]] 	 = $field["label"];
+							$fieldTypeArray["gravity_" . $form["id"]] [$field["id"]] = $field["type"];
 						}else{
 							# Looping Subfields
 							foreach($field["inputs"] as $subField){
@@ -1468,7 +1467,7 @@ class Automail_Admin {
 					}
 				}
 			}
-		} else {
+		}else{
 			return array(FALSE, "ERROR: gravityForms form object is empty.");
 		}
 		return array(TRUE, $FormArray, $fieldsArray, $fieldTypeArray);
@@ -1660,7 +1659,7 @@ class Automail_Admin {
 	 * @param      string    $data_source    Which platform call this function s
 	*/
 	public function automail_dbTableExists($tableName = null){
-		if(empty($tableName)) {
+		if(empty($tableName)){
 			return FALSE;
 		}
 		global $wpdb;
@@ -1776,7 +1775,7 @@ class Automail_Admin {
 				# Inserting Meta keys to Main $eventDataFields Array;
 				if(!empty($meta_keys) AND is_array($meta_keys)){
 					foreach($meta_keys as  $value) {
-						if(! isset($eventDataFields[ $value ])){
+						if(!isset($eventDataFields[ $value ])){
 							$eventDataFields[ $value ] = "CPT Meta ". $value; 
 						}
 					}

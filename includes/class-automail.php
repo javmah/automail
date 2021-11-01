@@ -40,7 +40,7 @@ class Automail {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and the public-facing side of the site.
 	 * @since    1.0.0
 	*/
-	public function __construct() {
+	public function __construct(){
 		if ( defined( 'AUTOMAIL_VERSION' ) ) {
 			$this->version = AUTOMAIL_VERSION;
 		} else {
@@ -67,7 +67,7 @@ class Automail {
 	 * @since    1.0.0
 	 * @access   private
 	*/
-	private function load_dependencies() {
+	private function load_dependencies(){
 		# The class responsible for orchestrating the actions and filters of the core plugin.
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-automail-loader.php';
 		# The class responsible for defining internationalization functionality of the plugin.
@@ -88,7 +88,7 @@ class Automail {
 	 * @since    1.0.0
 	 * @access   private
 	*/
-	private function set_locale() {
+	private function set_locale(){
 		$plugin_i18n = new Automail_i18n();
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
@@ -98,7 +98,7 @@ class Automail {
 	 * @since    1.0.0
 	 * @access   private
 	*/
-	private function define_admin_hooks() {
+	private function define_admin_hooks(){
 		$automail_events = new Automail_Events( $this->get_plugin_name(), $this->get_version());																# Events 
 		$this->loader->add_action( 'user_register', 	 	 		  			$automail_events, 'automail_wp_newUser', 100, 1);								# New User Event [user_register]
 		$this->loader->add_action( 'profile_update',		 		  			$automail_events, 'automail_wp_profileUpdate', 100, 2);							# Update User Event [profile_update]
@@ -139,7 +139,7 @@ class Automail {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks(){
 		#
 		$plugin_public = new Automail_Public($this->get_plugin_name(), $this->get_version());
 		#
@@ -151,7 +151,7 @@ class Automail {
 	 * Run the loader to execute all of the hooks with WordPress.
 	 * @since    1.0.0
 	*/
-	public function run() {
+	public function run(){
 		$this->loader->run();
 	}
 
@@ -160,7 +160,7 @@ class Automail {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	*/
-	public function get_plugin_name() {
+	public function get_plugin_name(){
 		return $this->plugin_name;
 	}
 
@@ -169,7 +169,7 @@ class Automail {
 	 * @since     1.0.0
 	 * @return    Automail_Loader    Orchestrates the hooks of the plugin.
 	*/
-	public function get_loader() {
+	public function get_loader(){
 		return $this->loader;
 	}
 
@@ -178,8 +178,7 @@ class Automail {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	*/
-	public function get_version() {
+	public function get_version(){
 		return $this->version;
 	}
-
 }

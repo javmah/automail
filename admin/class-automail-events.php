@@ -66,7 +66,7 @@ class Automail_Events {
 	*/
 	public function automail_wp_newUser($user_id){
 		# if get_userdata() and get_user_meta() Functions are exist;
-		if(function_exists( 'get_userdata' ) AND function_exists('get_user_meta')){
+		if(function_exists('get_userdata') AND function_exists('get_user_meta')){
 			$user_data 							= array();   
 			$user 								= get_userdata($user_id);
 			$userMeta							= get_user_meta($user_id);
@@ -351,13 +351,13 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue as $oneArray){
-					if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+					if(is_array( $oneArray ) && isset($oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
 						# Convert text to  an array then JSON for reducing the String 
-						$isArrayTest = @unserialize( $oneArray[ 'meta_value' ] );
-						if( $isArrayTest == null ) {
-							$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$isArrayTest = @unserialize($oneArray['meta_value']);
+						if($isArrayTest == null){
+							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						}else{
-							$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
 				}
@@ -426,9 +426,9 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue  as $oneArray){
-					if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
-						$isArrayTest = @unserialize( $oneArray[ 'meta_value' ] );
+						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if( $isArrayTest == null ){
 							$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
 						}else{
@@ -461,7 +461,7 @@ class Automail_Events {
 	*/
 	public function automail_wp_post($post_id, $post, $update){
 		# Check Empty Post Id or Post 
-		if(empty($post_id) OR  empty($post)){
+		if(empty($post_id) OR empty($post)){
 			return;
 		}
 		# Default Post type array 
@@ -512,11 +512,11 @@ class Automail_Events {
 		$post_data['comment_status']		= ( isset( $post->comment_status )) ? 	$post->comment_status		:	'';
 		$post_data['ping_status'] 			= ( isset( $post->ping_status ) ) 	? 	$post->ping_status			:	'';
 		$post_data['post_password'] 		= ( isset( $post->post_password ) ) ? 	$post->post_password		:	'';
-		$post_data['post_name'] 			= ( isset( $post->post_name ) ) 	? 	$post->post_name			:	'';
-		$post_data['to_ping'] 				= ( isset( $post->to_ping ) ) 		? 	$post->to_ping				:	'';
+		$post_data['post_name'] 			= ( isset( $post->post_name )) 		? 	$post->post_name			:	'';
+		$post_data['to_ping'] 				= ( isset( $post->to_ping )) 		? 	$post->to_ping				:	'';
 		$post_data['pinged'] 				= ( isset( $post->pinged ) ) 		? 	$post->pinged				:	'';
-		$post_data['post_modified'] 		= ( isset( $post->post_modified ) ) ?	$post->post_modified		:	'';
-		$post_data['post_modified_gmt']		= ( isset( $post->post_modified_gmt ))? $post->post_modified_gmt	:	'';
+		$post_data['post_modified'] 		= ( isset( $post->post_modified ))  ?	$post->post_modified		:	'';
+		$post_data['post_modified_gmt']		= ( isset( $post->post_modified_gmt))? $post->post_modified_gmt		:	'';
 		$post_data['post_parent'] 			= ( isset( $post->post_parent ) ) 	? 	$post->post_parent			:	'';
 		$post_data['guid']  				= ( isset( $post->guid ) ) 			? 	$post->guid					:	'';
 		$post_data['menu_order'] 			= ( isset( $post->menu_order ) ) 	? 	$post->menu_order 			:	'';
@@ -625,25 +625,25 @@ class Automail_Events {
 				if($post_time_diff < 5){
 					$post_data['eventName'] = 'cpt_new_'.$post->post_type ;
 					# Action
-					$r = $this->automail_send_mail( 'cpt_new_'.$post->post_type , $post_data);
+					$r = $this->automail_send_mail('cpt_new_'.$post->post_type , $post_data);
 					# event Log for Trash
-					$this->automail_log( get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+					$this->automail_log(get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
 				
 				}else{
 					$post_data['eventName'] = 'cpt_update_'.$post->post_type ;
 					# Action
 					$r = $this->automail_send_mail('cpt_update_'.$post->post_type , $post_data);
 					# event Log for Trash
-					$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+					$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
 				}
 			}
 			# For Post status Trash 
 			if($post->post_status == 'trash'){
 				$post_data['eventName'] = 'cpt_delete_'.$post->post_type;
 				# Action
-				$r = $this->automail_send_mail( 'cpt_delete_'.$post->post_type , $post_data );
+				$r = $this->automail_send_mail('cpt_delete_'.$post->post_type , $post_data );
 				# event Log for Trash
-				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
 			}
 		}
 	}
