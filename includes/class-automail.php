@@ -125,6 +125,9 @@ class Automail {
 		$this->loader->add_action( 'admin_notices',  							$automail_events, 'automail_event_notices');
 
 		$plugin_admin = new Automail_Admin( $this->get_plugin_name(), $this->get_version());
+		# For Custom Post type
+		$this->loader->add_action( 'init', 								$plugin_admin, 'automail_register_custom_post_type');
+		# For enqueue scripts and Style 
 		$this->loader->add_action( 'admin_enqueue_scripts', 			$plugin_admin, 'enqueue_styles');
 		$this->loader->add_action( 'admin_enqueue_scripts', 			$plugin_admin, 'enqueue_scripts');
 		# Admin menu and Admin Notice 
@@ -132,6 +135,7 @@ class Automail {
 		$this->loader->add_action( 'admin_notices', 					$plugin_admin, 'automail_admin_notice');
 		# Save Submitted Form 
 		$this->loader->add_action( 'admin_post_automail_saveAutomation',$plugin_admin, 'automail_saveAutomation');
+	
 	}
 
 	/**

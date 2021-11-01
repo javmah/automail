@@ -166,7 +166,6 @@
                             <!-- .postbox -->
                         </div>
                         <!-- .meta-box-sortables -->
-
                     </div>
                     <!-- #postbox-container-1 .postbox-container -->
                 </div>

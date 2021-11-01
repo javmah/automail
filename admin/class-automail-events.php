@@ -130,7 +130,7 @@ class Automail_Events {
 			if($user_id){
 				$r = $this->automail_send_mail('wp_newUser', $user_data);
 			}else{
-				$this->automail_log(get_class($this), __METHOD__, "101", "ERROR: wordpress_newUser fired but no User ID . ".json_encode( array( $user_id, $user_data ) ) );
+				$this->automail_log(get_class($this), __METHOD__, "101", "ERROR: wordpress_newUser fired but no User ID . ".$user_id);
 			}
 		}else{
 			$this->automail_log(get_class($this), __METHOD__, "102", "ERROR: get_userdata or get_user_meta is not Exist" );
@@ -208,7 +208,7 @@ class Automail_Events {
 			if($user_id && $user->ID){
 				$r = $this->automail_send_mail('wp_UserProfileUpdate', $user_data);
 			} else {
-				$this->automail_log(get_class($this), __METHOD__, "103", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".json_encode( array( $user_id, $user->ID, $user_data ) ) );
+				$this->automail_log(get_class($this), __METHOD__, "103", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".$user_id );
 			}
 
 		}else{
@@ -223,25 +223,25 @@ class Automail_Events {
 	*/
 	public function automail_wordpress_deleteUser($user_id){
 		# if get_userdata() and get_user_meta() Functions are exist
-		if(function_exists('get_userdata') && function_exists('get_user_meta') && ! empty($user_id)){
+		if(function_exists('get_userdata') && function_exists('get_user_meta') && !empty($user_id)){
 			# Empty Holder 
 			$user_data 							= array() ; 
 			$user 								= get_userdata($user_id);
 			$userMeta							= get_user_meta($user_id);
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 	:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 	:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 	:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  	:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname		:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name	:	"";
+			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 			:	"";
+			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 			:	"";
+			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 			:	"";
+			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  			:	"";
+			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
+			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 :	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 :	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 :	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered :  "";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) : "";  
+			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array($userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
+			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
+			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
+			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
+			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered 		:   "";
+			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	:   "";
 			# site Current Time
 			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time	:	'';
 			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date	:	'';
@@ -269,7 +269,7 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue  as $oneArray){
-					if ( is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize( $oneArray[ 'meta_value' ] );
 						if ( $isArrayTest == null ) {
@@ -287,7 +287,7 @@ class Automail_Events {
 			if($user_id && $user->ID){
 				$r = $this->automail_send_mail('wp_deleteUser', $user_data);
 			}else{
-				$this->automail_log(get_class($this), __METHOD__, "105", "ERROR: wordpress_deleteUser fired but no User ID . ". json_encode( array( $user_id, $user->ID,  $user_data ) ) );
+				$this->automail_log(get_class($this), __METHOD__, "105", "ERROR: wordpress_deleteUser fired but no User ID . " . $user_id );
 			}
 
 		}else{
@@ -390,7 +390,7 @@ class Automail_Events {
 			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
 			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description'] ) : "";
+			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
 			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
 			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
 			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
@@ -401,8 +401,8 @@ class Automail_Events {
 			$user_data['userLogoutDate'] 		= $this->Date;
 			#
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time	: '';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date	: '';
+			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? $this->Time	: '';
+			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? $this->Date	: '';
 			# New Code Starts From Here 
 			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
 			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
@@ -415,7 +415,7 @@ class Automail_Events {
 			# Global Db object 
 			global $wpdb;
 			# execute Query
-			$usersMetaKeyValue = $wpdb->get_results( "SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user->ID , ARRAY_A);
+			$usersMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE user_id = " . $user->ID , ARRAY_A);
 			# get Distinct Keys;
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
@@ -445,7 +445,7 @@ class Automail_Events {
 			if($user->ID){
 				$r = $this->automail_send_mail('wp_userLogout', $user_data);
 			}else{
-				$this->automail_log(get_class($this), __METHOD__, "108", "ERROR:  wordpress_userLogout fired but no User ID . ". json_encode( array( $user->ID, $user_data ) ) );
+				$this->automail_log(get_class($this), __METHOD__, "108", "ERROR:  wordpress_userLogout fired but no User ID . ".  $user->ID );
 			}
 		}else{
 			$this->automail_log(get_class($this), __METHOD__, "109", "ERROR: User ID OR  Function  wp_get_current_user() is not exists " );
@@ -582,7 +582,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_newPost', $post_data);
 				# event Log for Trash
-				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. " . $post_id);
 			}
 			
 			# Updated post 
@@ -591,7 +591,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_editPost', $post_data);
 				# event Log for Trash
-				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 			}
 			
 		    # Post Is trash  || If Post is Trashed This Will fired
@@ -599,7 +599,7 @@ class Automail_Events {
 				$post_data['eventName'] = "Trash";
 				$r = $this->automail_send_mail('wp_deletePost', $post_data);
 				# event Log for Trash
-				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. ". json_encode( array(  $post_id, $post, $update, $post_data  ) ) );
+				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. " . $post_id );
 			}
 		}
 
@@ -609,7 +609,7 @@ class Automail_Events {
 			# Action
 			$r = $this->automail_send_mail('wp_page', $post_data);
 			# event Log for Trash
-			$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing page. ". json_encode( array(  $post_id, $post, $update, $post_data  ) )  );
+			$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing page. " . $post_id );
 		}
 
 		# For Custom Post Type  [CPT]
@@ -627,14 +627,14 @@ class Automail_Events {
 					# Action
 					$r = $this->automail_send_mail('cpt_new_'.$post->post_type , $post_data);
 					# event Log for Trash
-					$this->automail_log(get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
+					$this->automail_log(get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 				
 				}else{
 					$post_data['eventName'] = 'cpt_update_'.$post->post_type ;
 					# Action
 					$r = $this->automail_send_mail('cpt_update_'.$post->post_type , $post_data);
 					# event Log for Trash
-					$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
+					$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 				}
 			}
 			# For Post status Trash 
@@ -643,7 +643,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('cpt_delete_'.$post->post_type , $post_data );
 				# event Log for Trash
-				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. ". json_encode(array($post_id, $post, $update, $post_data)));
+				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 			}
 		}
 	}
@@ -907,9 +907,9 @@ class Automail_Events {
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
 					if ( $isArrayTest == null ) {
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray['meta_value'];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					} else {
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -1242,7 +1242,7 @@ class Automail_Events {
 		# Global Db object 
 		global $wpdb;
 		# execute Query
-		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A);
+		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id(), ARRAY_A);
 		# get Distinct Keys;
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
@@ -2012,7 +2012,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('ninja_'.$form_data["form_id"], $data);
 			}else{
-				$this->automail_log(get_class($this), __METHOD__,"119", "ERROR: ninja Form entries are empty Or form_id is empty!" );
+				$this->automail_log(get_class($this), __METHOD__,"119", "ERROR: ninja Form entries are empty Or form_id is empty!");
 			}
 		}
 	}
@@ -2044,10 +2044,10 @@ class Automail_Events {
 					# Sending data to mail function.
 					$r = $this->automail_send_mail('frm_'.$form_id, $dataArray);
 				}else{
-					$this->automail_log( get_class($this), __METHOD__,"120", "ERROR: formidable Form entries ID is empty!" );
+					$this->automail_log(get_class($this), __METHOD__,"120", "ERROR: formidable Form entries ID is empty!");
 				}
 			}else{
-				$this->automail_log( get_class( $this ), __METHOD__,"121", "ERROR: formidable frm_item_metas table is Not Exist!");
+				$this->automail_log(get_class($this), __METHOD__,"121", "ERROR: formidable frm_item_metas table is Not Exist!");
 			}
 		}
 	}
@@ -2190,7 +2190,7 @@ class Automail_Events {
 
 			if($a){
 				foreach($a as $key => $field){
-					if ( isset( $field['custom'] ) &&  $field['custom'] == 1  ){
+					if (isset( $field['custom'] ) &&  $field['custom'] == 1){
 						$woo_checkout_field_editor_pro[ $key ]['type']  = $field['type'];
 						$woo_checkout_field_editor_pro[ $key ]['name']  = $field['name'];
 						$woo_checkout_field_editor_pro[ $key ]['label'] = $field['label'];
@@ -2200,7 +2200,7 @@ class Automail_Events {
 
 			if($b){
 				foreach($b as $key => $field){
-					if ( isset( $field['custom'] ) &&  $field['custom'] == 1  ){
+					if (isset( $field['custom'] ) &&  $field['custom'] == 1){
 						$woo_checkout_field_editor_pro[ $key ]['type']  = $field['type'];
 						$woo_checkout_field_editor_pro[ $key ]['name']  = $field['name'];
 						$woo_checkout_field_editor_pro[ $key ]['label'] = $field['label'];
@@ -2210,7 +2210,7 @@ class Automail_Events {
 
 			if($c){
 				foreach($c as $key => $field){
-					if ( isset( $field['custom'] ) &&  $field['custom'] == 1  ){
+					if (isset($field['custom'] ) &&  $field['custom'] == 1){
 						$woo_checkout_field_editor_pro[ $key ]['type']  = $field['type'];
 						$woo_checkout_field_editor_pro[ $key ]['name']  = $field['name'];
 						$woo_checkout_field_editor_pro[ $key ]['label'] = $field['label'];
@@ -2268,7 +2268,7 @@ class Automail_Events {
 					# Loop the array
 					foreach($value as $arrKey => $arrValue){
 						# check nested array or not 
-						if(!is_array( $arrValue ) ){
+						if(!is_array($arrValue)){
 							# space separated string 
 							$commaSeparatedString .= $arrValue . " ";
 						} else {
@@ -2357,11 +2357,11 @@ class Automail_Events {
 						# removing duplicates
 						$roleUsersEmails = array_unique($roleUsersEmails);
 					}else{
-						$this->automail_log( get_class($this), __METHOD__, "131", "User role is empty or False automail_userRoles() func is not working!" ); 
+						$this->automail_log(get_class($this), __METHOD__, "131", "User role is empty or False automail_userRoles() func is not working!"); 
 					}
 					
 					# Get Event source
-					$eventSourceReceiver = array_intersect(array_keys( $eventDataArray ), $mailReceiver);
+					$eventSourceReceiver = array_intersect(array_keys($eventDataArray), $mailReceiver);
 
 					# get value from Event Source || also Check Valid
 					if(!empty($eventSourceReceiver)){
@@ -2380,7 +2380,7 @@ class Automail_Events {
 					}
 
 					# Combine all three array || remove Duplicates || Validate all email address again-> if invalid display Worming 
-					$emailAddresses = array_unique(array_merge( $roleUsersEmails, $eventSourceEmail, $usersEmail));
+					$emailAddresses = array_unique(array_merge($roleUsersEmails, $eventSourceEmail, $usersEmail));
 					if(!empty( $emailAddresses )){
 						foreach($emailAddresses as $email){
 							if(filter_var( $email, FILTER_VALIDATE_EMAIL)){
@@ -2397,12 +2397,6 @@ class Automail_Events {
 						$this->automail_log(get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title  );
 						return  array(FALSE, "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title );
 					}else{
-						// Test and debug starts
-						// $email_title_encoding  = mb_detect_encoding( $post_title  );
-						// $email_body_encoding   = mb_detect_encoding( $emailBodyWithValue );
-						// $this->automail_log( get_class($this), __METHOD__, "786", "WARNING: " . $email_title_encoding . " ** Body : " .$email_body_encoding  ); 
-						// Test and debug Ends
-
 						# Sending Email 
 						$r = wp_mail( $validEmailAddresses, $emailSubject, $emailBodyWithValue, array('Content-Type: text/html; charset=UTF-8','From: My Site Name <support@example.com>') );
 						# Check & Balance 
@@ -2821,7 +2815,6 @@ class Automail_Events {
 	 * @param      string    $status_message    The version of this plugin.
 	*/
 	public function automail_log($file_name = '', $function_name = '', $status_code = '', $status_message = ''){
-		
 		# Check and Balance 
 		if(empty($status_code) or empty($status_message)){
 			return  array(FALSE, "ERROR: status_code OR status_message is Empty");
@@ -2833,7 +2826,7 @@ class Automail_Events {
 				'post_title'  	=> $status_code,
 				'post_status'  	=> "publish",
 				'post_excerpt'  => json_encode(array( "file_name" => $file_name, "function_name" => $function_name )),
-				'post_type'  	=> "automail_log",
+				'post_type'  	=> "automailLog",
 			)
 		);
 
@@ -2887,13 +2880,12 @@ if(class_exists('WCFE_Checkout_Fields_Utils')){
 					$woo_checkout_field_editor_pro[$key]['name'] 	= $val->name;
 					$woo_checkout_field_editor_pro[$key]['label'] 	= "CFE - ". $val->title;
 				}
-
 				# return Value 
 				if(empty($woo_checkout_field_editor_pro)){
 					return array( FALSE, "ERROR: Checkout Field Editor aka Checkout Manager for WooCommerce is EMPTY no Custom Field." );
 				} else {
 					return array( TRUE, $woo_checkout_field_editor_pro );
-				}		
+				}
 
 			}else{
 				# if method is not exist;
@@ -2916,3 +2908,7 @@ if(class_exists('WCFE_Checkout_Fields_Utils')){
 # SELECT * FROM `wp_posts` WHERE post_type='automail' 
 # SELECT * FROM `wp_posts` WHERE post_type = 'automail_log'
 # SELECT wp_posts.ID, wp_posts.post_title, wp_postmeta.meta_key, wp_postmeta.meta_value FROM wp_postmeta, wp_posts WHERE wp_posts.id = wp_postmeta.post_id AND wp_posts.post_type = 'automail'
+
+
+# Today(1 Nov 21) I know a interesting thing, Our co-working space janitor do two Jobs and Earn More than me !!! First Job Paid Him 17800 taka and Second Job Paid Him 12,000 taka Total 29,800
+# This Month (31 Oct 21) my total earning is 237 USD in Bangladeshi taka that's 20,145 takas. LOL what a Pathetic situation, what a agony

@@ -87,6 +87,17 @@ class Automail_Admin {
 	}
 
 	/**
+	 * Register the Custom Post type.
+	 * Post are Save Automation AND Log
+	 * @since    1.0.0
+	*/
+	public function automail_register_custom_post_type(){
+		register_post_type( "automail", array());
+		register_post_type( "automailLog", array());
+	}
+
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 * @since    1.0.0
 	*/
@@ -901,11 +912,11 @@ class Automail_Admin {
 				<div id="container">
 					<?php
 						# getting the logs 
-						$automail_log = get_posts(array('post_type' => 'automail_log', 'posts_per_page' => -1));
+						$automailLog = get_posts(array('post_type' => 'automailLog', 'posts_per_page' => -1));
 
 						$i = 1 ;
-						foreach($automail_log as $key => $log){
-							if($log->post_title == 200){
+						foreach( $automailLog as $key => $log ){
+							if( $log->post_title == 200 ){
 								echo"<div class='notice notice-success inline'>";
 							}else{
 								echo"<div class='notice notice-error inline'>";
@@ -1019,7 +1030,7 @@ class Automail_Admin {
 
 		# Post Status
 		if(isset($_POST['automatonStatus']) AND $_POST['automatonStatus'] == "on"){
-			$post_status  =  "publish" ;
+			$post_status  = "publish";
 		}else{
 			$post_status  = "pending";
 		}
