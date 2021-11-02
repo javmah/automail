@@ -13,7 +13,7 @@
  * @package           Automail
  *
  * @wordpress-plugin
- * Plugin Name:       autoMail - Automate Email for WordPress, WooCommerce, Contact Form 7 
+ * Plugin Name:       AutoMail - Event Based Email automation Plugin. 
  * Plugin URI:        www.automail.com
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0

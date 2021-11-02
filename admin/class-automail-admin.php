@@ -511,7 +511,7 @@ class Automail_Admin {
 				#(1) Product Meta 
 				#(2) Product Info
 				#(3) Product Details
-				#(4) Empty Product Place Holder
+				#(4) Empty Product Placeholder
 				# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 				# WooCommerce Orders 
@@ -1527,7 +1527,7 @@ class Automail_Admin {
 	/**
 	 * This Function will return [wordPress Pages] Meta keys.
 	 * @since      1.0.0
-	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	 * @return     array    This array has two values First one is Bool and Second one is the meta key array.
 	*/
 	public function automail_pages_metaKeys(){
 		# Global Db object 
@@ -1552,10 +1552,10 @@ class Automail_Admin {
 	/**
 	 * This Function will return [wordPress Posts] Meta keys.
 	 * @since      1.0.0
-	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	 * @return     array    This array has two values First one is Bool and Second one is the meta key array.
 	*/
 	public function automail_posts_metaKeys(){
-		# Global Db object 
+		# Global Db object  
 		global $wpdb;
 		# Query 
 		$query  =  "SELECT DISTINCT($wpdb->postmeta.meta_key) 
@@ -1577,7 +1577,7 @@ class Automail_Admin {
 	/**
 	 * This Function will return [wordPress Users] Meta keys.
 	 * @since      1.0.0
-	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	 * @return     array    This array has two values First one is Bool and Second one is meta key array.
 	*/
 	public function automail_users_metaKeys(){
 		# Global Db object 
@@ -1617,7 +1617,7 @@ class Automail_Admin {
 	/**
 	 * This Function will return [WooCommerce product] Meta keys.
 	 * @since      1.0.0
-	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	 * @return     array    This array has two values First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_product_metaKeys(){
 		# Global Db object 
@@ -1642,7 +1642,7 @@ class Automail_Admin {
 	/**
 	 * This Function will return [WooCommerce Order] Meta keys.
 	 * @since      1.0.0
-	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
+	 * @return     array    This array has two values First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_order_metaKeys(){
 		# Global Db object 

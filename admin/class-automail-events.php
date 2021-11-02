@@ -106,7 +106,7 @@ class Automail_Events {
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if($metaKeys[0] && !empty($usersMetaKeyValue)){
-				# populating Output array in revers with  empty value
+				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1]  as $key => $value){
 					$metaOutPut[$value] = "--";
 				}
@@ -184,7 +184,7 @@ class Automail_Events {
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if($metaKeys[0] && !empty($usersMetaKeyValue)){
-				# populating Output array in revers with  empty value
+				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1]  as $key => $value){
 					$metaOutPut[$value] = "--";
 				}
@@ -264,7 +264,7 @@ class Automail_Events {
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if($metaKeys[0] &&  !empty($usersMetaKeyValue)){
-				# populating Output array in revers with  empty value
+				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1]  as $key => $value){
 					$metaOutPut[$value] = "--";
 				}
@@ -346,7 +346,7 @@ class Automail_Events {
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if($metaKeys[0] && !empty( $usersMetaKeyValue)){
-				# populating Output array in revers with  empty value
+				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1] as $key => $value){
 					$metaOutPut[$value] = "--";
 				}
@@ -421,7 +421,7 @@ class Automail_Events {
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
 			if($metaKeys[0] &&  !empty($usersMetaKeyValue)){
-				# populating Output array in revers with  empty value
+				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1]  as $key => $value){
 					$metaOutPut[$value] = "--";
 				}
@@ -697,7 +697,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_comments_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] && !empty($commentMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
@@ -775,7 +775,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_comments_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] &&  !empty($commentMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1] as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
@@ -898,7 +898,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_wooCommerce_product_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] && !empty($productMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
@@ -1248,7 +1248,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] && !empty($orderMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
@@ -1598,7 +1598,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] &&  !empty($orderMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
@@ -1933,7 +1933,7 @@ class Automail_Events {
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] &&  !empty($orderMetaKeyValue)){
-			# populating Output array in revers with  empty value
+			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[ $value ] = "--";
 			}

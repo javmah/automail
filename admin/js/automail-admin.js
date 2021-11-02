@@ -1,9 +1,9 @@
-//  Check & Balance || if #automailNewVue Div is Present do the rest
+// if #automailNewVue Div is Present do the rest This  the new section 
 if(document.getElementById("automailNewVue")){
 	var automailNew = new Vue({
 		el:'#automailNewVue',
 		data:{
-			ID 						: "", // useless for hassle free operation || remove before deployment 
+			ID 						: "", // useless hassle test operation && remove before deployment 
 			automatonName  			: "",
 			eventsAndTitles         : "",
 			selectedEvent			: "",
@@ -12,7 +12,7 @@ if(document.getElementById("automailNewVue")){
 		},
 		methods:{
 			eventSelected:function(event){
-				if(typeof this.eventsAndTitles[event.target.value] !== 'undefined'  &&  typeof event.target.value !== 'undefined'){
+				if(typeof this.eventsAndTitles[event.target.value] !== 'undefined' && typeof event.target.value !== 'undefined'){
 					this.selectedEventsAndTitles = this.eventsAndTitles[event.target.value];
 				}else{
 					console.log("error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !"); 
@@ -21,18 +21,18 @@ if(document.getElementById("automailNewVue")){
 			copyTheTag:function(index){
 				// Coping the data to Clipboard 
 				var text  =  '['+ index +']' ;
-				navigator.clipboard.writeText( text ).then(function(){
+				navigator.clipboard.writeText(text).then(function(){
 					console.log('Async: Copying to clipboard was successful!');
-				},function(err){
-					console.error('Async: Could not copy text: ', err);
+				},function(error){
+					console.error('error: Async, Could not copy text: ', error);
 				});
 			},
-			inputValidation:function(e){
+			inputValidation:function(event){
 				if((this.automatonName && this.selectedEvent) && (this.selectedEventsAndTitles && this.mailReceiver.length > 0)){
 					return true;
 				}else{
-					e.preventDefault();
-					alert("Please fill all the fields!");
+					event.preventDefault();
+					alert("error:Please fill all the fields!");
 				}
 			}
 		},beforeMount(){
@@ -43,7 +43,7 @@ if(document.getElementById("automailNewVue")){
 	})
 }
 
-// Check & Balance if #automailEditVue Div is Present do the rest, This  the edit section 
+//if #automailEditVue Div is Present do the rest, This the edit section 
 if(document.getElementById("automailEditVue")){
 	var automailEdit = new Vue({
 		el:'#automailEditVue',
@@ -60,7 +60,7 @@ if(document.getElementById("automailEditVue")){
 				if(typeof this.eventsAndTitles[event.target.value] !== 'undefined' && typeof event.target.value !== 'undefined'){
 					this.selectedEventsAndTitles = this.eventsAndTitles[event.target.value];
 				}else{
-					console.log( "error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !"); 
+					console.log("error:Selected event is undefined in eventsAndTitles OR event.target.value is undefined !"); 
 				}
 			},
 			copyTheTag:function(index){
@@ -68,16 +68,16 @@ if(document.getElementById("automailEditVue")){
 				var text  =  '['+ index +']';
 				navigator.clipboard.writeText( text ).then(function(){
 					console.log('Async: Copying to clipboard was successful!');
-				},function(err){
-					console.error('Async: Could not copy text: ', err);
+				},function(error){
+					console.error('error:Async, Could not copy text: ', error);
 				});
 			},
-			inputValidation:function(e){
+			inputValidation:function(event){
 				if((this.automatonName && this.selectedEvent) && (this.selectedEventsAndTitles && this.mailReceiver.length > 0)){
 					return true;
 				}else{
-					e.preventDefault();
-					alert("Please fill all the fields!");
+					event.preventDefault();
+					alert("error:Please fill all the fields!");
 				}
 			}
 
@@ -92,5 +92,5 @@ if(document.getElementById("automailEditVue")){
 		}
 	})
 }
-
-// (function) eventSelected  has a Room for Improvement || Do the Thing in HTML not in JS File 
+// Note:
+// (function) eventSelected func has a Room for Improvement 

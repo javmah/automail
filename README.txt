@@ -1,4 +1,4 @@
-=== AutoMail - Event Based Email automation Plugin for WordPress, WooCommerce, Contact Form 7, and Other Plugin  ===
+=== AutoMail - Event Based Email automation Plugin ===
 Contributors: 
 Donate link: https://profiles.wordpress.org/javmah/
 Tags: email, automation, email reply, email auto reply, wooCommerce, CF7,
@@ -8,13 +8,14 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-AutoMail is an Email Automation plugin, It works with wordpress, WooCommerce, Contact form seven, and other Plugins
+AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
 
 == Description ==
 
-WordPress platform along with its Plugin generates many events and event base data, those data are vital for day-to-day operations.
-This plugin sends an Email notification with generated data when there is an event occurred. This Plugin supports Around all WordPress 
-events along with Many Third-party Plugins. List of events are:
+WordPress platform along with its plugin generates many events and event base data, those data are vital for day-to-day operations.
+This plugin sends an email notification with generated data when an event occurs. This plugin supports around all WordPress
+ events along with many third-party plugins. The list of events are:
+
 
 == Email Automation Events are ==
 
@@ -54,12 +55,12 @@ events along with Many Third-party Plugins. List of events are:
 
 * Formidable form to automatic email notification.
 
-* WPform form to automatic email notification.
+* WPform form submission to automatic email notification.
 
-* weForms form to automatic email notification.
+* weForms form submission  to automatic email notification.
 
 
-**Thanks:** Heartiest Gratitude to all of my users who inspired me and suggest me and compliment me in many ways, you guys are Awesome. Without yours support and love it was impossible to maintain this huge codebase (Around 14,000 line of code). Please accept my sincere thanks.
+**Thanks:** Heartiest Gratitude to all of my users who inspired me and suggested  and compliment me in many ways, you guys are Awesome. Without your support and love it was impossible to maintain this huge codebase (Around 14,000 lines of code). Please accept my sincere thanks.
 
 
 == Upcoming Features  ==
@@ -71,10 +72,10 @@ events along with Many Third-party Plugins. List of events are:
 == Installation ==
 
 = Modern Way: =
-1. Go to the wordPress Dashboard "Add New Plugin" section.
+1. Go to the WordPress Dashboard "Add New Plugin" section.
 2. Search For "automail".
 3. Install, then Activate it.
-4. Follow the step-by-step documentation on settings page
+4. Follow the step-by-step documentation on the settings page
 
 = Old Way: =
 1. Upload `automail` to the `/wp-content/plugins/` directory
@@ -90,5 +91,5 @@ events along with Many Third-party Plugins. List of events are:
 
 = v1.0.0-beta.1 (31 October, 2021)  =
 * Initial Release version.
-* All default and third-party platform included.
-* Provision for more platform.
+* All default and third-party platforms included.
+*  Provision for more platforms.
