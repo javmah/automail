@@ -54,6 +54,7 @@ class Automail_Events {
 	*/
 	public function automail_event_notices(){
 		// echo "<pre>";
+
 			
 		// echo "</pre>";
 	}
@@ -582,7 +583,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_newPost', $post_data);
 				# event Log for Trash
-				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. " . $post_id);
+				// $this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. " . $post_id);
 			}
 			
 			# Updated post 
@@ -591,7 +592,7 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_editPost', $post_data);
 				# event Log for Trash
-				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
+				// $this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 			}
 			
 		    # Post Is trash  || If Post is Trashed This Will fired
@@ -599,7 +600,7 @@ class Automail_Events {
 				$post_data['eventName'] = "Trash";
 				$r = $this->automail_send_mail('wp_deletePost', $post_data);
 				# event Log for Trash
-				$this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. " . $post_id );
+				// $this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. " . $post_id );
 			}
 		}
 
@@ -766,7 +767,7 @@ class Automail_Events {
 		# Comment Meta Data portion Starts
 		# empty Holder array 
 		$metaOutPut = array();	
-		# Global Db object 
+		# Global Db object
 		global $wpdb;
 		# execute Query
 		$commentMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->commentmeta WHERE comment_id = " . $commentID, ARRAY_A);
@@ -2236,7 +2237,6 @@ class Automail_Events {
 		}
 	}
 
-	# New Code Starts From here 
 	/**
 	 * Using custom hook sending data to Google spreadsheet 
 	 * @since    	1.0.0
@@ -2297,7 +2297,7 @@ class Automail_Events {
 
 		# if automail automation is empty 
 		if(empty($emailAutomatons)){
-			$this->automail_log( get_class( $this ), __METHOD__, "130", "WARNING: no mail automation saved in the dataBase.");
+			$this->automail_log( get_class( $this ), __METHOD__, "130", "WARNING: no mail automation saved in the dataBase. Create a Email Automaton.");
 			return  array( FALSE, "WARNING: no mail automation saved in the dataBase.");
 		}
 
@@ -2357,7 +2357,7 @@ class Automail_Events {
 						# removing duplicates
 						$roleUsersEmails = array_unique($roleUsersEmails);
 					}else{
-						$this->automail_log(get_class($this), __METHOD__, "131", "User role is empty or False automail_userRoles() func is not working!"); 
+						$this->automail_log(get_class($this), __METHOD__, "131", "ERROR: User role is empty or False automail_userRoles() func is not working!"); 
 					}
 					
 					# Get Event source
@@ -2394,7 +2394,7 @@ class Automail_Events {
 					# if automailThisLastFired is set and time is Greater then 25
 					if($automailThisLastFired  AND (time() - $automailThisLastFired ) < 25){
 						# keeping error log
-						$this->automail_log(get_class($this), __METHOD__, "132", "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title  );
+						$this->automail_log(get_class($this), __METHOD__, "132", "WARNING: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title  );
 						return  array(FALSE, "ERROR: Repeated submission Prevented : <b>". $emailAutomaton->ID ."</b> ". $emailAutomaton->post_title );
 					}else{
 						# Sending Email 
@@ -2402,14 +2402,14 @@ class Automail_Events {
 						# Check & Balance 
 						if($r){
 							# keeping OK log
-							$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: " . json_encode( array( $validEmailAddresses, $emailSubject, $emailBodyWithValue, $eventDataSourceID, $emailAutomaton->ID ) ) ); 
+							$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: Mail send successfully. "); 
 							# New Code for preventing Dual Submission || saving last Fired time 
 							update_post_meta( $emailAutomaton->ID, 'automailThisLastFired', time() );
 							# return
 							return  array(TRUE, "SUCCESS: email send.");
 						}else{
 							# keeping ERROR log
-							$this->automail_log(get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $emailBodyWithValue, $eventDataSourceID, $eventDataArray , $r ) ) ); 
+							$this->automail_log(get_class($this), __METHOD__, "133", "ERROR: " . json_encode( array( $validEmailAddresses, $emailAutomaton->post_title, $eventDataSourceID, $eventDataArray , $r ) ) ); 
 							# return
 							return  array(FALSE, "ERROR: status_code is empty.");
 						}
@@ -2431,14 +2431,18 @@ class Automail_Events {
 	public function automail_userRoles(){
 		# Empty Holder 
 		$userRoles = array();
-
-		# If exist then loop
-		if(function_exists("get_editable_roles")){
-			foreach(get_editable_roles() as $key => $valueArray){
+		# getting user wp_user_roles From database option table 
+		$wp_user_roles = get_option( "wp_user_roles" );
+		# Check and Balance && populating $userRoles array;
+		if($wp_user_roles){
+			foreach($wp_user_roles as $key => $valueArray){
 				if(isset($valueArray['name'])){
 					$userRoles[ $key ] = $valueArray['name'];
 				}
 			}
+		}else{
+			# keeping ERROR log
+			$this->automail_log(get_class($this), __METHOD__, "135", "ERROR: wp_user_roles OPTION is empty on option Table." ); 
 		}
 
 		# Setting the Numbers
@@ -2448,17 +2452,23 @@ class Automail_Events {
 					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")";
 				}
 			}
-		}
+		} 
 
 		# Adding user role prefix at the begging  keys 
 		$arrayWithPrefix = array();
-		foreach($userRoles as $key => $value){
-			$arrayWithPrefix["userRole_".$key ] =  $value ;
+		if(!empty($userRoles)){
+			foreach($userRoles as $key => $value){
+				$arrayWithPrefix["userRole_".$key] =  $value;
+			}
+		}else{
+			# keeping ERROR log
+			$this->automail_log(get_class($this), __METHOD__, "137", 'ERROR: $userRoles variable is empty in automail_userRoles() function.'); 
+			return array(FALSE, 'ERROR: $userRoles variable is empty.');
 		}
 
 		# return
 		if(empty($arrayWithPrefix)){
-			return array(FALSE, "User role is empty." );
+			return array(FALSE, "User role is empty.");
 		} else {
 			return array(TRUE, $arrayWithPrefix );
 		}
@@ -2814,23 +2824,30 @@ class Automail_Events {
 	 * @param      string    $status_code       The name of this plugin.
 	 * @param      string    $status_message    The version of this plugin.
 	*/
-	public function automail_log($file_name = '', $function_name = '', $status_code = '', $status_message = ''){
-		# Check and Balance 
-		if(empty($status_code) or empty($status_message)){
-			return  array(FALSE, "ERROR: status_code OR status_message is Empty");
+	public function automail_log($file_name = null, $function_name = null, $status_code = null, $status_message = null){
+		# Check and Balance
+		if(empty($status_code)){
+			return  array(FALSE, "ERROR: status_code is empty.");
 		}
-		# Inserting The log custom Post 
-		$r = wp_insert_post( 
-			array(
-				'post_content'  => $status_message,
-				'post_title'  	=> $status_code,
-				'post_status'  	=> "publish",
-				'post_excerpt'  => json_encode(array( "file_name" => $file_name, "function_name" => $function_name )),
-				'post_type'  	=> "automailLog",
-			)
+		# Status Message
+		if(empty($status_message)){
+			return  array(FALSE, "ERROR: status_message is empty.");
+		}
+		# Log Arguments
+		$arg = array(
+			'ID'				=> '',
+			'post_content'  	=> $status_message, 						
+			'post_title'    	=> $status_code, 						
+			'post_status'   	=> "publish",
+			'post_excerpt'  	=> json_encode( array( "fileName" => $file_name, "functionName" => $function_name)),						
+			'post_name'  		=> '',									
+			'post_type'   		=> 'automailLog',							
+			'menu_order'		=> '',
+			'post_parent'		=> '',												
 		);
-
-		# return 
+		# Inserting New integration custom Post type 
+		$r = wp_insert_post($arg);						
+		# return
 		if($r){
 			return  array(TRUE, "SUCCESS: Successfully inserted to the Log" ); 
 		}
@@ -2900,8 +2917,8 @@ if(class_exists('WCFE_Checkout_Fields_Utils')){
 #----------------------------- 14/jul/2021 ---------------------------
 # 2. Test Every Fields and Data source					[x] Done
 # 5. Stop Dual Submission -- Important 					[x] Done
-# 6. Add Hook For Custom Platform						[x] Fix it Toady 
-# 7. Release Version 3.6.0  							[x] Fix it Toady 
+# 6. Add Hook For Custom Platform						[x] Feature 
+# 7. Release Version 1.0.0  							[x] Feature
 #-------------------------------- FIXME: -----------------------------
 
 # Frequent Query's
@@ -2911,4 +2928,12 @@ if(class_exists('WCFE_Checkout_Fields_Utils')){
 
 
 # Today(1 Nov 21) I know a interesting thing, Our co-working space janitor do two Jobs and Earn More than me !!! First Job Paid Him 17800 taka and Second Job Paid Him 12,000 taka Total 29,800
-# This Month (31 Oct 21) my total earning is 237 USD in Bangladeshi taka that's 20,145 takas. LOL what a Pathetic situation, what a agony
+# This Month (31 Oct 21) my total earning is 237 USD in Bangladeshi taka that's 20,145 takas. LOL what a Pathetic situation, what a agony.
+
+# Windows Command Line open Folders and Apps 
+/*
+ start C:\xampp\htdocs\office\wp-content\plugins\automail
+ start C:\xampp\htdocs\office\wp-content
+ start C:\xampp\mailoutput
+ start "" "C:\Program Files\Microsoft VS Code\Code.exe"
+*/

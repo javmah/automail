@@ -92,8 +92,8 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_register_custom_post_type(){
-		register_post_type( "automail", array());
-		register_post_type( "automailLog", array());
+		// register_post_type( "automail", array());
+		// register_post_type( "automailLog", array());
 	}
 
 
@@ -972,9 +972,10 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
-		// echo"<pre>";
-			// print_r($this->automail_userRoles());
-		// echo"</pre>";
+		echo"<pre>";
+			
+
+		echo"</pre>";
 	}
 
 	/**
@@ -1829,7 +1830,7 @@ class Automail_Admin {
 				'post_title'  	=> $status_code,
 				'post_status'  	=> "publish",
 				'post_excerpt'  => json_encode( array( "fileName" => $file_name, "functionName" => $function_name)),
-				'post_type'  	=> "automailLog",
+				'post_type'  	=> "automail_Log",
 			)
 		);
 		# this function return
