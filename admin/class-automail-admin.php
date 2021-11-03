@@ -87,7 +87,7 @@ class Automail_Admin {
 	}
 
 	/**
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Improve this Functor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Improve this Functor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 * Register the Custom Post type.
 	 * Post are Automation AND Log ,Currently Not Working 
 	 * @since    1.0.0
@@ -103,7 +103,7 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function enqueue_styles(){
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ).'css/automail-admin.css', array(), $this->version, 'all');
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/automail-admin.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -118,12 +118,12 @@ class Automail_Admin {
 			# Set date 
 			# Current Date 
 			$date_format 	= get_option('date_format');
-			$this->Date		= ($date_format) ? current_time($date_format) : current_time( 'd/m/Y' );
+			$this->Date		= ($date_format) ? current_time($date_format) : current_time('d/m/Y');
 			# Current Time 
 			$time_format 	= get_option('time_format');
-			$this->Time		= ($date_format) ? current_time($time_format) : current_time( 'g:i a' );
+			$this->Time		= ($date_format) ? current_time($time_format) : current_time('g:i a');
 			# Active Plugins, Checking Active And Inactive Plugin 
-			$this->active_plugins = get_option( 'active_plugins');		
+			$this->active_plugins = get_option('active_plugins');		
 			# WooCommerce order Statuses 
 			if(function_exists("wc_get_order_statuses")){
 				$woo_order_statuses =  wc_get_order_statuses();
@@ -131,7 +131,7 @@ class Automail_Admin {
 				$this->wooCommerceOrderStatuses['wc-new_order']  =  'WooCommerce New Checkout Page Order';
 				# For Default Status
 				foreach ( $woo_order_statuses as $key => $value ) {
-					$this->wooCommerceOrderStatuses[ $key ]      =  'WooCommerce '.$value;
+					$this->wooCommerceOrderStatuses[$key]      =  'WooCommerce ' . $value;
 				}
 			}else{
 				# If Function didn't exist do it 
@@ -203,7 +203,7 @@ class Automail_Admin {
 				if($usersMeta[0]  && ! empty($usersMeta[1])){
 					# Looping comment Meta 
 					foreach($usersMeta[1] as $metaKey){
-						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  ".$metaKey;
+						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
 					}
 				}
 			}
@@ -284,7 +284,7 @@ class Automail_Admin {
 					if($postsMeta[0] && ! empty($postsMeta[1])){
 						# Looping comment Meta 
 						foreach($postsMeta[1] as $metaKey){
-							$this->eventsAndTitles[ $key ][$metaKey] = "Post Meta  ".$metaKey;
+							$this->eventsAndTitles[$key][$metaKey] = "Post Meta  " . $metaKey;
 						}	
 					}
 				}
@@ -350,7 +350,7 @@ class Automail_Admin {
 					if($pagesMeta[0] && !empty($pagesMeta[1])){
 						# Looping comment Meta 
 						foreach($pagesMeta[1] as $metaKey){
-							$this->eventsAndTitles[ $key ][$metaKey] = "Page Meta  ".$metaKey;
+							$this->eventsAndTitles[$key][$metaKey] = "Page Meta  " . $metaKey;
 						}	
 					}
 				}
@@ -368,7 +368,7 @@ class Automail_Admin {
 			# setting wordpress comments events
 			foreach($wordpressCommentEvents as $key => $value){
 				# For Paid User 
-				$this->eventsAndTitles[ $key ] = array(
+				$this->eventsAndTitles[$key] = array(
 					"comment_ID" 			=> "Comment ID",
 					"comment_post_ID" 		=> "Comment Post ID",
 					"comment_author"		=> "Comment Author",
@@ -401,12 +401,12 @@ class Automail_Admin {
 
 			# For Comment Meta 
 			$commentsMeta = $this->automail_comments_metaKeys();
-			if($commentsMeta[0]  && !empty($commentsMeta[1])){
+			if($commentsMeta[0] && !empty($commentsMeta[1])){
 				# Looping the comment event 
 				foreach($wordpressCommentEvents as $key => $value){
 					# Looping comment Meta
 					foreach($commentsMeta[1] as $metaKey) {
-						$this->eventsAndTitles[ $key ][$metaKey] = "Comment Meta  ".$metaKey;
+						$this->eventsAndTitles[$key][$metaKey] = "Comment Meta  " . $metaKey;
 					}
 				}
 			}
@@ -415,10 +415,10 @@ class Automail_Admin {
 			if(in_array('woocommerce/woocommerce.php', $this->active_plugins)){
 				# Woo product  Starts 
 				# WooCommerce Product Event Array 
-				$wooCommerceProductEvents 		= array(
-					'wc-new_product'			=> 'WooCommerce New Product',
-					'wc-edit_product'			=> 'WooCommerce Update Product',
-					'wc-delete_product'			=> 'WooCommerce Delete Product',
+				$wooCommerceProductEvents 	= array(
+					'wc-new_product'		=> 'WooCommerce New Product',
+					'wc-edit_product'		=> 'WooCommerce Update Product',
+					'wc-delete_product'		=> 'WooCommerce Delete Product',
 				);
 
 				# Inserting WooCommerce product Events to All Events 
@@ -501,7 +501,7 @@ class Automail_Admin {
 					foreach($wooCommerceProductEvents as $key => $value){
 						# Looping comment Meta 
 						foreach($productsMeta[1] as $metaKey){
-							$this->eventsAndTitles[ $key ][$metaKey] = "Product Meta  ".$metaKey;
+							$this->eventsAndTitles[$key][$metaKey] = "Product Meta  " . $metaKey;
 						}	
 					}
 				}
@@ -519,7 +519,7 @@ class Automail_Admin {
 				# WooCommerce Orders 
 				foreach($this->wooCommerceOrderStatuses as $key => $value){
 					# Default fields
-					$this->eventsAndTitles[ $key ]	= array(
+					$this->eventsAndTitles[$key]	= array(
 						"orderID"							=>	"Order ID",
 						"cart_tax"							=>	"Cart tax",
 						"currency"							=>	"Currency",
@@ -673,7 +673,7 @@ class Automail_Admin {
 					foreach($this->wooCommerceOrderStatuses as $key => $value){
 						# Looping comment Meta 
 						foreach($itemsMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Items Meta  ".$metaKey;
+							$this->eventsAndTitles[$key][$metaKey] = "Items Meta  " . $metaKey;
 						}	
 					}
 				}
@@ -686,7 +686,7 @@ class Automail_Admin {
 					foreach($this->wooCommerceOrderStatuses as $key => $value){
 						# Looping comment Meta s
 						foreach($ordersMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Order Meta  ".$metaKey;
+							$this->eventsAndTitles[$key][$metaKey] = "Order Meta  " . $metaKey;
 						}
 					}
 				}
@@ -697,11 +697,11 @@ class Automail_Admin {
 			$cf7 = $this->cf7_forms_and_fields();
 			if($cf7[0]) {
 				foreach($cf7[1] as $form_id => $form_name){
-					$this->events[ $form_id ] = $form_name;		
+					$this->events[$form_id] = $form_name;		
 				}
 
 				foreach($cf7[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[ $form_id ] = $fields_array; 			
+					$this->eventsAndTitles[$form_id] = $fields_array; 			
 				}
 			}
 
@@ -713,7 +713,7 @@ class Automail_Admin {
 				}
 
 				foreach($ninja[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[ $form_id ] = $fields_array; 			
+					$this->eventsAndTitles[$form_id] = $fields_array; 			
 				}
 			}
 
@@ -733,11 +733,11 @@ class Automail_Admin {
 			$wpforms  =  $this->wpforms_forms_and_fields();
 			if($wpforms[0]){
 				foreach($wpforms[1] as $form_id => $form_name){
-					$this->events[$form_id ] = $form_name;		
+					$this->events[$form_id] = $form_name;		
 				}
 
 				foreach($wpforms[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[$form_id ] = $fields_array; 			
+					$this->eventsAndTitles[$form_id] = $fields_array; 			
 				}
 			}
 
@@ -745,11 +745,11 @@ class Automail_Admin {
 			$weforms  =  $this->weforms_forms_and_fields();
 			if($weforms[0]){
 				foreach($weforms[1] as $form_id => $form_name){
-					$this->events[$form_id ] = $form_name;		
+					$this->events[$form_id] = $form_name;		
 				}
 
 				foreach($weforms[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[$form_id ] = $fields_array;	
+					$this->eventsAndTitles[$form_id] = $fields_array;	
 				}
 			}
 
@@ -757,11 +757,11 @@ class Automail_Admin {
 			$gravityForms  =  $this->gravity_forms_and_fields();
 			if($gravityForms[0]){
 				foreach($gravityForms[1] as $form_id => $form_name){
-					$this->events[$form_id ] = $form_name;		
+					$this->events[$form_id] = $form_name;		
 				}
 
 				foreach($gravityForms[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[$form_id ] = $fields_array;		
+					$this->eventsAndTitles[$form_id] = $fields_array;		
 				}
 			}
 
@@ -769,11 +769,11 @@ class Automail_Admin {
 			$forminatorForms  =  $this->forminator_forms_and_fields();
 			if($forminatorForms[0]){
 				foreach($forminatorForms[1] as $form_id => $form_name){
-					$this->events[$form_id ] = $form_name;		
+					$this->events[$form_id] = $form_name;		
 				}
 
 				foreach($forminatorForms[2] as $form_id => $fields_array){
-					$this->eventsAndTitles[$form_id ] = $fields_array;		
+					$this->eventsAndTitles[$form_id] = $fields_array;		
 				}
 			}
 
@@ -798,7 +798,7 @@ class Automail_Admin {
 
 		# End of Scope 
 		if(get_current_screen()->id == 'toplevel_page_automail'){
-			wp_register_script('Vue', plugin_dir_url( __FILE__ ).'js/vue.js', array(), FALSE, FALSE );
+			wp_register_script('Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
 			wp_enqueue_script('automail-admin', plugin_dir_url( __FILE__ ).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
 			
 			# Change from Here 
@@ -807,9 +807,9 @@ class Automail_Admin {
 				$wpPost = get_post( sanitize_text_field($_GET["id"]), ARRAY_A );
 				# Creating an array for Frontend, for Preselecting 
 				$frontEnd = array( 
-					"ID"  					=> ( isset( $wpPost['ID']  ) AND !empty( $wpPost['ID'] ) ) 					? $wpPost['ID'] 			: "",
-					"automatonName"  		=> ( isset( $wpPost['post_title']  ) AND !empty( $wpPost['post_title'] ) ) 	? $wpPost['post_title'] 	: "",
-					"selectedEvent"  		=> ( isset( $wpPost['post_excerpt']) AND !empty( $wpPost['post_excerpt'] ) )? $wpPost['post_excerpt'] 	: "",
+					"ID"  					=> (isset($wpPost['ID']) AND !empty($wpPost['ID'])) 					? $wpPost['ID'] 			: "",
+					"automatonName"  		=> (isset($wpPost['post_title']) AND !empty($wpPost['post_title'])) 	? $wpPost['post_title'] 	: "",
+					"selectedEvent"  		=> (isset($wpPost['post_excerpt']) AND !empty($wpPost['post_excerpt'])) ? $wpPost['post_excerpt'] 	: "",
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
 					"mailReceiver"  		=> json_encode(get_post_meta(sanitize_text_field($_GET["id"]), "mailReceiver", TRUE)), 
 				);
@@ -844,7 +844,7 @@ class Automail_Admin {
 		# router aka request dispatcher;
 		if(isset($_GET['action']) AND $_GET['action'] == 'new'){
 			# including the new automaton view File;
-			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-new-automaton.php';
+			require_once plugin_dir_path( dirname(__FILE__) ) . 'admin/partials/automail-new-automaton.php';
 		}elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))){
 			# Getting the Post data;
 			$post   		    = get_post(sanitize_text_field($_GET["id"]), ARRAY_A);
@@ -860,7 +860,7 @@ class Automail_Admin {
        			exit;
 			}
 			# including edit view File.
-			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-edit-automaton.php';
+			require_once plugin_dir_path( dirname(__FILE__) ) . 'admin/partials/automail-edit-automaton.php';
 		}elseif(isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'status' AND !empty($_GET['id']))){
 			# Change Automation status Redirect.
 			$this->automail_automation_status(sanitize_text_field($_GET["id"]));
@@ -871,22 +871,24 @@ class Automail_Admin {
 				foreach($_GET['id'] as $id){
                 	wp_delete_post(sanitize_text_field($id));
             	}
+				# redirecting user to list 
+				wp_redirect(admin_url('/admin.php?page=automail&status=success'));
 			}else{
 				# Deleting Single Automation.
 				wp_delete_post(sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 			}
 		}else{
 			# Adding List table
-			require_once plugin_dir_path(dirname(__FILE__)).'includes/class-automail-list-table.php';
+			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-automail-list-table.php';
 			# Creating view Page layout 
 			echo"<div class='wrap'>";
 				echo "<h1 class='wp-heading-inline'> Email Automatons  </h1>";
-				echo "<a href=". admin_url('/admin.php?page=automail&action=new') ." class='page-title-action'>Add New Email Automaton</a>";
+				echo "<a href=" . admin_url('/admin.php?page=automail&action=new') . " class='page-title-action'>Add New Email Automaton</a>";
 				# Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions
 				echo"<form id='newIntegration' method='get'>";
 					# For plugins, we also need to ensure that the form posts back to our current page 
-					echo"<input type='hidden' name='page' value='".esc_attr( $_REQUEST['page'] )."' />";
-					echo"<input type='hidden' name='automail_nonce' value='".wp_create_nonce( 'automail_nonce_bulk_action' )."' />";
+					echo"<input type='hidden' name='page' value='" . esc_attr( $_REQUEST['page'] ) . "' />";
+					echo"<input type='hidden' name='automail_nonce' value='" . wp_create_nonce( 'automail_nonce_bulk_action' ) . "' />";
 					# Now we can render the completed list table 
 					$automail_table = new Automail_List_Table($this->eventsAndTitles);
 					$automail_table->prepare_items();
@@ -954,7 +956,7 @@ class Automail_Admin {
 	public function  automail_automation_status($id){
 		# Check Valid INT
 		if(!is_numeric($id)){
-			$this->automail_log(get_class( $this ), __METHOD__, "200", "ERROR: status change ID ".$id." is not numeric.");
+			$this->automail_log(get_class( $this ), __METHOD__, "200", "ERROR: status change ID " . $id . " is not numeric.");
 		}
 		# check the Post type status
 		if(get_post($id)->post_status == 'publish'){
@@ -963,7 +965,7 @@ class Automail_Admin {
 			$custom_post = array('ID' => $id, 'post_status' => 'publish');
 		}
 		# Keeping Log
-		$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: ID ".$id." Integration status  change to .". get_post($id)->post_status);
+		$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: ID " . $id . " Integration status  change to ." . get_post($id)->post_status);
 		# redirect
 		if(wp_update_post($custom_post)){
 		 	wp_redirect(admin_url('/admin.php?page=automail&rms=success_from_status_change'));
@@ -978,10 +980,10 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
-		echo"<pre>";
+		// echo"<pre>";
 			
 
-		echo"</pre>";
+		// echo"</pre>";
 	}
 
 	/**
@@ -994,7 +996,7 @@ class Automail_Admin {
 		if(isset($_POST['automatonName']) AND !empty($_POST['automatonName'])){
 			$automatonName  =  sanitize_text_field($_POST['automatonName']);
 		}else{
-			wp_redirect(admin_url( 'admin.php?page=automail&status=automatonName is not set or empty !'));
+			wp_redirect(admin_url( 'admin.php?page=automail&status=automatonName is not set or empty!'));
        		exit;
 		}
 
@@ -1002,7 +1004,7 @@ class Automail_Admin {
 		if(isset($_POST['eventName']) AND !empty($_POST['eventName'])){
 			$eventName  =  sanitize_text_field($_POST['eventName']);
 		}else{
-			wp_redirect( admin_url( 'admin.php?page=automail&status=eventName is not set or empty !'));
+			wp_redirect( admin_url( 'admin.php?page=automail&status=eventName is not set or empty!'));
        		exit;
 		}
 
@@ -1010,7 +1012,7 @@ class Automail_Admin {
 		if((isset($_POST['mailReceiver']) AND !empty($_POST['mailReceiver'])) AND is_array($_POST['mailReceiver'])){
 			$mailReceiver  =  array_map('sanitize_text_field',  $_POST['mailReceiver']);
 		}else{
-			wp_redirect(admin_url('admin.php?page=automail&status=mailReceiver_is_not_set_or_empty_or_not_array !'));
+			wp_redirect(admin_url('admin.php?page=automail&status=mailReceiver_is_not_set_or_empty_or_not_array!'));
        		exit;
 		}
 
@@ -1032,7 +1034,7 @@ class Automail_Admin {
 			);
 			$automailEmail  =  wp_kses($_POST['automailEmail'], $allowed_html);
 		}else{
-			wp_redirect(admin_url('admin.php?page=automail&status=automailEmail is not set or empty !'));
+			wp_redirect(admin_url('admin.php?page=automail&status=automailEmail is not set or empty!'));
        		exit;
 		}
 
@@ -1114,14 +1116,14 @@ class Automail_Admin {
 		if(function_exists("count_users") AND isset(count_users()['avail_roles'])){
 			foreach(count_users()['avail_roles'] as $key => $value) {
 				if(isset($userRoles[$key]) AND  $value){
-					$userRoles[$key] = $userRoles[$key] . " (".$value.")" ;
+					$userRoles[$key] = $userRoles[$key] . " (" . $value . ")";
 				}
 			}
 		}
 		# Adding user role prefix at the begging  keys 
 		$arrayWithPrefix = array();
 		foreach($userRoles as $key => $value){
-			$arrayWithPrefix["userRole_".$key]  =  $value ;
+			$arrayWithPrefix["userRole_".$key]  =  $value;
 		}
 		# return
 		if(empty($arrayWithPrefix)){
@@ -1138,7 +1140,7 @@ class Automail_Admin {
 	public function cf7_forms_and_fields(){
 		# is there CF7 
 		if(!in_array('contact-form-7/wp-contact-form-7.php', $this->active_plugins)){
-			return array(FALSE, "ERROR: Contact form 7 is Not installed or DB Table is Not Exist");
+			return array(FALSE, "ERROR: Contact form 7 is Not installed or DB Table is Not Exist.");
 		}
 
 		$cf7forms 		= array();
@@ -1185,12 +1187,12 @@ class Automail_Admin {
 			foreach($fieldsArray as $formID => $formFieldsArray){
 				# For Time
 				if(!isset( $formFieldsArray['automail_submitted_time'])){
-					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time";
+					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time.";
 				}
 
 				# for Date 
 				if(!isset( $formFieldsArray['automail_submitted_date'])){
-					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date";
+					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date.";
 				}
 			}
 		}
@@ -1213,8 +1215,8 @@ class Automail_Admin {
 		$ninjaForms 	= $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_forms", ARRAY_A);
 		
 		foreach($ninjaForms as $form){
-			$FormArray["ninja_". $form["id"]] = "Ninja - ". $form["title"];	
-			$ninjaFields =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_fields where parent_id = '".$form["id"]."'", ARRAY_A);
+			$FormArray["ninja_" . $form["id"]] = "Ninja - " . $form["title"];	
+			$ninjaFields =  $wpdb->get_results("SELECT * FROM {$wpdb->prefix}nf3_fields where parent_id = '" . $form["id"] . "'", ARRAY_A);
 			foreach($ninjaFields as $field){
 				# freemius 
 				$field_list = array( 
@@ -1237,7 +1239,7 @@ class Automail_Admin {
 				);
 					
 				if(in_array( $field["type"], $field_list)){
-					$fieldsArray[ "ninja_". $form["id"] ] [ $field["key"] ] = $field["label"];
+					$fieldsArray["ninja_" . $form["id"] ] [ $field["key"] ] = $field["label"];
 				}
 			}
 		} # Loop ends 
@@ -1275,9 +1277,9 @@ class Automail_Admin {
 		$frmForms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_forms");				# Getting  Forms Database 
 		
 		foreach($frmForms as $form){
-			$FormArray["frm_".$form->id] =  "Formidable - ".$form->name;							# Inserting ARRAY title 
+			$FormArray["frm_".$form->id] =  "Formidable - " . $form->name;							# Inserting ARRAY title 
 			# Getting Meta Fields || maybe i don't Know ;-D
-			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= ".$form->id." ORDER BY field_order"); 	# Getting  Data from Database 
+			$fields = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_fields WHERE form_id= " . $form->id . " ORDER BY field_order"); 	# Getting  Data from Database 
 			foreach($fields as $field){
 				# Default fields
 
@@ -1304,7 +1306,7 @@ class Automail_Admin {
 				);
 				
 				if(in_array($field->type, $field_list)){
-					$fieldsArray["frm_".$form->id][$field->id] = $field->name;
+					$fieldsArray["frm_" . $form->id][$field->id] = $field->name;
 				}
 			}
 		} # Loop ends 
@@ -1343,7 +1345,7 @@ class Automail_Admin {
 		$wpforms 	 = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpforms' ");
 		
 		foreach($wpforms as $wpform){
-			$FormArray["wpforms_". $wpform->ID] = "WPforms - ".$wpform->post_title;	
+			$FormArray["wpforms_" . $wpform->ID] = "WPforms - " . $wpform->post_title;	
 			$post_content =  json_decode($wpform->post_content);
 			
 			foreach($post_content->fields as $field){
@@ -1373,7 +1375,7 @@ class Automail_Admin {
 				);
 					
 				if(in_array($field->type, $field_list)){
-					$fieldsArray["wpforms_". $wpform->ID ][$field->id] = $field->label;
+					$fieldsArray["wpforms_" . $wpform->ID ][$field->id] = $field->label;
 				}
 			}  # Loop ends 
 		} # Loop ends 
@@ -1416,7 +1418,7 @@ class Automail_Admin {
 		$weFields 	    = $wpdb->get_results("SELECT * FROM {$wpdb->posts} WHERE post_type = 'wpuf_input' ");
 		
 		foreach($weforms as $weform){
-			$FormArray[ "we_".$weform->ID ] = 'weForms - '.$weform->post_title;
+			$FormArray[ "we_" . $weform->ID ] = 'weForms - ' . $weform->post_title;
 		}
 
 		foreach($weFields as $Field){
@@ -1469,9 +1471,9 @@ class Automail_Admin {
 			$fieldTypeArray = array();	
 			# New Code Loop
 			foreach($gravityForms as $form){
-				$FormArray["gravity_". $form["id"]] = "Gravity - ". $form["title"];	
+				$FormArray["gravity_" . $form["id"]] = "Gravity - " . $form["title"];	
 				# Form Fields || Check fields are set or Not
-				if(isset($form['fields'] ) AND is_array( $form['fields'])){
+				if(isset($form['fields']) AND is_array( $form['fields'])){
 					foreach($form['fields'] as $field){
 						if(empty( $field['inputs'])){
 							# if there is no subfields
@@ -1480,8 +1482,8 @@ class Automail_Admin {
 						}else{
 							# Looping Subfields
 							foreach($field["inputs"] as $subField){
-								$fieldsArray[ "gravity_". $form["id"] ] [ $subField["id"] ] 	= $field["label"].' ('. $subField["label"] .')';
-								$fieldTypeArray[ "gravity_". $form["id"] ] [ $subField["id"] ] 	= $field["type"];
+								$fieldsArray[ "gravity_" . $form["id"] ] [ $subField["id"] ] 	= $field["label"] . ' (' . $subField["label"] . ')';
+								$fieldTypeArray[ "gravity_" . $form["id"] ] [ $subField["id"] ] = $field["type"];
 							}
 						}
 					}
@@ -1512,7 +1514,7 @@ class Automail_Admin {
 			# Looping the Forms 
 			foreach($forms as $form){
 				# inserting Forms 
-				$FormArray["forminator_". $form->id] = "forminator - ".$form->name;
+				$FormArray["forminator_" . $form->id] = "forminator - " . $form->name;
 				# Getting Fields 
 				$fields = get_post_meta($form->id, 'forminator_form_meta');
 				# Check & balance 
@@ -1520,12 +1522,12 @@ class Automail_Admin {
 					# Looping the Fields 
 					foreach($fields[0]['fields'] as $field){
 						if(isset($field['id'], $field['field_label'])){
-							$fieldsArray["forminator_". $form->id][ $field['id']] = $field['field_label'];
+							$fieldsArray["forminator_" . $form->id][ $field['id']] = $field['field_label'];
 						}
 					}
 					# Date And Time 
-					$fieldsArray["forminator_". $form->id]['automail_submitted_time'] = "automail Form submitted  time";
-					$fieldsArray["forminator_". $form->id]['automail_submitted_time'] = "automail Form submitted date";
+					$fieldsArray["forminator_" . $form->id]['automail_submitted_time'] = "automail Form submitted  time";
+					$fieldsArray["forminator_" . $form->id]['automail_submitted_time'] = "automail Form submitted date";
 				}
 			}
 		}
@@ -1683,7 +1685,7 @@ class Automail_Admin {
 			return FALSE;
 		}
 		global $wpdb;
-		$r = $wpdb->get_results("SHOW TABLES LIKE '". $wpdb->prefix. $tableName ."'");
+		$r = $wpdb->get_results("SHOW TABLES LIKE '" . $wpdb->prefix. $tableName . "'");
 		if($r){
 			return TRUE;
 		}else{
@@ -1721,7 +1723,7 @@ class Automail_Admin {
 					if(!in_array($postKey,$removeArray)){
 						# Pre populate $cpts array 
 						if(isset($PostValue->label) AND !empty($PostValue->label)){
-							$cpts[$postKey]  =  $PostValue->label ." (". $postKey . ")";
+							$cpts[$postKey]  =  $PostValue->label . " (" . $postKey . ")";
 						}else{
 							$cpts[$postKey]  = $postKey;
 						}
@@ -1735,9 +1737,9 @@ class Automail_Admin {
 			if(!empty($cpts)){
 				# Looping for Creating Extra Events Like Update and Delete 
 				foreach($cpts as $key => $value){
-					$cptEvents['cpt_new_'.$key] 	=  'CPT New '.$value;
-					$cptEvents['cpt_update_'.$key] 	=  'CPT Update '.$value;
-					$cptEvents['cpt_delete_'.$key] 	=  'CPT Delete '.$value;
+					$cptEvents['cpt_new_' . $key] 	    =  'CPT New ' . $value;
+					$cptEvents['cpt_update_' . $key] 	=  'CPT Update ' . $value;
+					$cptEvents['cpt_delete_' . $key] 	=  'CPT Delete ' . $value;
 				}
 				# Now setting default Event data Source Fields; Those events data source  are common in all WordPress Post type 
 				$eventDataFields = array(
@@ -1796,7 +1798,7 @@ class Automail_Admin {
 				if(!empty($meta_keys) AND is_array($meta_keys)){
 					foreach($meta_keys as  $value) {
 						if(!isset($eventDataFields[ $value ])){
-							$eventDataFields[ $value ] = "CPT Meta ". $value; 
+							$eventDataFields[ $value ] = "CPT Meta " . $value; 
 						}
 					}
 				}else{

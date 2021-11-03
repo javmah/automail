@@ -112,7 +112,7 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue as $oneArray){
-					if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
+					if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if( $isArrayTest == null ){
@@ -131,7 +131,7 @@ class Automail_Events {
 			if($user_id){
 				$r = $this->automail_send_mail('wp_newUser', $user_data);
 			}else{
-				$this->automail_log(get_class($this), __METHOD__, "101", "ERROR: wordpress_newUser fired but no User ID . ".$user_id);
+				$this->automail_log(get_class($this), __METHOD__, "101", "ERROR: wordpress_newUser fired but no User ID . " . $user_id);
 			}
 		}else{
 			$this->automail_log(get_class($this), __METHOD__, "102", "ERROR: get_userdata or get_user_meta is not Exist" );
@@ -352,7 +352,7 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue as $oneArray){
-					if(is_array( $oneArray ) && isset($oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
+					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if($isArrayTest == null){
@@ -420,7 +420,7 @@ class Automail_Events {
 			# get Distinct Keys;
 			$metaKeys = $this->automail_users_metaKeys();
 			# Check and Balance for all the Meta keys
-			if($metaKeys[0] &&  !empty($usersMetaKeyValue)){
+			if($metaKeys[0] && !empty($usersMetaKeyValue)){
 				# populating Output array in reverse with  empty value
 				foreach($metaKeys[1]  as $key => $value){
 					$metaOutPut[$value] = "--";
@@ -540,10 +540,10 @@ class Automail_Events {
 			$metaKeys = $this->automail_pages_metaKeys();
 		}else{
 			# Setting Meta, getting those Meta from  automail_allCptEvents() function Where;
-			if ( isset( $cpts[4] ) AND !empty( $cpts[4] )){
-				$metaKeys = array( TRUE, $cpts[4] );
+			if(isset($cpts[4]) AND !empty($cpts[4])){
+				$metaKeys = array(TRUE, $cpts[4]);
 			}else{
-				$metaKeys = array( FALSE, "");
+				$metaKeys = array(FALSE, "");
 			}
 		}
 
@@ -555,9 +555,9 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($metaKeyValue as $oneArray){
-				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray[ 'meta_value' ])){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize( $oneArray['meta_value']);
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if( $isArrayTest == null ){
 						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
@@ -624,27 +624,27 @@ class Automail_Events {
 				}
 				# if Difference is Lager its Edit Or Its New 
 				if($post_time_diff < 5){
-					$post_data['eventName'] = 'cpt_new_'.$post->post_type ;
+					$post_data['eventName'] = 'cpt_new_' . $post->post_type ;
 					# Action
-					$r = $this->automail_send_mail('cpt_new_'.$post->post_type , $post_data);
+					$r = $this->automail_send_mail('cpt_new_' . $post->post_type , $post_data);
 					# event Log for Trash
-					$this->automail_log(get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
+					$this->automail_log(get_class( $this ), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id);
 				
 				}else{
-					$post_data['eventName'] = 'cpt_update_'.$post->post_type ;
+					$post_data['eventName'] = 'cpt_update_' . $post->post_type;
 					# Action
-					$r = $this->automail_send_mail('cpt_update_'.$post->post_type , $post_data);
+					$r = $this->automail_send_mail('cpt_update_' . $post->post_type, $post_data);
 					# event Log for Trash
-					$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
+					$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id);
 				}
 			}
 			# For Post status Trash 
 			if($post->post_status == 'trash'){
-				$post_data['eventName'] = 'cpt_delete_'.$post->post_type;
+				$post_data['eventName'] = 'cpt_delete_' . $post->post_type;
 				# Action
-				$r = $this->automail_send_mail('cpt_delete_'.$post->post_type , $post_data);
+				$r = $this->automail_send_mail('cpt_delete_' . $post->post_type , $post_data);
 				# event Log for Trash
-				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
+				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id);
 			}
 		}
 	}
@@ -703,7 +703,7 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($commentMetaKeyValue  as $oneArray){
-				if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[$oneArray[ 'meta_key' ]], $oneArray['meta_value'])){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray[ 'meta_key' ]], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if( $isArrayTest == null ){
@@ -762,8 +762,8 @@ class Automail_Events {
 		$Data["date_of_comment"]		= get_comment_date(	"d", 	$commentID);
 		$Data["time_of_comment"]		= get_comment_date(	"H:t", 	$commentID);
 		# New Code Ends Here
-		$Data["filtered"]  				=  ( isset( $commentData["filtered"] )) ? 			$commentData["filtered"]			: '';
-		$Data["comment_approved"]  		=  ( isset( $commentData["comment_approved"] ) &&   $commentData["comment_approved"] )  ? "True" : "False";
+		$Data["filtered"]  				=  ( isset($commentData["filtered"])) ? 			$commentData["filtered"]			: '';
+		$Data["comment_approved"]  		=  ( isset($commentData["comment_approved"]) &&   	$commentData["comment_approved"])   ? "True" : "False";
 		# Comment Meta Data portion Starts
 		# empty Holder array 
 		$metaOutPut = array();	
@@ -774,20 +774,20 @@ class Automail_Events {
 		# get Distinct Keys;
 		$metaKeys = $this->automail_comments_metaKeys();
 		# Check and Balance for all the Meta keys
-		if($metaKeys[0] &&  !empty($commentMetaKeyValue)){
+		if($metaKeys[0] && !empty($commentMetaKeyValue)){
 			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1] as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($commentMetaKeyValue as $oneArray){
-				if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
+				if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if( $isArrayTest == null ){
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray['meta_value'];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -798,7 +798,7 @@ class Automail_Events {
 
 		# Action
 		if(empty($commentID) OR empty($commentData) OR empty($Data)){
-			$this->automail_log( get_class($this), __METHOD__,"113", "ERROR: commentID or commentData is empty !");
+			$this->automail_log(get_class($this), __METHOD__,"113", "ERROR: commentID or commentData is empty !");
 		}else{
 			$r = $this->automail_send_mail('wp_edit_comment', $Data);
 		}
@@ -893,7 +893,7 @@ class Automail_Events {
 		# Global Db object 
 		global $wpdb;
 		# execute Query
-		$productMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID , ARRAY_A);
+		$productMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID, ARRAY_A);
 		# get Distinct Keys;
 		$metaKeys = $this->automail_wooCommerce_product_metaKeys();
 		# Check and Balance for all the Meta keys
@@ -904,13 +904,13 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($productMetaKeyValue  as $oneArray){
-				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray[ 'meta_key' ]], $oneArray[ 'meta_value' ])){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if ( $isArrayTest == null ) {
 						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					} else {
-						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] = $isArrayTest;
 					}
 				}
 			}
@@ -953,7 +953,7 @@ class Automail_Events {
 		# New system For Stopping Dabble Submission # If Order Created Date Is Less than 3 mints and Order is from checkout
 		$orderDateTimeStamp 	=  strtotime($order->get_date_created());
 		$currentDateTimeStamp 	=  strtotime(current_time("Y-m-d H:i:s"));
-		$timDiffMin 			=  round(($currentDateTimeStamp - $orderDateTimeStamp ) / 60 );
+		$timDiffMin 			=  round(($currentDateTimeStamp - $orderDateTimeStamp ) / 60);
 		# check the arguments || if time difference is less than 5 mints stop  
 		if($order->get_created_via() == 'checkout' AND $timDiffMin < 5){
 			$this->automail_log( get_class($this), __METHOD__,"114", "ERROR: Dabble Submission Stopped!");
@@ -1163,7 +1163,7 @@ class Automail_Events {
 		$order_data = array_merge($order_data, $itemMetaKeyValue);	
 		# Order Item process Ends
 		$order_data['item_count'] 			    	=  ( method_exists( $order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 	? 	$order->get_item_count() : "";
-		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items') 	&& ! empty($order->get_downloadable_items()) &&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
+		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items') 	&& ! empty($order->get_downloadable_items()) &&  is_array(  $order->get_downloadable_items()) ) ? json_encode( $order->get_downloadable_items()) : "";   
 		#
 		$order_data['date_created'] 				=  ( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T") ) ) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
 		$order_data['date_modified'] 				=  ( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) ) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
@@ -1201,8 +1201,8 @@ class Automail_Events {
 		$order_data['created_via'] 					=  ( method_exists( $order, 'get_created_via' ) 		&& 	is_string( $order->get_created_via() ))			? 	$order->get_created_via()			: "";
 		$order_data['customer_note'] 				=  ( method_exists( $order, 'get_customer_note' ) 		&& 	is_string( $order->get_customer_note() ))		? 	$order->get_customer_note()			: "";
 		# site Current Time
-		$order_data['site_time'] 					= ( isset( $this->Time ) ) ? 	$this->Time		:	'';
-		$order_data['site_date'] 					= ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+		$order_data['site_time'] 					= ( isset( $this->Time ) ) ? $this->Time	:	'';
+		$order_data['site_date'] 					= ( isset( $this->Date ) ) ? $this->Date	:	'';
 		# Start
 		$order_data['shipping_first_name'] 			=  ( method_exists( $order, 'get_shipping_first_name' ) && 	is_string( $order->get_shipping_first_name())) 	? 	$order->get_shipping_first_name()	: "";
 		$order_data['shipping_last_name'] 			=  ( method_exists( $order, 'get_shipping_last_name' )  && 	is_string( $order->get_shipping_last_name() ))	? 	$order->get_shipping_last_name()	: "";
@@ -1254,13 +1254,13 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($orderMetaKeyValue as $oneArray){
-				if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize( $oneArray[ 'meta_value' ] );
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if ( $isArrayTest == null ) {
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					} else {
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -1275,7 +1275,7 @@ class Automail_Events {
 		$woo_checkout_field_editor_pro = $this->automail_woo_checkout_field_editor_pro_fields();
 		if($woo_checkout_field_editor_pro[0]){
 			foreach($woo_checkout_field_editor_pro[1] as $key => $value){
-				$order_data[ $key ] = (isset( $woo_checkout_field_editor_pro[1][$key], $order_data["orderID"])  &&  ! empty( get_post_meta( $order_data["orderID"], $key )[0] ) )   ?    get_post_meta( $order_data["orderID"], $key )[0]   :  "";
+				$order_data[ $key ] = (isset($woo_checkout_field_editor_pro[1][$key], $order_data["orderID"])  &&  !empty(get_post_meta($order_data["orderID"], $key)[0] ))   ?    get_post_meta($order_data["orderID"], $key)[0]   :  "";
 			}
 		}
 		# Checkout Field Editor (Checkout Manager) for WooCommerce By ThemeHigh  || Ends
@@ -1482,18 +1482,18 @@ class Automail_Events {
 			# wpdb
 			global $wpdb;
 			# DB query 
-			$query 	 = "SELECT * FROM $wpdb->postmeta WHERE post_id IN ('". join("','",$product_ids) ."') ORDER BY FIELD(post_id, ".join(",",$product_ids).") ";
+			$query 	 = "SELECT * FROM $wpdb->postmeta WHERE post_id IN ('" . join("','",$product_ids) . "') ORDER BY FIELD(post_id, " . join(",",$product_ids) . ") ";
 			# Running the Query
 			$productMeta = $wpdb->get_results($query, ARRAY_A);
 			if(!empty($productMeta)){
 				foreach($productMeta as $key => $valueArray){
 					if(isset($valueArray['meta_key']) AND  isset($valueArray['meta_value'])){
 						# error handling 
-						if(isset($itemMetaKeyValue[ $valueArray['meta_key'] ])){
-							$itemMetaKeyValue[ $valueArray['meta_key'] ] .= ( !empty($valueArray['meta_value']) )? $valueArray['meta_value'] . " \n " : "-- \n ";
+						if(isset($itemMetaKeyValue[$valueArray['meta_key']])){
+							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
 						}else{
-							$itemMetaKeyValue[ $valueArray['meta_key'] ]  ="";
-							$itemMetaKeyValue[ $valueArray['meta_key'] ] .= ( !empty($valueArray['meta_value']) )? $valueArray['meta_value'] . " \n " : "-- \n ";
+							$itemMetaKeyValue[$valueArray['meta_key']]  ="";
+							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
 						}
 					}
 				}
@@ -1575,12 +1575,12 @@ class Automail_Events {
 		$order_data['edit_order_url'] 				=  ( method_exists( $order, 'get_edit_order_url' ) 				&& 	is_string( $order->get_edit_order_url() )) 				? 	$order->get_edit_order_url()				: "";
 
 		$order_data['eventName'] 					=  $order->get_status();  //'wc-new_order'
-		$order_data['status'] 						=  "wc-".$order->get_status();
+		$order_data['status'] 						=  "wc-" . $order->get_status();
 		# freemius
 		# Checkout Field Editor (Checkout Manager) for WooCommerce By ThemeHigh  || Starts
 		$woo_checkout_field_editor  =  $this->automail_woo_checkout_field_editor_pro_fields();
 		if($woo_checkout_field_editor[0]){
-			$woo_checkout_field_editor_options  =  get_option("woo_checkout_field_editor") ;
+			$woo_checkout_field_editor_options  =  get_option("woo_checkout_field_editor");
 			foreach($woo_checkout_field_editor_options as $key => $value){
 				$order_data[ $key ] = (isset( $woo_checkout_field_editor[1][$key], $order_data["orderID"] )  &&  ! empty( get_post_meta( $order_data["orderID"], $key )[0] ) )   ?    get_post_meta( $order_data["orderID"], $key )[0]   :  "";
 			}
@@ -1593,7 +1593,7 @@ class Automail_Events {
 		# Global Db object 
 		global $wpdb;
 		# execute Query
-		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A);
+		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id(), ARRAY_A);
 		# get Distinct Keys;
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
@@ -1604,13 +1604,13 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($orderMetaKeyValue  as $oneArray){
-				if(is_array( $oneArray ) && isset($oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray[ 'meta_value' ])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if($isArrayTest == null){
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -1728,10 +1728,10 @@ class Automail_Events {
 			# New Code Ends 
 			foreach($order->get_items() as $item_id => $item_data){
 				
-				$order_data['items'] .= (( method_exists( $item_data, "get_product_id" ) AND 	is_int( $item_data->get_product_id())) 	AND !empty($item_data->get_product_id()))	?  $item_data->get_product_id() 			: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_name" ) 	   	 AND 	is_string( $item_data->get_name() )) 	AND	!empty($item_data->get_name()))			?  " " . $item_data->get_name() 		 	: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_quantity" ) 	 AND 	is_int( $item_data->get_quantity() ))	AND !empty($item_data->get_quantity()))		?  " qty - " . $item_data->get_quantity() 	: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_total" ) 	 AND 	is_string( $item_data->get_total() ))	AND !empty($item_data->get_total()))		?  " total - " .  	$item_data->get_total() : "--"; 
+				$order_data['items'] .= (( method_exists( $item_data, "get_product_id") AND is_int( $item_data->get_product_id())) 	AND !empty($item_data->get_product_id()))	?  $item_data->get_product_id() 			: "--"; 
+				$order_data['items'] .= (( method_exists( $item_data, "get_name") 	   	AND is_string( $item_data->get_name() )) 	AND	!empty($item_data->get_name()))			?  " " . $item_data->get_name() 		 	: "--"; 
+				$order_data['items'] .= (( method_exists( $item_data, "get_quantity") 	AND is_int( $item_data->get_quantity() ))	AND !empty($item_data->get_quantity()))		?  " qty - " . $item_data->get_quantity() 	: "--"; 
+				$order_data['items'] .= (( method_exists( $item_data, "get_total") 	 	AND is_string( $item_data->get_total() ))	AND !empty($item_data->get_total()))		?  " total - " .  	$item_data->get_total() : "--"; 
 				
 				# New Code Starts 
 				$product_ids[] 								     =	( (method_exists( $item_data, 'get_product_id')							AND is_int( $item_data->get_product_id() ))						    AND !empty( $item_data->get_product_id()) )						?  $item_data->get_product_id()														:	"--";
@@ -1825,18 +1825,18 @@ class Automail_Events {
 			# wpdb
 			global $wpdb;
 			# DB query 
-			$query 	 = "SELECT * FROM $wpdb->postmeta WHERE post_id IN ('". join("','",$product_ids) ."') ORDER BY FIELD(post_id, ".join(",",$product_ids).") ";
+			$query 	 = "SELECT * FROM $wpdb->postmeta WHERE post_id IN ('" . join("','",$product_ids) . "') ORDER BY FIELD(post_id, " . join(",",$product_ids) . ") ";
 			# Running the Query
 			$productMeta = $wpdb->get_results($query, ARRAY_A);
 			if(!empty($productMeta)){
 				foreach($productMeta as $key => $valueArray){
-					if(isset($valueArray['meta_key']) AND  isset($valueArray['meta_value'])){
+					if(isset($valueArray['meta_key']) AND isset($valueArray['meta_value'])){
 						# error handling 
-						if(isset( $itemMetaKeyValue[ $valueArray['meta_key']])){
-							$itemMetaKeyValue[ $valueArray['meta_key'] ] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
+						if(isset($itemMetaKeyValue[$valueArray['meta_key']])){
+							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
 						} else {
-							$itemMetaKeyValue[ $valueArray['meta_key'] ]  ="";
-							$itemMetaKeyValue[ $valueArray['meta_key'] ] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
+							$itemMetaKeyValue[$valueArray['meta_key']]  ="";
+							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
 						}
 					}
 				}
@@ -1918,7 +1918,7 @@ class Automail_Events {
 		$order_data['edit_order_url'] 				=  ( method_exists( $order, 'get_edit_order_url' ) 				&& 	is_string( $order->get_edit_order_url() )) 				? 	$order->get_edit_order_url()				: "";
 
 		#
-		$order_data['status'] 						=  "wc-".$order->get_status();  //'wc-new_order'
+		$order_data['status'] 						=  "wc-" . $order->get_status();  //'wc-new_order'
 		$order_data['eventName'] 					=  "New order";
 		
 
@@ -1941,11 +1941,11 @@ class Automail_Events {
 			foreach($orderMetaKeyValue as $oneArray){
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if( $isArrayTest == null ){
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray[ 'meta_value' ];
 					}else{
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -2011,7 +2011,7 @@ class Automail_Events {
 			# Check And Balance 
 			if(!empty($form_data) AND !empty($form_data["form_id"])){
 				# Action
-				$r = $this->automail_send_mail('ninja_'.$form_data["form_id"], $data);
+				$r = $this->automail_send_mail('ninja_' . $form_data["form_id"], $data);
 			}else{
 				$this->automail_log(get_class($this), __METHOD__,"119", "ERROR: ninja Form entries are empty Or form_id is empty!");
 			}
@@ -2032,7 +2032,7 @@ class Automail_Events {
 				# Code 
 				$dataArray = array();
 				global $wpdb;
-				$entrees = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_item_metas WHERE item_id = ". $entry_id ." ORDER BY field_id");
+				$entrees = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}frm_item_metas WHERE item_id = " . $entry_id . " ORDER BY field_id");
 				foreach($entrees as $entre){
 					$dataArray[$entre->field_id] = $entre->meta_value;
 				}
@@ -2043,7 +2043,7 @@ class Automail_Events {
 				# Check And Balance 
 				if(!empty($entry_id)){
 					# Sending data to mail function.
-					$r = $this->automail_send_mail('frm_'.$form_id, $dataArray);
+					$r = $this->automail_send_mail('frm_' . $form_id, $dataArray);
 				}else{
 					$this->automail_log(get_class($this), __METHOD__,"120", "ERROR: formidable Form entries ID is empty!");
 				}
@@ -2061,16 +2061,16 @@ class Automail_Events {
 	 * @param      array    $form_data     	data_array
 	*/
 	public function automail_wpforms_process($fields, $entry, $form_data){
-		$this->automail_log( get_class($this), __METHOD__,"111", "TESTING: fields : ". json_encode($fields));
-		$this->automail_log( get_class($this), __METHOD__,"112", "TESTING: entry : ". json_encode($entry));
-		$this->automail_log( get_class($this), __METHOD__,"113", "TESTING: form_data :". json_encode($form_data));
+		$this->automail_log( get_class($this), __METHOD__,"111", "TESTING: fields : " . json_encode($fields));
+		$this->automail_log( get_class($this), __METHOD__,"112", "TESTING: entry : " . json_encode($entry));
+		$this->automail_log( get_class($this), __METHOD__,"113", "TESTING: form_data :" . json_encode($form_data));
 		# if There is a integration on this Form Submission
 		if(isset($form_data["id"])){
 			# Site date and time 
 			$entry["fields"]['automail_submitted_date'] = (isset($this->Date)) ? $this->Date	:'EMPTY';
 			$entry["fields"]['automail_submitted_time'] = (isset($this->Time)) ? $this->Time	:'EMPTY';
 			# Sending data to mail function
-			$r = $this->automail_send_mail('wpforms_'.$entry["id"], $entry["fields"]);
+			$r = $this->automail_send_mail('wpforms_' . $entry["id"], $entry["fields"]);
 		}else{
 			$this->automail_log( get_class($this), __METHOD__,"122", "ERROR: wpforms Form entries are empty Or form_id is empty!" );
 		}
@@ -2092,7 +2092,7 @@ class Automail_Events {
 				# code
 				$dataArray = array();
 				global $wpdb;
-				$entrees = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}weforms_entrymeta WHERE weforms_entry_id = ". $entry_id ." ORDER BY meta_id DESC");
+				$entrees = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}weforms_entrymeta WHERE weforms_entry_id = " . $entry_id . " ORDER BY meta_id DESC");
 				# looping though 
 				foreach($entrees as $entre){
 					$dataArray[ $entre->meta_key ] = $entre->meta_value;
@@ -2104,7 +2104,7 @@ class Automail_Events {
 				# Check And Balance 
 				if(!empty($form_id)){
 					# Action
-					$r = $this->automail_send_mail('we_'.$form_id, $dataArray);
+					$r = $this->automail_send_mail('we_' . $form_id, $dataArray);
 				}else{
 					$this->automail_log(get_class($this), __METHOD__,"123", "ERROR: weforms Form entries are empty Or form_id is empty!");
 				}
@@ -2133,7 +2133,7 @@ class Automail_Events {
 				$entry['automail_submitted_date'] = (isset($this->Date)) ? 	$this->Date	: '';
 				$entry['automail_submitted_time'] = (isset($this->Time)) ? 	$this->Time	: '';
 				# Action
-				$r = $this->automail_send_mail('gravity_'.$entry['form_id'], $entry);
+				$r = $this->automail_send_mail('gravity_' . $entry['form_id'], $entry);
 			}else{
 				$this->automail_log( get_class($this), __METHOD__,"126", "ERROR: gravity Form entries are empty Or form_id is empty!" );
 			}
@@ -2153,8 +2153,8 @@ class Automail_Events {
 			$dataArray = array();
 			# Looping
 			foreach($field_data_array as $fieldValue){
-				if(isset( $fieldValue['name'], $fieldValue['value'])){
-					$dataArray[ $fieldValue['name'] ] = $fieldValue['value'];
+				if(isset($fieldValue['name'], $fieldValue['value'])){
+					$dataArray[$fieldValue['name']] = $fieldValue['value'];
 				}
 			}
 
@@ -2164,7 +2164,7 @@ class Automail_Events {
 				$dataArray['automail_submitted_time'] = (isset($this->Time)) ? $this->Time	:  '';
 				$dataArray['automail_submitted_date'] = (isset($this->Date)) ? $this->Date	:  '';
 				# Action
-				$r = $this->automail_send_mail('forminator_'.$form_id, $dataArray);
+				$r = $this->automail_send_mail('forminator_' . $form_id, $dataArray);
 			}else{
 				$this->automail_log( get_class($this), __METHOD__,"127", "ERROR: forminator Form entries are empty Or form_id is empty!" );
 			}
@@ -2247,8 +2247,8 @@ class Automail_Events {
 	public function automail_send_mail($eventDataSourceID = "", $eventDataArray = ""){
 		# event_name Empty test;
 		if (empty($eventDataSourceID) OR !is_string($eventDataSourceID)){
-			$this->automail_log( get_class($this), __METHOD__, "128", "ERROR: eventDataSourceID  is empty or not string."  );
-			return array( FALSE, "ERROR: eventDataSourceID  is empty or not string.");;
+			$this->automail_log(get_class($this), __METHOD__, "128", "ERROR: eventDataSourceID  is empty or not string.");
+			return array(FALSE, "ERROR: eventDataSourceID  is empty or not string.");;
 		}
 
 		#  data_array Empty test;
@@ -2273,15 +2273,15 @@ class Automail_Events {
 							$commaSeparatedString .= $arrValue . " ";
 						} else {
 							# if value is also an array
-							$commaSeparatedString .= json_encode( $arrValue ) . " ";
+							$commaSeparatedString .= json_encode($arrValue) . " ";
 						}
 					}
 				}else{
 					# For Object type;
-					$commaSeparatedString = json_encode($value );
+					$commaSeparatedString = json_encode($value);
 				}
 				# inserting space separated string to the Holder;
-				$eventDataArray[$key] = strip_tags($commaSeparatedString );
+				$eventDataArray[$key] = strip_tags($commaSeparatedString);
 			}else{
 				# if value is not an array, value is string or number;
 				$eventDataArray[$key] = strip_tags($value);
@@ -2302,15 +2302,15 @@ class Automail_Events {
 		}
 
 		# Looping the Automation 
-		foreach($emailAutomatons as  $emailAutomaton){
+		foreach($emailAutomatons as $emailAutomaton){
 			# if there is a Active Automation 
-			if(isset($emailAutomaton->post_excerpt) AND  $emailAutomaton->post_excerpt == $eventDataSourceID){
+			if(isset($emailAutomaton->post_excerpt) AND $emailAutomaton->post_excerpt == $eventDataSourceID){
 				# Preparing Email body Content.
 				# Looping data array and add [] to keys AS you know bracket added for placeholder 
 				$bracketedKeysValue = array();
 				
 				foreach($eventDataArray as $key => $value){
-					$bracketedKeysValue["[". $key."]"] =  $value;
+					$bracketedKeysValue["[" . $key . "]"] =  $value;
 				}
 				# Change The placeHolder with Real Data in Email body
 				$emailBodyWithValue = strtr($emailAutomaton->post_content, $bracketedKeysValue);
@@ -2331,7 +2331,7 @@ class Automail_Events {
 					# User role Holder;
 					if($this->automail_userRoles()[0]){
 						# comparing two array then separating commons, Before that separate keys from automail_userRoles() function
-						$userRoles = array_intersect(array_keys($this->automail_userRoles()[1] ), $mailReceiver );  // **** there should be an error when there is no UserRole; so handel it if not empty()
+						$userRoles = array_intersect(array_keys($this->automail_userRoles()[1]), $mailReceiver);  // **** there should be an error when there is no UserRole; so handel it if not empty()
 						$roles = array();
 						foreach($userRoles as $role){
 							$roles[] = str_replace( "userRole_", "", $role );
@@ -2351,7 +2351,7 @@ class Automail_Events {
 						# getting the Email addresses 
 						if($users){
 							foreach ($users as $user) {
-								$roleUsersEmails[ ] = $user->user_email;
+								$roleUsersEmails[] = $user->user_email;
 							}
 						}
 						# removing duplicates
@@ -2402,9 +2402,9 @@ class Automail_Events {
 						# Check & Balance 
 						if($r){
 							# keeping OK log
-							$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: Mail send successfully. "); 
+							$this->automail_log(get_class($this), __METHOD__, "200", "SUCCESS: Mail send successfully."); 
 							# New Code for preventing Dual Submission || saving last Fired time 
-							update_post_meta( $emailAutomaton->ID, 'automailThisLastFired', time() );
+							update_post_meta($emailAutomaton->ID, 'automailThisLastFired', time());
 							# return
 							return  array(TRUE, "SUCCESS: email send.");
 						}else{
@@ -2417,7 +2417,7 @@ class Automail_Events {
 					# ***Repeated Submission Stop Ends
 				}else{
 					# keeping log is receiver address is empty or not array;
-					$this->automail_log( get_class($this), __METHOD__, "134", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode( array( $eventDataSourceID , $eventDataArray ) ) );
+					$this->automail_log(get_class($this), __METHOD__, "134", "ERROR:  Empty email receiver : Check this automation meta : " . json_encode(array($eventDataSourceID , $eventDataArray)));
 					return  array(FALSE, "ERROR: Empty email receiver : Check this automation meta :");
 				}
 			}
@@ -2437,7 +2437,7 @@ class Automail_Events {
 		if($wp_user_roles){
 			foreach($wp_user_roles as $key => $valueArray){
 				if(isset($valueArray['name'])){
-					$userRoles[ $key ] = $valueArray['name'];
+					$userRoles[$key] = $valueArray['name'];
 				}
 			}
 		}else{
@@ -2448,8 +2448,8 @@ class Automail_Events {
 		# Setting the Numbers
 		if(function_exists("count_users") AND isset(count_users()['avail_roles'])){
 			foreach(count_users()['avail_roles']  as $key => $value){
-				if( isset( $userRoles[ $key ] ) AND  $value ){
-					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")";
+				if(isset($userRoles[$key]) AND  $value){
+					$userRoles[$key] = $userRoles[ $key ] . " (" . $value . ")";
 				}
 			}
 		} 
@@ -2458,7 +2458,7 @@ class Automail_Events {
 		$arrayWithPrefix = array();
 		if(!empty($userRoles)){
 			foreach($userRoles as $key => $value){
-				$arrayWithPrefix["userRole_".$key] =  $value;
+				$arrayWithPrefix["userRole_" . $key] =  $value;
 			}
 		}else{
 			# keeping ERROR log
@@ -2470,7 +2470,7 @@ class Automail_Events {
 		if(empty($arrayWithPrefix)){
 			return array(FALSE, "User role is empty.");
 		} else {
-			return array(TRUE, $arrayWithPrefix );
+			return array(TRUE, $arrayWithPrefix);
 		}
 	}
 
@@ -2490,7 +2490,7 @@ class Automail_Events {
 		if(empty($meta_keys)){
 			return array(FALSE, 'ERROR: Empty! No Meta key exist of users.');
 		}else{
-			return array(TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -2513,9 +2513,9 @@ class Automail_Events {
 		$meta_keys = $wpdb->get_col($query);
 		# return Depend on the Query result 
 		if(empty($meta_keys)){
-			return array( FALSE, 'ERROR: Empty! No Meta key exist of the Post.');
+			return array(FALSE, 'ERROR: Empty! No Meta key exist of the Post.');
 		}else{
-			return array( TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -2540,7 +2540,7 @@ class Automail_Events {
 		if(empty($meta_keys)){
 			return array(FALSE, 'ERROR: Empty! No Meta key exist of the Post type page.');
 		}else{
-			return array(TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -2566,7 +2566,7 @@ class Automail_Events {
 		if(empty($meta_keys)){
 			return array(FALSE, 'ERROR: Empty! No Meta key exist of the post type WooCommerce Order.');
 		}else{
-			return array(TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -2591,7 +2591,7 @@ class Automail_Events {
 		if(empty($meta_keys)){
 			return array(FALSE, 'ERROR: Empty! No Meta key exist of the Post type WooCommerce Product.');
 		}else{
-			return array(TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -2639,12 +2639,12 @@ class Automail_Events {
 			# Looping the Post types 
 			foreach($wp_post_types as $postKey => $PostValue){
 				# if Post type is Not Default 
-				if(isset( $PostValue->_builtin )  AND !$PostValue->_builtin ){
+				if(isset($PostValue->_builtin) AND !$PostValue->_builtin){
 					# Look is it on remove list, if not insert 
-					if( ! in_array(  $postKey, $removeArray )  ){
+					if(!in_array($postKey, $removeArray)){
 						# Pre populate $cpts array 
-						if(isset( $PostValue->label ) AND ! empty($PostValue->label )){
-							$cpts[ $postKey ]  =  $PostValue->label ." (".  $postKey. ")";
+						if(isset( $PostValue->label ) AND ! empty($PostValue->label)){
+							$cpts[ $postKey ]  =  $PostValue->label . " (" .  $postKey . ")";
 						}else{
 							$cpts[ $postKey ]  = $postKey;
 						}
@@ -2658,9 +2658,9 @@ class Automail_Events {
 			if(!empty($cpts)){
 				# Looping for Creating Extra Events Like Update and Delete 
 				foreach($cpts as $key => $value){
-					$cptEvents['cpt_new_'.$key] 	=  'CPT New '.$value;
-					$cptEvents['cpt_update_'.$key] 	=  'CPT Update '.$value;
-					$cptEvents['cpt_delete_'.$key] 	=  'CPT Delete '.$value;
+					$cptEvents['cpt_new_' . $key] 	    =  'CPT New ' . $value;
+					$cptEvents['cpt_update_' . $key] 	=  'CPT Update ' . $value;
+					$cptEvents['cpt_delete_' . $key] 	=  'CPT Delete ' . $value;
 				}
 				
 				# Now setting default Event data Source Fields; Those events data source  are common in all WordPress Post type 
@@ -2720,7 +2720,7 @@ class Automail_Events {
 				if(!empty($meta_keys) AND is_array($meta_keys)){
 					foreach($meta_keys as $value){
 						if(!isset( $eventDataFields[ $value ])){
-							$eventDataFields[ $value ] = "CPT Meta ". $value; 
+							$eventDataFields[ $value ] = "CPT Meta " . $value; 
 						}
 					}
 				}else{
@@ -2775,7 +2775,7 @@ class Automail_Events {
 			return array($integrationForDataSource, $integrations, $publish, $pending, "From transient");
 		}else{
 			# Getting All Posts
-			$listOfConnections   	  =  get_posts( array(
+			$listOfConnections   	  =  get_posts(array(
 				'post_type'   	 	  => 'automail',
 				'post_status' 		  => array('publish', 'pending'),
 				'posts_per_page' 	  => -1
@@ -2796,7 +2796,7 @@ class Automail_Events {
 					$integrationsArray[$key]["Status"] 			= $value->post_status;
 					
 					# Testing if DataSource is Exist or Not
-					if ( $post_excerpt["DataSourceID"] == $DataSourceID AND  $value->post_status == "publish" ){
+					if ($post_excerpt["DataSourceID"] == $DataSourceID AND  $value->post_status == "publish"){
 						$integrationForDataSource = TRUE;
 					}
 					# Counting Publish 
@@ -2849,7 +2849,7 @@ class Automail_Events {
 		$r = wp_insert_post($arg);						
 		# return
 		if($r){
-			return  array(TRUE, "SUCCESS: Successfully inserted to the Log" ); 
+			return  array(TRUE, "SUCCESS: Successfully inserted to the Log"); 
 		}
 	}
 
@@ -2866,7 +2866,7 @@ class Automail_Events {
 		}
 		# 
 		global $wpdb;
-		$r = $wpdb->get_results("SHOW TABLES LIKE '". $wpdb->prefix. $tableName ."'");
+		$r = $wpdb->get_results("SHOW TABLES LIKE '" . $wpdb->prefix . $tableName . "'");
 		
 		if($r){
 			return TRUE;
