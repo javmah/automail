@@ -114,11 +114,11 @@ class Automail_Events {
 				foreach($usersMetaKeyValue as $oneArray){
 					if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ])){
 						# Convert text to  an array then JSON for reducing the String 
-						$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if( $isArrayTest == null ){
-							$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						}else{
-							$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
 				}
@@ -151,22 +151,22 @@ class Automail_Events {
 			$user 								= get_userdata($user_id);
 			$userMeta							= get_user_meta($user_id);
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 	:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 	:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 	:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  	:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname		:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name	:	"";
+			$user_data['userID'] 				= (isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 	:	"";
+			$user_data['userName'] 				= (isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 	:	"";
+			$user_data['firstName'] 			= (isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 	:	"";
+			$user_data['lastName'] 				= (isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  	:	"";
+			$user_data['nickname'] 				= (isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname		:	"";
+			$user_data['displayName'] 			= (isset( $user->display_name )	    && !empty( $user->display_name )) 	?  $user->display_name	:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 :	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 :	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 :	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered :  "";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) : "";  
+			$user_data['description'] 			= (isset( $userMeta['description'])&& is_array( $userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
+			$user_data['userEmail'] 			= (isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 :	"";
+			$user_data['userUrl'] 				= (isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 :	"";
+			$user_data['userLogin'] 			= (isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 :	"";
+			$user_data['userRegistrationDate'] 	= (isset( $user->user_registered ) && !empty( $user->user_registered )) ? $user->user_registered :  "";
+			$user_data['userRole'] 				= (isset( $user->roles ) 			&& is_array( $user->roles )) 		? implode (", ", $user->roles) : "";  
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time		:	'';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date		:	'';
+			$user_data['site_time'] 			= (isset( $this->Time ) ) ? $this->Time	:	'';
+			$user_data['site_date'] 			= (isset( $this->Date ) ) ? $this->Date	:	'';
 			# New Code Starts From Here 
 			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
 			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
@@ -190,13 +190,13 @@ class Automail_Events {
 				}
 				# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 				foreach($usersMetaKeyValue as $oneArray){
-					if(is_array($oneArray) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
-						$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if( $isArrayTest == null ) {
-							$metaOutPut[$oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						} else {
-							$metaOutPut[$oneArray['meta_key'] ] =  $isArrayTest;
+							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
 				}
@@ -230,30 +230,30 @@ class Automail_Events {
 			$user 								= get_userdata($user_id);
 			$userMeta							= get_user_meta($user_id);
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 			:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 			:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 			:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  			:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
+			$user_data['userID'] 				= (isset($user->ID) 				&& !empty( $user->ID )) 			?  $user->ID		 			:	"";
+			$user_data['userName'] 				= (isset($user->user_login) 		&& !empty( $user->user_login )) 	?  $user->user_login 			:	"";
+			$user_data['firstName'] 			= (isset($user->first_name) 		&& !empty( $user->first_name )) 	?  $user->first_name 			:	"";
+			$user_data['lastName'] 				= (isset($user->last_name) 			&& !empty( $user->last_name)) 		?  $user->last_name  			:	"";
+			$user_data['nickname'] 				= (isset($user->nickname) 			&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
+			$user_data['displayName'] 			= (isset($user->display_name)		&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array($userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered 		:   "";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	:   "";
+			$user_data['description'] 			= (isset($userMeta['description'])  && is_array($userMeta['description'])) ? implode (", ", $userMeta['description']) : "";
+			$user_data['userEmail'] 			= (isset($user->user_email) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
+			$user_data['userUrl'] 				= (isset($user->user_url) 			&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
+			$user_data['userLogin'] 			= (isset($user->user_login) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
+			$user_data['userRegistrationDate'] 	= (isset($user->user_registered)  	&& !empty( $user->user_registered ))? $user->user_registered 		:   "";
+			$user_data['userRole'] 				= (isset($user->roles) 				&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	:   "";
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? 	$this->Time	:	'';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? 	$this->Date	:	'';
+			$user_data['site_time'] 			= (isset($this->Time)) ? 	$this->Time	:	'';
+			$user_data['site_date'] 			= (isset($this->Date)) ? 	$this->Date	:	'';
 			#
-			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_date"]	 	= date( 'd', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_time"]		= date( 'H:i',current_time('timestamp', 0 ) );
+			$user_data["user_date_year"]	 	= date('Y', current_time( 'timestamp', 0 ) );
+			$user_data["user_date_month"]		= date('m', current_time( 'timestamp', 0 ) );
+			$user_data["user_date_date"]	 	= date('d', current_time( 'timestamp', 0 ) );
+			$user_data["user_date_time"]		= date('H:i',current_time('timestamp', 0 ) );
 			# 
 
-			# User Meta Data Starts
+			# User Meta Data Start
 			# empty Holder array  for user meta keys
 			$metaOutPut = array();	
 			# Global Db object 
@@ -272,11 +272,11 @@ class Automail_Events {
 				foreach($usersMetaKeyValue  as $oneArray){
 					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
-						$isArrayTest = @unserialize( $oneArray[ 'meta_value' ] );
+						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if ( $isArrayTest == null ) {
-							$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+							$metaOutPut[ $oneArray['meta_key']] =  $oneArray['meta_value'];
 						} else {
-							$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+							$metaOutPut[ $oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
 				}
@@ -310,30 +310,30 @@ class Automail_Events {
 			$user_data 							= array(); 
 			$userMeta							= get_user_meta( $user->ID );
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 				?  $user->ID		 	:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 		?  $user->user_login 	:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 		?  $user->first_name 	:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 			?  $user->last_name  	:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 			?  $user->nickname		:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 		?  $user->display_name	:	"";
+			$user_data['userID'] 				= (isset($user->ID) 				&& !empty($user->ID)) 					?  $user->ID		 	:	"";
+			$user_data['userName'] 				= (isset($user->user_login) 		&& !empty($user->user_login)) 			?  $user->user_login 	:	"";
+			$user_data['firstName'] 			= (isset($user->first_name) 		&& !empty($user->first_name)) 			?  $user->first_name 	:	"";
+			$user_data['lastName'] 				= (isset($user->last_name) 			&& !empty($user->last_name)) 			?  $user->last_name  	:	"";
+			$user_data['nickname'] 				= (isset($user->nickname) 			&& !empty($user->nickname)) 			?  $user->nickname		:	"";
+			$user_data['displayName'] 			= (isset($user->display_name)		&& !empty($user->display_name)) 		?  $user->display_name	:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 		 ?  $user->user_email 	 		:	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 			 ? $user->user_url		 		:	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 		 ? $user->user_login		 	:	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))	 ? $user->user_registered 		:  	"";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 			 ? implode (", ", $user->roles) : 	"";  
-			#
+			$user_data['description'] 			= (isset($userMeta['description'])	&& is_array( $userMeta['description'] )) ? implode (", ", $userMeta['description']) : "";
+			$user_data['userEmail'] 			= (isset($user->user_email ) 		&& !empty( $user->user_email)) 		 	 ?  $user->user_email 	 		:	"";
+			$user_data['userUrl'] 				= (isset($user->user_url ) 			&& !empty( $user->user_url)) 			 ? $user->user_url		 		:	"";
+			$user_data['userLogin'] 			= (isset($user->user_login ) 		&& !empty( $user->user_login)) 		 	 ? $user->user_login		 	:	"";
+			$user_data['userRegistrationDate'] 	= (isset($user->user_registered ) 	&& !empty( $user->user_registered))	 	 ? $user->user_registered 		:  	"";
+			$user_data['userRole'] 				= (isset($user->roles ) 			&& is_array( $user->roles)) 			 ? implode (", ", $user->roles) : 	"";  
+			
 			$user_data['userLoginTime'] 		= $this->Time;
 			$user_data['userLoginDate'] 		= $this->Date;
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? $this->Time  :	'';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? $this->Date  :	'';
+			$user_data['site_time'] 			= (isset( $this->Time )) ? $this->Time  :	'';
+			$user_data['site_date'] 			= (isset( $this->Date )) ? $this->Date  :	'';
 			# New Code Starts From Here 
-			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_date"]	 	= date( 'd', current_time( 'timestamp', 0 ) );
-			$user_data["user_date_time"]		= date( 'H:i', current_time( 'timestamp', 0 ) );
+			$user_data["user_date_year"]	 	= date('Y', current_time('timestamp', 0));
+			$user_data["user_date_month"]		= date('m', current_time('timestamp', 0));
+			$user_data["user_date_date"]	 	= date('d', current_time('timestamp', 0));
+			$user_data["user_date_time"]		= date('H:i',current_time('timestamp',0));
 			# New Code Ends Here 
 			# User Meta Data Starts
 			# empty Holder array  for user meta keys
@@ -382,28 +382,28 @@ class Automail_Events {
 		if(function_exists('wp_get_current_user') && !empty(wp_get_current_user()->ID)){
 			# Pre-populating User Data 
 			$user 								= wp_get_current_user();
-			$user_data 							= array(); 
+			$user_data 							= array();
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 			:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 			:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 			:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  			:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname				:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name			:	"";
+			$user_data['userID'] 				= (isset($user->ID) 				&& !empty($user->ID)) 				?  $user->ID		 			:	"";
+			$user_data['userName'] 				= (isset($user->user_login) 		&& !empty($user->user_login)) 		?  $user->user_login 			:	"";
+			$user_data['firstName'] 			= (isset($user->first_name) 		&& !empty($user->first_name)) 		?  $user->first_name 			:	"";
+			$user_data['lastName'] 				= (isset($user->last_name) 			&& !empty($user->last_name)) 		?  $user->last_name  			:	"";
+			$user_data['nickname'] 				= (isset($user->nickname) 			&& !empty($user->nickname)) 		?  $user->nickname				:	"";
+			$user_data['displayName'] 			= (isset($user->display_name)		&& !empty($user->display_name)) 	?  $user->display_name			:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered 		: 	"";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	: 	"";  
+			$user_data['description'] 			= (isset($userMeta['description']) 	&& is_array($userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
+			$user_data['userEmail'] 			= (isset($user->user_email) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 		:	"";
+			$user_data['userUrl'] 				= (isset($user->user_url) 			&& !empty( $user->user_url )) 		? $user->user_url		 		:	"";
+			$user_data['userLogin'] 			= (isset($user->user_login) 		&& !empty( $user->user_login )) 	? $user->user_login		 		:	"";
+			$user_data['userRegistrationDate'] 	= (isset($user->user_registered) 	&& !empty( $user->user_registered ))? $user->user_registered 		: 	"";
+			$user_data['userRole'] 				= (isset($user->roles) 				&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) 	: 	"";  
 			#
 			$user_data['userLogoutTime'] 		= $this->Time;
 			$user_data['userLogoutDate'] 		= $this->Date;
 			#
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? $this->Time	: '';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? $this->Date	: '';
+			$user_data['site_time'] 			= (isset($this->Time)) ? $this->Time	: '';
+			$user_data['site_date'] 			= (isset($this->Date)) ? $this->Date	: '';
 			# New Code Starts From Here 
 			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
 			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
@@ -431,9 +431,9 @@ class Automail_Events {
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
 						if( $isArrayTest == null ){
-							$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						}else{
-							$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest ;
+							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest ;
 						}
 					}
 				}
@@ -555,13 +555,13 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($metaKeyValue as $oneArray){
-				if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray[ 'meta_value' ])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize( $oneArray[ 'meta_value' ]);
+					$isArrayTest = @unserialize( $oneArray['meta_value']);
 					if( $isArrayTest == null ){
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -574,7 +574,7 @@ class Automail_Events {
 		if($post->post_type == 'post'){
 			# getting Time Difference 
 			if(!empty($post->post_date) AND !empty($post->post_modified)){
-				$post_time_diff = strtotime( $post->post_modified ) - strtotime($post->post_date);
+				$post_time_diff = strtotime($post->post_modified) - strtotime($post->post_date);
 			}
 
 			# New Post,
@@ -619,7 +619,7 @@ class Automail_Events {
 			# For Status Not Trash ;-D
 			if(!in_array($post->post_status, array('auto-draft','draft','trash'))){
 				# getting Time Difference 
-				if(!empty($post->post_date ) AND  ! empty($post->post_modified)){
+				if(!empty($post->post_date ) AND  !empty($post->post_modified)){
 					$post_time_diff = strtotime($post->post_modified) - strtotime($post->post_date);
 				}
 				# if Difference is Lager its Edit Or Its New 
@@ -642,7 +642,7 @@ class Automail_Events {
 			if($post->post_status == 'trash'){
 				$post_data['eventName'] = 'cpt_delete_'.$post->post_type;
 				# Action
-				$r = $this->automail_send_mail('cpt_delete_'.$post->post_type , $post_data );
+				$r = $this->automail_send_mail('cpt_delete_'.$post->post_type , $post_data);
 				# event Log for Trash
 				$this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 			}
@@ -659,7 +659,7 @@ class Automail_Events {
 	public function automail_wp_comment($commentID, $commentApprovedStatus, $commentData){
 		# Check Comment ID is exist 
 		if(empty($commentID)){
-			$this->automail_log( get_class($this), __METHOD__,"110", "ERROR:  Comment ID is Empty!");
+			$this->automail_log(get_class($this), __METHOD__,"110", "ERROR:  Comment ID is Empty!");
 		}
 		# Setting Data 
 		$Data 							=  array(); 
@@ -703,13 +703,13 @@ class Automail_Events {
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
 			foreach($commentMetaKeyValue  as $oneArray){
-				if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[ $oneArray[ 'meta_key' ] ], $oneArray[ 'meta_value' ] ) ){
+				if(is_array( $oneArray ) && isset( $oneArray['meta_key'], $metaOutPut[$oneArray[ 'meta_key' ]], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
-					$isArrayTest = @unserialize($oneArray[ 'meta_value' ]);
+					$isArrayTest = @unserialize($oneArray['meta_value']);
 					if( $isArrayTest == null ){
-						$metaOutPut[ $oneArray['meta_key'] ] = $oneArray[ 'meta_value' ];
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
-						$metaOutPut[ $oneArray['meta_key'] ] =  $isArrayTest;
+						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
 			}
@@ -720,7 +720,7 @@ class Automail_Events {
 
 		# Action
 		if(empty($commentID) OR empty($commentData) OR empty($Data)){
-			$this->automail_log( get_class($this), __METHOD__,"111", "ERROR:  commentID or commentData is empty !");
+			$this->automail_log(get_class($this), __METHOD__,"111", "ERROR:  commentID or commentData is empty !");
 		}else{
 			$r = $this->automail_send_mail('wp_comment', $Data);
 		}
@@ -921,9 +921,9 @@ class Automail_Events {
 
 		if($new_status == 'publish' && $old_status !== 'publish'){
 			# New Product Insert 
-			$product_data['price'] 			= wp_strip_all_tags($_POST['_sale_price']);
-			$product_data['regular_price'] 	= wp_strip_all_tags($_POST['_regular_price']);
-			$product_data['sale_price'] 	= wp_strip_all_tags($_POST['_sale_price'] );
+			$product_data['price'] 			= sanitize_text_field($_POST['_sale_price']);
+			$product_data['regular_price'] 	= sanitize_text_field($_POST['_regular_price']);
+			$product_data['sale_price'] 	= sanitize_text_field($_POST['_sale_price'] );
 			$product_data['eventName'] 		= "New Product";
 			# Action
 			$r = $this->automail_send_mail('wc-new_product', $product_data);
@@ -1597,7 +1597,7 @@ class Automail_Events {
 		# get Distinct Keys;
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
-		if($metaKeys[0] &&  !empty($orderMetaKeyValue)){
+		if($metaKeys[0] && !empty($orderMetaKeyValue)){
 			# populating Output array in reverse with  empty value
 			foreach($metaKeys[1]  as $key => $value){
 				$metaOutPut[$value] = "--";
@@ -1928,7 +1928,7 @@ class Automail_Events {
 		# Global Db object 
 		global $wpdb;
 		# execute Query
-		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id() , ARRAY_A);
+		$orderMetaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $order->get_id(), ARRAY_A);
 		# get Distinct Keys;
 		$metaKeys = $this->automail_wooCommerce_order_metaKeys();
 		# Check and Balance for all the Meta keys
@@ -2310,7 +2310,7 @@ class Automail_Events {
 				$bracketedKeysValue = array();
 				
 				foreach($eventDataArray as $key => $value){
-					$bracketedKeysValue[ "[". $key."]" ] =  $value;
+					$bracketedKeysValue["[". $key."]"] =  $value;
 				}
 				# Change The placeHolder with Real Data in Email body
 				$emailBodyWithValue = strtr($emailAutomaton->post_content, $bracketedKeysValue);
@@ -2366,7 +2366,7 @@ class Automail_Events {
 					# get value from Event Source || also Check Valid
 					if(!empty($eventSourceReceiver)){
 						foreach($eventSourceReceiver as $value){
-							if( isset( $eventDataArray[$value] ) AND  filter_var( $eventDataArray[$value], FILTER_VALIDATE_EMAIL)){
+							if( isset( $eventDataArray[$value] ) AND  filter_var($eventDataArray[$value], FILTER_VALIDATE_EMAIL)){
 								$eventSourceEmail[] =  $eventDataArray[$value];
 							}
 						}
@@ -2432,7 +2432,7 @@ class Automail_Events {
 		# Empty Holder 
 		$userRoles = array();
 		# getting user wp_user_roles From database option table 
-		$wp_user_roles = get_option( "wp_user_roles" );
+		$wp_user_roles = get_option("wp_user_roles");
 		# Check and Balance && populating $userRoles array;
 		if($wp_user_roles){
 			foreach($wp_user_roles as $key => $valueArray){
@@ -2442,11 +2442,11 @@ class Automail_Events {
 			}
 		}else{
 			# keeping ERROR log
-			$this->automail_log(get_class($this), __METHOD__, "135", "ERROR: wp_user_roles OPTION is empty on option Table." ); 
+			$this->automail_log(get_class($this), __METHOD__, "135", "ERROR: wp_user_roles OPTION is empty on option Table."); 
 		}
 
 		# Setting the Numbers
-		if(function_exists( "count_users" ) AND isset(count_users()['avail_roles'])){
+		if(function_exists("count_users") AND isset(count_users()['avail_roles'])){
 			foreach(count_users()['avail_roles']  as $key => $value){
 				if( isset( $userRoles[ $key ] ) AND  $value ){
 					$userRoles[ $key ] = $userRoles[ $key ] . " (".$value.")";
@@ -2476,7 +2476,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_users_metaKeys(){
@@ -2485,7 +2485,7 @@ class Automail_Events {
 		# Query 
 		$query = "SELECT DISTINCT( $wpdb->usermeta.meta_key ) FROM $wpdb->usermeta";
 		# execute Query
-		$meta_keys = $wpdb->get_col( $query );
+		$meta_keys = $wpdb->get_col($query);
 		# return Depend on the Query result 
 		if(empty($meta_keys)){
 			return array(FALSE, 'ERROR: Empty! No Meta key exist of users.');
@@ -2496,7 +2496,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will return [wordPress Posts] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_posts_metaKeys(){
@@ -2521,7 +2521,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will return [wordPress Pages] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_pages_metaKeys(){
@@ -2547,7 +2547,7 @@ class Automail_Events {
 	# Getting Meta Key of WooCommerce Order, Product, Post, Page, User, Comment Meta Keys 
 	/**
 	 * This Function will return [WooCommerce Order] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_order_metaKeys(){
@@ -2572,7 +2572,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will return [WooCommerce product] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_wooCommerce_product_metaKeys(){
@@ -2597,7 +2597,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will return [wordPress Users] Meta keys.
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @return     array    This array has two vale First one is Bool and Second one is meta key array.
 	*/
 	public function automail_comments_metaKeys(){
@@ -2617,7 +2617,7 @@ class Automail_Events {
 
 	/**
 	 * This Function will All Custom Post types 
-	 * @since      3.3.0
+	 * @since      1.0.0
 	 * @return     array   First one is CPS and Second one is CPT's Field source.
 	*/
 	public function automail_allCptEvents(){
@@ -2740,7 +2740,7 @@ class Automail_Events {
 	
 	/**
 	 * This is a Helper function to check is There Any integration saved. Also set the transient cache
-	 * @since      3.4.0
+	 * @since      1.0.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
 	public function automail_integrations($DataSourceID = ''){
@@ -2817,7 +2817,7 @@ class Automail_Events {
 	}
 
 	/**
-	 * LOG ! For Good , This the log Method 
+	 * LOG ! LOG For Good , This the log Method 
 	 * @since      1.0.0
 	 * @param      string    $file_name       	File Name . Use  [ get_class($this) ]
 	 * @param      string    $function_name     Function name.	 [  __METHOD__  ]
@@ -2856,7 +2856,7 @@ class Automail_Events {
 	/**
 	 * This is a Helper function to check Table is Exist or Not 
 	 * If DB table Exist it will return True if Not it will return False
-	 * @since      3.2.0
+	 * @since      1.0.0
 	 * @param      string    $data_source    Which platform call this function s
 	*/
 	public function automail_dbTableExists($tableName = null){

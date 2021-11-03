@@ -2,10 +2,9 @@
 /**
  * Define the internationalization functionality.
  * Loads and defines the internationalization files for this plugin
- *
  * @since      1.0.0
- * @package    Wpgsi
- * @subpackage Wpgsi/includes
+ * @package    Automail
+ * @subpackage Automail/includes
  * @author     javmah <jaedmah@gmail.com>
 */
 if(!class_exists('WP_List_Table')) require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
@@ -121,7 +120,6 @@ class Automail_List_Table extends WP_List_Table {
     }
 
     /**
-	 * --------------------------------------------------------
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
@@ -134,7 +132,6 @@ class Automail_List_Table extends WP_List_Table {
     }
 
     /**
-	 * --------------------------------------------------------
 	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
@@ -293,7 +290,7 @@ class Automail_List_Table extends WP_List_Table {
 
     /**
 	 * This Function Will return all the Save integrations from database 
-	 * @since      3.4.0
+	 * @since      1.0.0
 	 * @return     array   	 This Function Will return an array 
 	*/
 	public function automail_getIntegrations(){
@@ -340,7 +337,7 @@ class Automail_List_Table extends WP_List_Table {
 	 * @return     array   	 This Function Will return an array 
 	*/
     public function admin_header(){
-        $page = (isset($_GET['page'])) ? esc_attr($_GET['page']) : false;
+        $page = (isset($_GET['page'])) ? sanitize_text_field($_GET['page']) : false;
         # if another page redirect user;
         if ('automail' != $page){
             return;

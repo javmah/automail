@@ -71,7 +71,6 @@
                                         ?>
                                     </select>
                                     <br><br>
-                                    <!-- <b> Email Receiver : TO  </b> <span class="dashicons dashicons-warning" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field. "></span> -->
                                     <b> Email Receiver : TO  </b> <span class="dashicons dashicons-info" title="Please select a valid Email address from *Event Data Source we provided all fields but every Fields are not Email field." ></span>
                                     <select multiple="multiple" style="width: 99%;" size="7" v-model="mailReceiver"   name="mailReceiver[]" id="mailReceiver">
                                         <?php

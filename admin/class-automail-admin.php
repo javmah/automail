@@ -87,8 +87,9 @@ class Automail_Admin {
 	}
 
 	/**
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Improve this Functor ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 * Register the Custom Post type.
-	 * Post are Save Automation AND Log
+	 * Post are Automation AND Log ,Currently Not Working 
 	 * @since    1.0.0
 	*/
 	public function automail_register_custom_post_type(){
@@ -107,6 +108,7 @@ class Automail_Admin {
 
 	/**
 	 * Register the JavaScript for the admin area.
+	 * This Function is One of The Most Important Function, it Passes all the Event and Event source to Views
 	 * @since    1.0.0
 	*/
 	public function enqueue_scripts(){
@@ -822,7 +824,8 @@ class Automail_Admin {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
+	 * This is The menu Function, This Functor add Menus and Sub-menus.
+	 * Currently this function had a Main Menu and One Sub-menu
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages(){
@@ -833,7 +836,8 @@ class Automail_Admin {
 	}
 
 	/**
-	 * autoMail Main landing page and Router 
+	 * autoMail Main landing page and Router.
+	 * This is The Main User interaction and Routeing function  of this Class. I routed to different functor and Page from Here.
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages_view(){
@@ -852,23 +856,23 @@ class Automail_Admin {
 				$mailReceiver  	= get_post_meta(sanitize_text_field($_GET["id"]), "mailReceiver", TRUE);
 			}else{
 				# No Post found in the database so redirecting.
-				wp_redirect(admin_url('admin.php?page=automail&status=Post ID is Incorrect ! No post in the Database.'));
+				wp_redirect(admin_url('admin.php?page=automail&status=Post ID is Incorrect! No post in the Database.'));
        			exit;
 			}
-			# including edit view File 
+			# including edit view File.
 			require_once plugin_dir_path( dirname(__FILE__) ).'admin/partials/automail-edit-automaton.php';
 		}elseif(isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'status' AND !empty($_GET['id']))){
-			# Change Automation status Redirect;
+			# Change Automation status Redirect.
 			$this->automail_automation_status(sanitize_text_field($_GET["id"]));
 		}elseif(isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'delete' AND !empty($_GET['id']))){
-			# Delete and Redirect;
+			# Delete and Redirect.
 			if(is_array($_GET['id'])){
-				# deleting Bulk Automation
+				# deleting Bulk Automation.
 				foreach($_GET['id'] as $id){
-                	wp_delete_post( $id );
+                	wp_delete_post(sanitize_text_field($id));
             	}
 			}else{
-				# Deleting Single Automation 
+				# Deleting Single Automation.
 				wp_delete_post(sanitize_text_field($_GET["id"])) ? wp_redirect(admin_url('/admin.php?page=automail&status=success')) : wp_redirect(admin_url('/admin.php?page=automail&status=failed'));
 			}
 		}else{
@@ -894,7 +898,7 @@ class Automail_Admin {
 
 	/**
 	 * Sub-menu page  view function 
-	 * This is the Submenu page view function 
+	 * This is the Submenu page view function. This Function Will Display Log, Settings & Plugin configuration.
 	 * @since  1.0.0
 	*/
 	public function automail_settings_view(){
@@ -921,16 +925,16 @@ class Automail_Admin {
 							}else{
 								echo"<div class='notice notice-error inline'>";
 							}
-							echo"<p><span class='automail-circle'>".$log->ID;
+							echo"<p><span class='automail-circle'>" . esc_html($log->ID);
 							echo" .</span>";
-							echo "<code>".$log->post_title."</code>";
+							echo "<code>" . esc_html($log->post_title) . "</code>";
 							echo "<code>";
 							if(isset($log->post_excerpt)){
-								echo $log->post_excerpt;
+								echo esc_html($log->post_excerpt);
 							}
 							echo "</code>";
-							echo $log->post_content;
-							echo" <code>".$log->post_date."</code>";
+							echo esc_html($log->post_content);
+							echo" <code>" . esc_html($log->post_date) . "</code>";
 							echo"</p>";
 							echo"</div>";
 							$i++ ;
@@ -943,6 +947,7 @@ class Automail_Admin {
 
 	/**
 	 * Change connection status;
+	 * if Automail automaton status is publish it turn that to Pending vice versa 
 	 * @since    	1.0.0
 	 * @return 	   	array 	Integrations details  .
 	*/
@@ -968,7 +973,8 @@ class Automail_Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * This a Admin Notice Display Function for *** TESTING And DEBUG ***
+	 * I used This function for testing and Debug purpose 
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
@@ -979,7 +985,8 @@ class Automail_Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * Saving Automation Submission, 
+	 * This Function will save New and Edit Automaton.
 	 * @since    1.0.0
 	*/
 	public function automail_saveAutomation(){
@@ -1088,7 +1095,8 @@ class Automail_Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * This Function is For getting user Roles with Number of User per User-role 
+	 * Important and ERROR prone function 
 	 * @since    1.0.0
 	*/
 	public function automail_userRoles(){
@@ -1684,7 +1692,7 @@ class Automail_Admin {
 	}
 
 	/**
-	 * This Function will All Custom Post types 
+	 * This Function will get all Custom Post types 
 	 * @since      1.0.0
 	 * @return     array   First one is CPS and Second one is CPT's Field source.
 	*/
