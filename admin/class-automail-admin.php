@@ -130,7 +130,7 @@ class Automail_Admin {
 				# for Woocommerce New orders;
 				$this->wooCommerceOrderStatuses['wc-new_order']  =  'WooCommerce New Checkout Page Order';
 				# For Default Status
-				foreach ( $woo_order_statuses as $key => $value ) {
+				foreach($woo_order_statuses as $key => $value){
 					$this->wooCommerceOrderStatuses[$key]      =  'WooCommerce ' . $value;
 				}
 			}else{
@@ -200,7 +200,7 @@ class Automail_Admin {
 
 				# For user Meta 
 				$usersMeta = $this->automail_users_metaKeys();
-				if($usersMeta[0]  && ! empty($usersMeta[1])){
+				if($usersMeta[0] && !empty($usersMeta[1])){
 					# Looping comment Meta 
 					foreach($usersMeta[1] as $metaKey){
 						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
@@ -263,10 +263,10 @@ class Automail_Admin {
 
 						# New Code Starts From Here 
 						#++++++++++++++++++++++++++++++++++++
-						"post_modified_year" 	=> "Post modified Year",
-						"post_modified_month"	=> "Post modified Month",
-						"post_modified_date" 	=> "Post modified Date",
-						"post_modified_time" 	=> "Post modified Time",
+						"post_modified_year" => "Post modified Year",
+						"post_modified_month"=> "Post modified Month",
+						"post_modified_date" => "Post modified Date",
+						"post_modified_time" => "Post modified Time",
 						#+++++++++++++++++++++++++++++++++++++
 						# New Code Ends Here 
 
@@ -281,7 +281,7 @@ class Automail_Admin {
 
 					// # For Post Meta 
 					$postsMeta = $this->automail_posts_metaKeys();
-					if($postsMeta[0] && ! empty($postsMeta[1])){
+					if($postsMeta[0] && !empty($postsMeta[1])){
 						# Looping comment Meta 
 						foreach($postsMeta[1] as $metaKey){
 							$this->eventsAndTitles[$key][$metaKey] = "Post Meta  " . $metaKey;
@@ -290,7 +290,7 @@ class Automail_Admin {
 				}
 
 				if($key == 'wp_page'){
-					$this->eventsAndTitles[$key] = array(
+					$this->eventsAndTitles[$key]= array(
 						"postID" 				=> "Page ID",
 						"post_authorID"			=> "Page Author ID",
 						"authorUserName"		=> "Page Author User name",
@@ -519,101 +519,101 @@ class Automail_Admin {
 				# WooCommerce Orders 
 				foreach($this->wooCommerceOrderStatuses as $key => $value){
 					# Default fields
-					$this->eventsAndTitles[$key]	= array(
-						"orderID"							=>	"Order ID",
-						"cart_tax"							=>	"Cart tax",
-						"currency"							=>	"Currency",
-						"discount_tax"						=>	"Discount tax",
-						"discount_total"					=>	"Discount total",
-						"fees"								=>	"Fees",
-						"shipping_tax"						=>	"Shipping tax",	
-						"shipping_total"					=>	"Shipping total",
-						"subtotal"							=>	"Subtotal",
-						"subtotal_to_display"				=>	"Subtotal to display",
-						"tax_totals"						=>	"Tax totals",
-						"taxes"								=>	"Taxes",
-						"total"								=>	"Total",
-						"total_discount"					=>	"Total discount",
-						"total_tax"							=>	"Total tax",
-						"total_refunded"					=>	"Total refunded",
-						"total_tax_refunded"				=>	"Total tax refunded",
-						"total_shipping_refunded"			=>	"Total shipping refunded",
-						"item_count_refunded"				=>	"Item count refunded",
-						"total_qty_refunded"				=>	"Total qty refunded",
-						"remaining_refund_amount"			=>	"Remaining refund amount",
+					$this->eventsAndTitles[$key]  =  array(
+						"orderID"						=>	"Order ID",
+						"cart_tax"						=>	"Cart tax",
+						"currency"						=>	"Currency",
+						"discount_tax"					=>	"Discount tax",
+						"discount_total"				=>	"Discount total",
+						"fees"							=>	"Fees",
+						"shipping_tax"					=>	"Shipping tax",	
+						"shipping_total"				=>	"Shipping total",
+						"subtotal"						=>	"Subtotal",
+						"subtotal_to_display"			=>	"Subtotal to display",
+						"tax_totals"					=>	"Tax totals",
+						"taxes"							=>	"Taxes",
+						"total"							=>	"Total",
+						"total_discount"				=>	"Total discount",
+						"total_tax"						=>	"Total tax",
+						"total_refunded"				=>	"Total refunded",
+						"total_tax_refunded"			=>	"Total tax refunded",
+						"total_shipping_refunded"		=>	"Total shipping refunded",
+						"item_count_refunded"			=>	"Item count refunded",
+						"total_qty_refunded"			=>	"Total qty refunded",
+						"remaining_refund_amount"		=>	"Remaining refund amount",
 						# items Details 
 						# ********************************************************************
-						"items"								=>	"Items",
-						"get_product_id"					=>	"Items id",
-						"get_name"							=>	"Items name",
-						"get_quantity"						=>	"Items quantity",
-						"get_total"							=>	"Items total",
-						"get_sku"		 					=>	"Items sku",	
-						"get_type"	   						=>	"Items type",
-						"get_slug"							=>	"Items slug",
-						"get_price"							=>	"Items price",
-						"get_regular_price"					=>	"Items regular_price",
-						"get_sale_price"					=>	"Items sale_price", 
-						"get_virtual" 						=>	"Items virtual",
-						"get_permalink"						=>	"Items permalink",
-						"get_featured"						=>	"Items featured",
-						"get_status"						=>	"Items status",
-						"get_tax_status" 					=>	"Items tax_status",
-						"get_tax_class"						=>	"Items tax_class",
-						"get_manage_stock"					=>	"Items manage_stock",
-						"get_stock_quantity"				=>	"Items stock_quantity",
-						"get_stock_status"					=>	"Items stock_status",
-						"get_backorders"					=>	"Items backorders",
-						"get_sold_individually"				=>	"Items sold individually",
-						"get_purchase_note"					=>	"Items purchase note",
-						"get_shipping_class_id"				=>	"Items shipping class id",
-						"get_weight"		 				=>	"Items weight",
-						"get_length"	 					=>	"Items length",
-						"get_width"	 						=>	"Items width",
-						"get_height"		 				=>	"Items height",
-						"get_default_attributes"			=>	"Items default attributes",
-						"get_category_ids"					=>	"Items category ids",
-						"get_tag_ids" 						=>	"Items tag ids",
-						"get_image_id"	 					=>	"Items image id",
-						"get_gallery_image_ids"				=>	"Items gallery image ids",
-						"get_attachment_image_url"			=>	"Items attachment image url",
+						"items"							=>	"Items",
+						"get_product_id"				=>	"Items id",
+						"get_name"						=>	"Items name",
+						"get_quantity"					=>	"Items quantity",
+						"get_total"						=>	"Items total",
+						"get_sku"		 				=>	"Items sku",	
+						"get_type"	   					=>	"Items type",
+						"get_slug"						=>	"Items slug",
+						"get_price"						=>	"Items price",
+						"get_regular_price"				=>	"Items regular_price",
+						"get_sale_price"				=>	"Items sale_price", 
+						"get_virtual" 					=>	"Items virtual",
+						"get_permalink"					=>	"Items permalink",
+						"get_featured"					=>	"Items featured",
+						"get_status"					=>	"Items status",
+						"get_tax_status" 				=>	"Items tax_status",
+						"get_tax_class"					=>	"Items tax_class",
+						"get_manage_stock"				=>	"Items manage_stock",
+						"get_stock_quantity"			=>	"Items stock_quantity",
+						"get_stock_status"				=>	"Items stock_status",
+						"get_backorders"				=>	"Items backorders",
+						"get_sold_individually"			=>	"Items sold individually",
+						"get_purchase_note"				=>	"Items purchase note",
+						"get_shipping_class_id"			=>	"Items shipping class id",
+						"get_weight"		 			=>	"Items weight",
+						"get_length"	 				=>	"Items length",
+						"get_width"	 					=>	"Items width",
+						"get_height"		 			=>	"Items height",
+						"get_default_attributes"		=>	"Items default attributes",
+						"get_category_ids"				=>	"Items category ids",
+						"get_tag_ids" 					=>	"Items tag ids",
+						"get_image_id"	 				=>	"Items image id",
+						"get_gallery_image_ids"			=>	"Items gallery image ids",
+						"get_attachment_image_url"		=>	"Items attachment image url",
 						# ********************************************************************
-						"item_count"						=>	"Item count",
-						"downloadable_items"				=>	"Downloadable items",
+						"item_count"					=>	"Item count",
+						"downloadable_items"			=>	"Downloadable items",
 						# customer Details
-						"customer_id"						=>	"Customer id",
-						"user_id"							=>	"User id",	
-						"user"								=>	"User",
-						"customer_ip_address"				=>	"Customer ip address",
-						"customer_user_agent"				=>	"Customer user agent",
-						"created_via"						=>	"Created via",
-						"customer_note"						=>	"Customer note",
+						"customer_id"					=>	"Customer id",
+						"user_id"						=>	"User id",	
+						"user"							=>	"User",
+						"customer_ip_address"			=>	"Customer ip address",
+						"customer_user_agent"			=>	"Customer user agent",
+						"created_via"					=>	"Created via",
+						"customer_note"					=>	"Customer note",
 						# Order Date 
-						"date_created"						=>	"Date created",
-						"date_modified"						=>	"Date modified",
-						"date_completed"					=>	"Date completed",
-						"date_paid"							=>	"Date paid",
+						"date_created"					=>	"Date created",
+						"date_modified"					=>	"Date modified",
+						"date_completed"				=>	"Date completed",
+						"date_paid"						=>	"Date paid",
 						# New Code Starts  
 						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-						"date_created_year"					=>	"Created on year",
-						"date_created_month"				=>	"Created on Month",
-						"date_created_date"					=>	"Created on date",
-						"date_created_time"					=>	"Created on time",
+						"date_created_year"				=>	"Created on year",
+						"date_created_month"			=>	"Created on Month",
+						"date_created_date"				=>	"Created on date",
+						"date_created_time"				=>	"Created on time",
 						
-						"date_modified_year"				=>	"Modified on year",
-						"date_modified_month"				=>	"Modified on Month",
-						"date_modified_date"				=>	"Modified on date",
-						"date_modified_time"				=>	"Modified on time",
+						"date_modified_year"			=>	"Modified on year",
+						"date_modified_month"			=>	"Modified on Month",
+						"date_modified_date"			=>	"Modified on date",
+						"date_modified_time"			=>	"Modified on time",
 						
-						"date_completed_year"				=>	"Completed on year",
-						"date_completed_month"				=>	"Completed on Month",
-						"date_completed_date"				=>	"Completed on date",
-						"date_completed_time"				=>	"Completed on time",
+						"date_completed_year"			=>	"Completed on year",
+						"date_completed_month"			=>	"Completed on Month",
+						"date_completed_date"			=>	"Completed on date",
+						"date_completed_time"			=>	"Completed on time",
 
-						"date_paid_year"					=>	"Paid on year",
-						"date_paid_month"					=>	"Paid on Month",
-						"date_paid_date"					=>	"Paid on date",
-						"date_paid_time"					=>	"Paid on time",
+						"date_paid_year"				=>	"Paid on year",
+						"date_paid_month"				=>	"Paid on Month",
+						"date_paid_date"				=>	"Paid on date",
+						"date_paid_time"				=>	"Paid on time",
 						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 						# New Code Starts  
 						# Billing Information
@@ -668,7 +668,7 @@ class Automail_Admin {
 				# **************************** Items Meta ****************************
 				# For WooCommerce order item Meta.
 				$itemsMeta = $this->automail_wooCommerce_product_metaKeys();
-				if($itemsMeta[0] && !empty( $itemsMeta[1])){
+				if($itemsMeta[0] && !empty($itemsMeta[1])){
 					# Looping the WooCommerce Product Event
 					foreach($this->wooCommerceOrderStatuses as $key => $value){
 						# Looping comment Meta 
@@ -793,18 +793,18 @@ class Automail_Admin {
 				}
 			}
 
-			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/automail-admin.js', array('jquery'), $this->version, false);
+			wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/automail-admin.js', array('jquery'), $this->version, false);
 		} 
 
 		# End of Scope 
 		if(get_current_screen()->id == 'toplevel_page_automail'){
-			wp_register_script('Vue', plugin_dir_url( __FILE__ ) . 'js/vue.js', array(), FALSE, FALSE );
-			wp_enqueue_script('automail-admin', plugin_dir_url( __FILE__ ).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
+			wp_register_script('Vue', plugin_dir_url(__FILE__) . 'js/vue.js', array(), FALSE, FALSE);
+			wp_enqueue_script('automail-admin', plugin_dir_url(__FILE__).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
 			
 			# Change from Here 
 			if(isset($_GET["action"], $_GET["id"]) AND !empty($_GET["id"])){
 				# getting the integration post from DB
-				$wpPost = get_post( sanitize_text_field($_GET["id"]), ARRAY_A );
+				$wpPost = get_post(sanitize_text_field($_GET["id"]), ARRAY_A);
 				# Creating an array for Frontend, for Preselecting 
 				$frontEnd = array( 
 					"ID"  					=> (isset($wpPost['ID']) AND !empty($wpPost['ID'])) 					? $wpPost['ID'] 			: "",
@@ -887,8 +887,8 @@ class Automail_Admin {
 				# Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions
 				echo"<form id='newIntegration' method='get'>";
 					# For plugins, we also need to ensure that the form posts back to our current page 
-					echo"<input type='hidden' name='page' value='" . esc_attr( $_REQUEST['page'] ) . "' />";
-					echo"<input type='hidden' name='automail_nonce' value='" . wp_create_nonce( 'automail_nonce_bulk_action' ) . "' />";
+					echo"<input type='hidden' name='page' value='" . esc_attr($_REQUEST['page']) . "' />";
+					echo"<input type='hidden' name='automail_nonce' value='" . wp_create_nonce('automail_nonce_bulk_action') . "' />";
 					# Now we can render the completed list table 
 					$automail_table = new Automail_List_Table($this->eventsAndTitles);
 					$automail_table->prepare_items();
@@ -907,7 +907,7 @@ class Automail_Admin {
 		?>
 			<div class='wrap'>
 				<!-- title -->
-				<h2><?php esc_attr_e('autoMail Settings', 'automail'); ?></h2>
+				<h2><?php esc_attr_e('autoMail Settings', 'automail');?></h2>
 				<!-- tab nav -->
 				<h2 class="nav-tab-wrapper">
 					<!-- <a href="#" class="nav-tab">Email template</a> -->
@@ -956,7 +956,7 @@ class Automail_Admin {
 	public function  automail_automation_status($id){
 		# Check Valid INT
 		if(!is_numeric($id)){
-			$this->automail_log(get_class( $this ), __METHOD__, "200", "ERROR: status change ID " . $id . " is not numeric.");
+			$this->automail_log(get_class($this), __METHOD__, "200", "ERROR: status change ID " . $id . " is not numeric.");
 		}
 		# check the Post type status
 		if(get_post($id)->post_status == 'publish'){
@@ -1010,7 +1010,7 @@ class Automail_Admin {
 
 		# For mailReceiver
 		if((isset($_POST['mailReceiver']) AND !empty($_POST['mailReceiver'])) AND is_array($_POST['mailReceiver'])){
-			$mailReceiver  =  array_map('sanitize_text_field',  $_POST['mailReceiver']);
+			$mailReceiver  =  array_map('sanitize_text_field', $_POST['mailReceiver']);
 		}else{
 			wp_redirect(admin_url('admin.php?page=automail&status=mailReceiver_is_not_set_or_empty_or_not_array!'));
        		exit;
@@ -1186,12 +1186,12 @@ class Automail_Admin {
 		if(!empty($fieldsArray)){
 			foreach($fieldsArray as $formID => $formFieldsArray){
 				# For Time
-				if(!isset( $formFieldsArray['automail_submitted_time'])){
+				if(!isset($formFieldsArray['automail_submitted_time'])){
 					$fieldsArray[$formID]['automail_submitted_time'] = "automail Form submitted  time.";
 				}
 
 				# for Date 
-				if(!isset( $formFieldsArray['automail_submitted_date'])){
+				if(!isset($formFieldsArray['automail_submitted_date'])){
 					$fieldsArray[$formID]['automail_submitted_date'] = "automail Form submitted date.";
 				}
 			}
@@ -1238,7 +1238,7 @@ class Automail_Admin {
 					"zip"
 				);
 					
-				if(in_array( $field["type"], $field_list)){
+				if(in_array($field["type"], $field_list)){
 					$fieldsArray["ninja_" . $form["id"] ] [ $field["key"] ] = $field["label"];
 				}
 			}
@@ -1600,7 +1600,7 @@ class Automail_Admin {
 		if(empty($meta_keys)){
 			return array(FALSE, 'Error: Empty! No Meta key exist of users.');
 		}else{
-			return array(TRUE, $meta_keys );
+			return array(TRUE, $meta_keys);
 		}
 	}
 
@@ -1796,7 +1796,7 @@ class Automail_Admin {
 				$meta_keys = $wpdb->get_col($query);
 				# Inserting Meta keys to Main $eventDataFields Array;
 				if(!empty($meta_keys) AND is_array($meta_keys)){
-					foreach($meta_keys as  $value) {
+					foreach($meta_keys as $value){
 						if(!isset($eventDataFields[ $value ])){
 							$eventDataFields[ $value ] = "CPT Meta " . $value; 
 						}

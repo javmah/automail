@@ -16,56 +16,54 @@
             <!-- Testing is in Here  -->
             <!-- <pre> {{$data}} </pre> -->
             <!-- <pre> ID : {{$data.ID}}                         </pre>
-            <pre> Name : {{$data.automatonName}}                   </pre>
-            <pre> Selected Event : {{$data.selectedEvent}}                </pre>
-            <pre> selected Events And Titles : {{$data.selectedEventsAndTitles}}  </pre>
-            <pre> Mail Receiver : {{$data.mailReceiver}}                                 </pre> -->
-            
+                 <pre> Name : {{$data.automatonName}}                   </pre>
+                 <pre> Selected Event : {{$data.selectedEvent}}                </pre>
+                 <pre> selected Events And Titles : {{$data.selectedEventsAndTitles}}  </pre>
+                 <pre> Mail Receiver : {{$data.mailReceiver}}                                 </pre> -->
             <!-- Form Starts  -->
-            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" @submit="inputValidation" method="post" >
+            <form action="<?php echo esc_url(admin_url('admin-post.php'));?>" @submit="inputValidation" method="post" >
                 <input type="hidden" name="action" value="automail_saveAutomation">
                 <input type="hidden" name="status" value="editAutomation" />
-                <input type="hidden" name="postID" value="<?php echo $ID; ?>" />
+                <input type="hidden" name="postID" value="<?php echo esc_html($ID); ?>" />
 
                 <div id="post-body" class="metabox-holder columns-2">
                     <!-- main content -->
                     <div id="post-body-content">
                         <div class="meta-box-sortables ui-sortable">
-
                             <div class="postbox">
-                                <h2> <span> <?php esc_attr_e( 'Fill the fields for new Email Automaton', 'automail' ); ?> </span> </h2>
+                                <h2><span> <?php esc_attr_e('Fill the fields for new Email Automaton', 'automail');?> </span> </h2>
 
                                 <div class="inside">
                                     <b> Automaton Name: </b>
-                                    <input type="text" name="automatonName" v-model="automatonName" value="<?php echo $automatonName; ?>" id="automatonName" class="large-text" /><br><br>
+                                    <input type="text" name="automatonName" v-model="automatonName" value="<?php echo esc_html($automatonName); ?>" id="automatonName" class="large-text" /><br><br>
 
                                     <b> Event Name:  </b><br>
                                     <select  style="width: 99%;" v-model="selectedEvent" @change="eventSelected($event)" name="eventName" id="eventName">
                                         <!-- Loop Here  -->
                                         <?php
-                                            if( ! empty( $this->events ) AND is_array( $this->events ) ) {
-                                                foreach ( $this->events  as $key => $value ) {
+                                            if(!empty($this->events) AND is_array($this->events)){
+                                                foreach($this->events as $key => $value){
                                                     # Starting the thing
-                                                    if ( $key == "wp_newUser" ) {
+                                                    if(esc_html($key) == "wp_newUser"){
                                                         echo"<optgroup label='WordPress User Events'>";
-                                                    } else if ( $key == "wp_newPost" ) {
+                                                    }else if(esc_html($key) == "wp_newPost"){
                                                         echo"<optgroup label='WordPress Post Events'>";
-                                                    } else if ( $key == "wp_comment" ) {
+                                                    }else if(esc_html($key) == "wp_comment"){
                                                         echo"<optgroup label='WordPress Comment Events'>";
-                                                    }  else {
+                                                    }else{
                                                         # Left Empty
                                                     }
 
-                                                    echo"<option value='" . $key . "' " . selected( $eventName, $key ) . " > " . $value . " </option>";
+                                                    echo"<option value='" . esc_html($key) . "' " . selected(esc_html($eventName), esc_html($key)) . " > " . esc_html($value) . " </option>";
 
                                                     # Ending The Tag
-                                                    if ( $key == "wp_userLogout" ) {
+                                                    if(esc_html($key) == "wp_userLogout"){
                                                         echo"</optgroup>";
-                                                    } else if ( $key == "wp_page" ) {
+                                                    }else if(esc_html($key) == "wp_page"){
                                                         echo"</optgroup>";
-                                                    } else if ( $key == "wp_edit_comment" ) {
+                                                    }else if(esc_html($key) == "wp_edit_comment"){
                                                         echo"</optgroup>";
-                                                    } else {
+                                                    }else{
                                                         # Left Empty
                                                     }
                                                 }
@@ -79,28 +77,28 @@
                                             # Add event outsource later 
                                             # Most important AKA Must have 
                                             $userRoles = $this->automail_userRoles();
-                                            if( $userRoles[0] ){
+                                            if($userRoles[0]){
                                                 echo"<optgroup label='User Role'>";
-                                                    foreach ($userRoles[1] as $key => $value) {
-                                                        echo "<option value='".  $key ."' > " .  $value . " </option>";
+                                                    foreach($userRoles[1] as $key => $value) {
+                                                        echo "<option value='" .  esc_html($key) . "' > " . esc_html($value) . " </option>";
                                                     }
                                                 echo"</optgroup>";
                                             }
                                         ?>
                                         <!-- This will populate after selection  -->
                                         <optgroup label="Event Data Source" id="eventDataSource"> 
-                                            <option v-for="(value, key) in selectedEventsAndTitles" :value="key" > {{value}} </option>
+                                            <option v-for="(value, key) in selectedEventsAndTitles" :value="key">{{value}}</option>
                                         </optgroup>
 
                                         <?php
                                             # For User 
                                             global $wpdb;
-                                            $results = $wpdb->get_results( "SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A  );
-                                            # 
-                                            if( !empty( $results ) ) {
+                                            $results = $wpdb->get_results("SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A);
+                                            #
+                                            if(!empty($results)){
                                                 echo"<optgroup label='User'>";
-                                                    foreach ( $results as $key => $singleUserArray ) {
-                                                        echo "<option value='".  $singleUserArray['user_email'] ."'> " .  $singleUserArray['user_nicename'] . " - " .$singleUserArray['user_email'] . "</option>";
+                                                    foreach($results as $key => $singleUserArray){
+                                                        echo "<option value='" .  esc_html($singleUserArray['user_email']) . "'> " .  esc_html($singleUserArray['user_nicename']) . " - " . esc_html($singleUserArray['user_email']) . "</option>";
                                                     }
                                                 echo"</optgroup>";
                                             }
@@ -110,7 +108,7 @@
                                     <!-- <b> Email Body: </b> -->
                                     <?php
                                         wp_editor( 
-                                                    $automailEmail,
+                                                    esc_html($automailEmail),
                                                     "automailEmail",
                                                     array(
                                                         'textarea_rows' => '6',
@@ -129,17 +127,14 @@
 
                     <!-- sidebar -->
                     <div id="postbox-container-1" class="postbox-container">
-                        
                         <div class="meta-box-sortables">
-
                             <div class="postbox">
-                                <h2><span><?php esc_attr_e('Automaton Status', 'automail'); ?> </span></h2>
-
+                                <h2><span><?php esc_attr_e('Automaton Status','automail');?> </span></h2>
                                 <div class="inside">
-                                    <input type="checkbox" name="automatonStatus" checked > Automaton Status
+                                    <input type="checkbox" name="automatonStatus" checked> Automaton Status
                                     <br>
                                     <br>
-                                    <input class="button-secondary" type="submit"  value="SAVE" />
+                                    <input class="button-secondary" type="submit"  value="SAVE"/>
                                 </div>
                                 <!-- .inside -->
                             </div>
@@ -148,17 +143,17 @@
                         <!-- .meta-box-sortables -->
 
                         <!-- Conditionally rendered div -->
-                        <div class="meta-box-sortables" v-show="selectedEventsAndTitles" >
+                        <div class="meta-box-sortables" v-show="selectedEventsAndTitles">
                             <div class="postbox">
-                                <h2><span><?php esc_attr_e('Data Tags', 'automail'); ?></span> <code>click to clipboard</code> <span class="dashicons dashicons-info" title="Paste event placeholder data [Tags] to email body as Placeholder, So that in the event it replace with the real data." ></span> </h2>
+                                <h2><span><?php esc_attr_e('Data Tags', 'automail');?></span><code>click to clipboard</code> <span class="dashicons dashicons-info" title="Paste event placeholder data [Tags] to email body as Placeholder, So that in the event it replace with the real data."></span></h2>
                                 <div class="inside">
                                     <!-- tag cloud list start -->
-                                    <ul :style="[selectedEvent ? { 'height':'350px', 'overflow':'hidden', 'overflow-y':'scroll' } : {'height':'350px'} ]" >
-                                        <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)"  :class=" index % 2 ? '' : 'alternate' "  style="padding: 10px;">
-                                            {{ item }}
+                                    <ul :style="[selectedEvent ? {'height':'350px', 'overflow':'hidden', 'overflow-y':'scroll'} : {'height':'350px'}]">
+                                        <li v-for="(item, index) in selectedEventsAndTitles" @click="copyTheTag(index)" :class="index % 2 ? '' : 'alternate'" style="padding: 10px;">
+                                            {{item}}
                                             <br>
-                                            [{{ index }}] 
-                                        </li>    
+                                            [{{index}}] 
+                                        </li>
                                     </ul>
                                     <!-- tag cloud list end -->
                                 </div>
@@ -167,12 +162,10 @@
                             <!-- .postbox -->
                         </div>
                         <!-- .meta-box-sortables -->
-
                     </div>
                     <!-- #postbox-container-1 .postbox-container -->
                 </div>
                 <!-- #post-body .metabox-holder .columns-2 -->
-
             <!-- Form Ends  -->
             </form>
             <br class="clear">
