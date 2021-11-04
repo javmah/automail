@@ -72,22 +72,22 @@ class Automail_Events {
 			$user 								= get_userdata($user_id);
 			$userMeta							= get_user_meta($user_id);
 			#
-			$user_data['userID'] 				= ( isset( $user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 	:	"";
-			$user_data['userName'] 				= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 	:	"";
-			$user_data['firstName'] 			= ( isset( $user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 	:	"";
-			$user_data['lastName'] 				= ( isset( $user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  	:	"";
-			$user_data['nickname'] 				= ( isset( $user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname		:	"";
-			$user_data['displayName'] 			= ( isset( $user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name	:	"";
+			$user_data['userID'] 				= (isset($user->ID ) 				&& !empty( $user->ID )) 			?  $user->ID		 	:	"";
+			$user_data['userName'] 				= (isset($user->user_login ) 		&& !empty( $user->user_login )) 	?  $user->user_login 	:	"";
+			$user_data['firstName'] 			= (isset($user->first_name ) 		&& !empty( $user->first_name )) 	?  $user->first_name 	:	"";
+			$user_data['lastName'] 				= (isset($user->last_name ) 		&& !empty( $user->last_name)) 		?  $user->last_name  	:	"";
+			$user_data['nickname'] 				= (isset($user->nickname ) 		&& !empty( $user->nickname )) 		?  $user->nickname		:	"";
+			$user_data['displayName'] 			= (isset($user->display_name )	&& !empty( $user->display_name )) 	?  $user->display_name	:	"";
 			$user_data['eventName'] 			= "New User";
-			$user_data['description'] 			= ( isset( $userMeta['description'])&& is_array( $userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
-			$user_data['userEmail'] 			= ( isset( $user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 :	"";
-			$user_data['userUrl'] 				= ( isset( $user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 :	"";
-			$user_data['userLogin'] 			= ( isset( $user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 :	"";
-			$user_data['userRegistrationDate'] 	= ( isset( $user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered :  "";
-			$user_data['userRole'] 				= ( isset( $user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) : "";  
+			$user_data['description'] 			= (isset($userMeta['description'])&& is_array( $userMeta['description'])) ? implode (", ", $userMeta['description'] ) : "";
+			$user_data['userEmail'] 			= (isset($user->user_email ) 		&& !empty( $user->user_email )) 	?  $user->user_email 	 :	"";
+			$user_data['userUrl'] 				= (isset($user->user_url ) 		&& !empty( $user->user_url )) 		? $user->user_url		 :	"";
+			$user_data['userLogin'] 			= (isset($user->user_login ) 		&& !empty( $user->user_login )) 	? $user->user_login		 :	"";
+			$user_data['userRegistrationDate'] 	= (isset($user->user_registered ) && !empty( $user->user_registered ))? $user->user_registered :  "";
+			$user_data['userRole'] 				= (isset($user->roles ) 			&& is_array( $user->roles ) ) 		? implode (", ", $user->roles) : "";  
 			# site Current Time
-			$user_data['site_time'] 			= ( isset( $this->Time ) ) ? $this->Time :	'';
-			$user_data['site_date'] 			= ( isset( $this->Date ) ) ? $this->Date :	'';
+			$user_data['site_time'] 			= (isset($this->Time ) ) ? $this->Time :	'';
+			$user_data['site_date'] 			= (isset($this->Date ) ) ? $this->Date :	'';
 			# 
 			$user_data["user_date_year"]	 	= date( 'Y', current_time( 'timestamp', 0 ) );
 			$user_data["user_date_month"]		= date( 'm', current_time( 'timestamp', 0 ) );
@@ -433,7 +433,7 @@ class Automail_Events {
 						if( $isArrayTest == null ){
 							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						}else{
-							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest ;
+							$metaOutPut[$oneArray['meta_key']] = $isArrayTest ;
 						}
 					}
 				}
@@ -483,48 +483,48 @@ class Automail_Events {
 		$userData 							= get_userdata($post->post_author);		
 		$post_data['postID'] 				= $post->ID;
 		#
-		$post_data['post_authorID'] 		= ( isset( $post->post_author ) ) 		? 	$post->post_author		:	''; 		// property_exists // isset 
-		$post_data['authorUserName'] 		= ( isset( $userData->user_login ) ) 	? 	$userData->user_login	:	''; 		//
-		$post_data['authorDisplayName'] 	= ( isset( $userData->display_name ) )	? 	$userData->display_name :	''; 
-		$post_data['authorEmail'] 			= ( isset( $userData->user_email ) ) 	? 	$userData->user_email 	:	''; 
-		$post_data['authorRole'] 			= ( isset( $userData->roles ) && is_array( $userData->roles ) ) ? implode (", ", $userData->roles) : "";  
+		$post_data['post_authorID'] 		= (isset($post->post_author)) 			? 	$post->post_author		:	''; 		// property_exists // isset 
+		$post_data['authorUserName'] 		= (isset($userData->user_login)) 		? 	$userData->user_login	:	''; 		//
+		$post_data['authorDisplayName'] 	= (isset($userData->display_name))		? 	$userData->display_name :	''; 
+		$post_data['authorEmail'] 			= (isset($userData->user_email)) 		? 	$userData->user_email 	:	''; 
+		$post_data['authorRole'] 			= (isset($userData->roles) && is_array( $userData->roles ) ) ? implode (", ", $userData->roles) : "";  
 		#
-		$post_data['post_title'] 			= ( isset( $post->post_title ) ) 		? 	$post->post_title		:	'';
-		$post_data['post_date'] 			= ( isset( $post->post_date ) ) 		? 	$post->post_date		:	'';
-		$post_data['post_date_gmt'] 		= ( isset( $post->post_date_gmt ) ) 	? 	$post->post_date_gmt	:	'';
+		$post_data['post_title'] 			= (isset($post->post_title)) 			? 	$post->post_title		:	'';
+		$post_data['post_date'] 			= (isset($post->post_date)) 			? 	$post->post_date		:	'';
+		$post_data['post_date_gmt'] 		= (isset($post->post_date_gmt)) 		? 	$post->post_date_gmt	:	'';
 		# site Current Time
-		$post_data['site_time'] 			= ( isset( $this->Time ) ) 				? 	$this->Time				:	'';
-		$post_data['site_date'] 			= ( isset( $this->Date ) ) 				? 	$this->Date				:	'';
+		$post_data['site_time'] 			= (isset($this->Time)) 					? 	$this->Time				:	'';
+		$post_data['site_date'] 			= (isset($this->Date)) 					? 	$this->Date				:	'';
 		# New Code Starts From Here
 		# date of the Post Creation 
-		$post_data["post_date_year"]		= ( isset( $post->ID ) AND !empty( get_the_date('Y',   $post->ID ) ) ) ? 	date( 'Y', strtotime( "$post->post_modified" ) )	:	''; 
-		$post_data["post_date_month"]		= ( isset( $post->ID ) AND !empty( get_the_date('m',   $post->ID ) ) ) ? 	date( 'm', strtotime( "$post->post_modified" ) )	:	''; 
-		$post_data["post_date_date"]		= ( isset( $post->ID ) AND !empty( get_the_date('d',   $post->ID ) ) ) ? 	date( 'd', strtotime( "$post->post_modified" ) )	:	'';
-		$post_data["post_date_time"]		= ( isset( $post->ID ) AND !empty( get_the_date('H:i', $post->ID ) ) ) ? 	date( 'H:i',strtotime("$post->post_modified" ) )	:	'';
+		$post_data["post_date_year"]		= (isset($post->ID) AND !empty( get_the_date('Y',   $post->ID ))) ? 	date( 'Y', strtotime( "$post->post_modified" ) )	:	''; 
+		$post_data["post_date_month"]		= (isset($post->ID) AND !empty( get_the_date('m',   $post->ID ))) ? 	date( 'm', strtotime( "$post->post_modified" ) )	:	''; 
+		$post_data["post_date_date"]		= (isset($post->ID) AND !empty( get_the_date('d',   $post->ID ))) ? 	date( 'd', strtotime( "$post->post_modified" ) )	:	'';
+		$post_data["post_date_time"]		= (isset($post->ID) AND !empty( get_the_date('H:i', $post->ID ))) ? 	date( 'H:i',strtotime("$post->post_modified" ) )	:	'';
 		# date of Post Modification 
-		$post_data["post_modified_year"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'Y', strtotime( "$post->post_modified" ) )	:	'';
-		$post_data["post_modified_month"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'm', strtotime( "$post->post_modified" ) )	:	'';
-		$post_data["post_modified_date"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'd', strtotime( "$post->post_modified" ) )	:	'';
-		$post_data["post_modified_time"]	= ( isset( $post->post_modified ) AND !empty( $post->post_modified ) ) ? 	date( 'H:i', strtotime( "$post->post_modified" ) )	:	'';
+		$post_data["post_modified_year"]	= (isset($post->post_modified) AND !empty($post->post_modified)) ? 	date( 'Y', strtotime( "$post->post_modified" ) )	:	'';
+		$post_data["post_modified_month"]	= (isset($post->post_modified) AND !empty($post->post_modified)) ? 	date( 'm', strtotime( "$post->post_modified" ) )	:	'';
+		$post_data["post_modified_date"]	= (isset($post->post_modified) AND !empty($post->post_modified)) ? 	date( 'd', strtotime( "$post->post_modified" ) )	:	'';
+		$post_data["post_modified_time"]	= (isset($post->post_modified) AND !empty($post->post_modified)) ? 	date( 'H:i', strtotime( "$post->post_modified" ) )	:	'';
 		# New Code Ends Here
-		$post_data['post_content'] 			= ( isset( $post->post_content ) ) 	? 	$post->post_content			:	'';
-		$post_data['post_excerpt'] 			= ( isset( $post->post_excerpt ) ) 	? 	$post->post_excerpt			:	'';
-		$post_data['post_status'] 			= ( isset( $post->post_status ) ) 	? 	$post->post_status			:	'';
-		$post_data['comment_status']		= ( isset( $post->comment_status )) ? 	$post->comment_status		:	'';
-		$post_data['ping_status'] 			= ( isset( $post->ping_status ) ) 	? 	$post->ping_status			:	'';
-		$post_data['post_password'] 		= ( isset( $post->post_password ) ) ? 	$post->post_password		:	'';
-		$post_data['post_name'] 			= ( isset( $post->post_name )) 		? 	$post->post_name			:	'';
-		$post_data['to_ping'] 				= ( isset( $post->to_ping )) 		? 	$post->to_ping				:	'';
-		$post_data['pinged'] 				= ( isset( $post->pinged ) ) 		? 	$post->pinged				:	'';
-		$post_data['post_modified'] 		= ( isset( $post->post_modified ))  ?	$post->post_modified		:	'';
-		$post_data['post_modified_gmt']		= ( isset( $post->post_modified_gmt))? $post->post_modified_gmt		:	'';
-		$post_data['post_parent'] 			= ( isset( $post->post_parent ) ) 	? 	$post->post_parent			:	'';
-		$post_data['guid']  				= ( isset( $post->guid ) ) 			? 	$post->guid					:	'';
-		$post_data['menu_order'] 			= ( isset( $post->menu_order ) ) 	? 	$post->menu_order 			:	'';
-		$post_data['post_type'] 			= ( isset( $post->post_type ) ) 	? 	$post->post_type			:	'';		
-		$post_data['post_mime_type'] 		= ( isset( $post->post_mime_type )) ? 	$post->post_mime_type 		:	'';
-		$post_data['comment_count'] 		= ( isset( $post->comment_count ) ) ? 	$post->comment_count  		:	'';
-		$post_data['filter'] 				= ( isset( $post->filter ) ) 		?	$post->filter 				:	'';
+		$post_data['post_content'] 			= (isset($post->post_content)) 		? 	$post->post_content			:	'';
+		$post_data['post_excerpt'] 			= (isset($post->post_excerpt)) 		? 	$post->post_excerpt			:	'';
+		$post_data['post_status'] 			= (isset($post->post_status)) 		? 	$post->post_status			:	'';
+		$post_data['comment_status']		= (isset($post->comment_status)) 	? 	$post->comment_status		:	'';
+		$post_data['ping_status'] 			= (isset($post->ping_status)) 		? 	$post->ping_status			:	'';
+		$post_data['post_password'] 		= (isset($post->post_password)) 	? 	$post->post_password		:	'';
+		$post_data['post_name'] 			= (isset($post->post_name)) 		? 	$post->post_name			:	'';
+		$post_data['to_ping'] 				= (isset($post->to_ping)) 			? 	$post->to_ping				:	'';
+		$post_data['pinged'] 				= (isset($post->pinged)) 			? 	$post->pinged				:	'';
+		$post_data['post_modified'] 		= (isset($post->post_modified))  	?	$post->post_modified		:	'';
+		$post_data['post_modified_gmt']		= (isset($post->post_modified_gmt))	?   $post->post_modified_gmt	:	'';
+		$post_data['post_parent'] 			= (isset($post->post_parent)) 		? 	$post->post_parent			:	'';
+		$post_data['guid']  				= (isset($post->guid)) 				? 	$post->guid					:	'';
+		$post_data['menu_order'] 			= (isset($post->menu_order)) 		? 	$post->menu_order 			:	'';
+		$post_data['post_type'] 			= (isset($post->post_type)) 		? 	$post->post_type			:	'';		
+		$post_data['post_mime_type'] 		= (isset($post->post_mime_type)) 	? 	$post->post_mime_type 		:	'';
+		$post_data['comment_count'] 		= (isset($post->comment_count)) 	? 	$post->comment_count  		:	'';
+		$post_data['filter'] 				= (isset($post->filter)) 			?	$post->filter 				:	'';
 
 		# Post Meta Data portion Starts
 		# empty Holder array 
@@ -532,11 +532,11 @@ class Automail_Events {
 		# Global Db object 
 		global $wpdb;
 		# Execute Query for getting Post or Page meta Data;
-		$metaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID , ARRAY_A);
+		$metaKeyValue = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = " . $post->ID, ARRAY_A);
 		# get Distinct Keys;
 		if($post->post_type == 'post'){
 			$metaKeys = $this->automail_posts_metaKeys();
-		}elseif($post->post_type == 'page') {
+		}elseif($post->post_type == 'page'){
 			$metaKeys = $this->automail_pages_metaKeys();
 		}else{
 			# Setting Meta, getting those Meta from  automail_allCptEvents() function Where;
@@ -558,7 +558,7 @@ class Automail_Events {
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
-					if( $isArrayTest == null ){
+					if($isArrayTest == null){
 						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
 						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
@@ -664,28 +664,28 @@ class Automail_Events {
 		# Setting Data 
 		$Data 							=  array(); 
 		$Data["comment_ID"]  			=  $commentID;
-		$Data["comment_post_ID"]  		=  ( isset( $commentData["comment_post_ID"] )) 		? 	$commentData["comment_post_ID"]	 	: '';
-		$Data["comment_author"]  		=  ( isset( $commentData["comment_author"] )) 		? 	$commentData["comment_author"]		: '';
-		$Data["comment_author_email"] 	=  ( isset( $commentData["comment_author_email"] ))	?	$commentData["comment_author_email"]: '';
-		$Data["comment_author_url"]  	=  ( isset( $commentData["comment_author_url"] )) 	? 	$commentData["comment_author_url"]	: '';
-		$Data["comment_content"]  		=  ( isset( $commentData["comment_content"] )) 		? 	$commentData["comment_content"]		: '';
-		$Data["comment_type"]  			=  ( isset( $commentData["comment_type"] )) 		? 	$commentData["comment_type"]		: '';
-		$Data["user_ID"]  				=  ( isset( $commentData["user_ID"] )) 				? 	$commentData["user_ID"]				: '';
-		$Data["comment_author_IP"]  	=  ( isset( $commentData["comment_author_IP"] )) 	? 	$commentData["comment_author_IP"]	: '';
-		$Data["comment_agent"]  		=  ( isset( $commentData["comment_agent"] )) 		? 	$commentData["comment_agent"]		: '';
-		$Data["comment_date"]  			=  ( isset( $commentData["comment_date"] )) 		? 	$commentData["comment_date"]		: '';
-		$Data["comment_date_gmt"]  		=  ( isset( $commentData["comment_date_gmt"] )) 	? 	$commentData["comment_date_gmt"]	: '';
+		$Data["comment_post_ID"]  		=  (isset($commentData["comment_post_ID"])) 		? 	$commentData["comment_post_ID"]	 	: '';
+		$Data["comment_author"]  		=  (isset($commentData["comment_author"])) 			? 	$commentData["comment_author"]		: '';
+		$Data["comment_author_email"] 	=  (isset($commentData["comment_author_email"]))	?	$commentData["comment_author_email"]: '';
+		$Data["comment_author_url"]  	=  (isset($commentData["comment_author_url"])) 		? 	$commentData["comment_author_url"]	: '';
+		$Data["comment_content"]  		=  (isset($commentData["comment_content"])) 		? 	$commentData["comment_content"]		: '';
+		$Data["comment_type"]  			=  (isset($commentData["comment_type"])) 			? 	$commentData["comment_type"]		: '';
+		$Data["user_ID"]  				=  (isset($commentData["user_ID"])) 				? 	$commentData["user_ID"]				: '';
+		$Data["comment_author_IP"]  	=  (isset($commentData["comment_author_IP"])) 		? 	$commentData["comment_author_IP"]	: '';
+		$Data["comment_agent"]  		=  (isset($commentData["comment_agent"])) 			? 	$commentData["comment_agent"]		: '';
+		$Data["comment_date"]  			=  (isset($commentData["comment_date"])) 			? 	$commentData["comment_date"]		: '';
+		$Data["comment_date_gmt"]  		=  (isset($commentData["comment_date_gmt"])) 		? 	$commentData["comment_date_gmt"]	: '';
 		#
-		$Data['site_time'] 				=  ( isset( $this->Time ) ) ? 	$this->Time		: '';
-		$Data['site_date'] 				=  ( isset( $this->Date ) ) ? 	$this->Date		: '';
+		$Data['site_time'] 				=  (isset( $this->Time ) ) ? 	$this->Time		: '';
+		$Data['site_date'] 				=  (isset( $this->Date ) ) ? 	$this->Date		: '';
 		# New Code Starts From Here
 		$Data["year_of_comment"]		= 	get_comment_date(	"Y", 	$commentID);
 		$Data["month_of_comment"]		= 	get_comment_date(	"m", 	$commentID);
 		$Data["date_of_comment"]		= 	get_comment_date(	"d", 	$commentID);
 		$Data["time_of_comment"]		=	get_comment_date(	"H:t", 	$commentID);
 		# New Code Ends Here
-		$Data["filtered"]  				=  ( isset( $commentData["filtered"] )) 	? 		$commentData["filtered"]			: '';
-		$Data["comment_approved"]  		=  ( isset( $commentData["comment_approved"] ) &&   $commentData["comment_approved"] )  ? "True" : "False";
+		$Data["filtered"]  				=  (isset($commentData["filtered"])) 	? 	$commentData["filtered"]			: '';
+		$Data["comment_approved"]  		=  (isset($commentData["comment_approved"] ) &&   $commentData["comment_approved"] )  ? "True" : "False";
 		# Comment Meta Data portion Starts
 		# empty Holder array 
 		$metaOutPut = array();	
@@ -698,11 +698,11 @@ class Automail_Events {
 		# Check and Balance for all the Meta keys
 		if($metaKeys[0] && !empty($commentMetaKeyValue)){
 			# populating Output array in reverse with  empty value
-			foreach($metaKeys[1]  as $key => $value){
+			foreach($metaKeys[1] as $key => $value){
 				$metaOutPut[$value] = "--";
 			}
 			# Looping the Meta key & value of Certain Comment And Populating the $metaOutPut Key array with Value 
-			foreach($commentMetaKeyValue  as $oneArray){
+			foreach($commentMetaKeyValue as $oneArray){
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray[ 'meta_key' ]], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
@@ -742,28 +742,28 @@ class Automail_Events {
 		
 		$Data 							=  array(); 
 		$Data["comment_ID"]  			=  $commentID;
-		$Data["comment_post_ID"]  		=  ( isset( $commentData["comment_post_ID"] )) 		? 	$commentData["comment_post_ID"]	 	: '';
-		$Data["comment_author"]  		=  ( isset( $commentData["comment_author"] )) 		? 	$commentData["comment_author"]		: '';
-		$Data["comment_author_email"] 	=  ( isset( $commentData["comment_author_email"] )) ?	$commentData["comment_author_email"]: '';
-		$Data["comment_author_url"]  	=  ( isset( $commentData["comment_author_url"] )) 	? 	$commentData["comment_author_url"]	: '';
-		$Data["comment_content"]  		=  ( isset( $commentData["comment_content"] )) 		? 	$commentData["comment_content"]		: '';
-		$Data["comment_type"]  			=  ( isset( $commentData["comment_type"] )) 		? 	$commentData["comment_type"]		: '';
-		$Data["user_ID"]  				=  ( isset( $commentData["user_ID"] )) 				? 	$commentData["user_ID"]				: '';
-		$Data["comment_author_IP"]  	=  ( isset( $commentData["comment_author_IP"] )) 	? 	$commentData["comment_author_IP"]	: '';
-		$Data["comment_agent"]  		=  ( isset( $commentData["comment_agent"] )) 		? 	$commentData["comment_agent"]		: '';
-		$Data["comment_date"]  			=  ( isset( $commentData["comment_date"] )) 		? 	$commentData["comment_date"]		: '';
-		$Data["comment_date_gmt"]  		=  ( isset( $commentData["comment_date_gmt"] )) 	? 	$commentData["comment_date_gmt"]	: '';
+		$Data["comment_post_ID"]  		=  (isset($commentData["comment_post_ID"])) 		? 	$commentData["comment_post_ID"]	 	: '';
+		$Data["comment_author"]  		=  (isset($commentData["comment_author"])) 			? 	$commentData["comment_author"]		: '';
+		$Data["comment_author_email"] 	=  (isset($commentData["comment_author_email"])) 	?	$commentData["comment_author_email"]: '';
+		$Data["comment_author_url"]  	=  (isset($commentData["comment_author_url"])) 		? 	$commentData["comment_author_url"]	: '';
+		$Data["comment_content"]  		=  (isset($commentData["comment_content"])) 		? 	$commentData["comment_content"]		: '';
+		$Data["comment_type"]  			=  (isset($commentData["comment_type"])) 			? 	$commentData["comment_type"]		: '';
+		$Data["user_ID"]  				=  (isset($commentData["user_ID"])) 				? 	$commentData["user_ID"]				: '';
+		$Data["comment_author_IP"]  	=  (isset($commentData["comment_author_IP"])) 		? 	$commentData["comment_author_IP"]	: '';
+		$Data["comment_agent"]  		=  (isset($commentData["comment_agent"])) 			? 	$commentData["comment_agent"]		: '';
+		$Data["comment_date"]  			=  (isset($commentData["comment_date"])) 			? 	$commentData["comment_date"]		: '';
+		$Data["comment_date_gmt"]  		=  (isset($commentData["comment_date_gmt"])) 		? 	$commentData["comment_date_gmt"]	: '';
 		#
-		$Data['site_time'] 				=  ( isset( $this->Time ) ) ? 	$this->Time		: '';
-		$Data['site_date'] 				=  ( isset( $this->Date ) ) ? 	$this->Date		: '';
+		$Data['site_time'] 				=  (isset( $this->Time )) ? $this->Time	: '';
+		$Data['site_date'] 				=  (isset( $this->Date )) ? $this->Date	: '';
 		# New Code Starts From Here
 		$Data["year_of_comment"]		= get_comment_date(	"Y", 	$commentID);
 		$Data["month_of_comment"]		= get_comment_date(	"m", 	$commentID);
 		$Data["date_of_comment"]		= get_comment_date(	"d", 	$commentID);
 		$Data["time_of_comment"]		= get_comment_date(	"H:t", 	$commentID);
 		# New Code Ends Here
-		$Data["filtered"]  				=  ( isset($commentData["filtered"])) ? 			$commentData["filtered"]			: '';
-		$Data["comment_approved"]  		=  ( isset($commentData["comment_approved"]) &&   	$commentData["comment_approved"])   ? "True" : "False";
+		$Data["filtered"]  				= (isset($commentData["filtered"])) ? 			$commentData["filtered"]			: '';
+		$Data["comment_approved"]  		= (isset($commentData["comment_approved"]) &&   $commentData["comment_approved"])   ? "True" : "False";
 		# Comment Meta Data portion Starts
 		# empty Holder array 
 		$metaOutPut = array();	
@@ -1502,77 +1502,77 @@ class Automail_Events {
 		# Joining the Product meta to Order data 
 		$order_data = array_merge($order_data, $itemMetaKeyValue);	
 		# Order Item process Ends
-		$order_data['item_count'] 			    	=  ( method_exists( $order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 			? 	$order->get_item_count() : "";
-		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items' ) 	&& ! empty($order->get_downloadable_items())&&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
+		$order_data['item_count'] 			    	=  (method_exists($order, 'get_item_count') 		&& 	is_int($order->get_item_count() )) 			? 	$order->get_item_count() : "";
+		$order_data['downloadable_items'] 			=  (method_exists($order, 'get_downloadable_items') && !empty($order->get_downloadable_items()) &&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
 		#
-		$order_data['date_created'] 				=  ( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T") ) ) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
-		$order_data['date_modified'] 				=  ( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) ) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
-		$order_data['date_completed'] 				=  ( method_exists( $order, 'get_date_completed' ) 	&& ! empty($order->get_date_completed())&&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T"))) 	? 	$order->get_date_completed()->date("F j, Y, g:i:s A T") : "";
-		$order_data['date_paid'] 					=  ( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	&&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) ) 	 	? 	$order->get_date_paid()->date("F j, Y, g:i:s A T") 		: "";
+		$order_data['date_created'] 				=  (method_exists($order, 'get_date_created' ) 	&& !empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T") ) ) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
+		$order_data['date_modified'] 				=  (method_exists($order, 'get_date_modified' ) && !empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) ) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
+		$order_data['date_completed'] 				=  (method_exists($order, 'get_date_completed') && !empty($order->get_date_completed())&&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T"))) 	? 	$order->get_date_completed()->date("F j, Y, g:i:s A T") : "";
+		$order_data['date_paid'] 					=  (method_exists($order, 'get_date_paid' ) 	&& !empty($order->get_date_paid()) 	&&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T"))) 	 		? 	$order->get_date_paid()->date("F j, Y, g:i:s A T") 		: "";
 		
 		# New Code Starts  
 		# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		$order_data["date_created_year"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("Y") 	  	: "";
-		$order_data["date_created_month"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("m") 	  	: "";
-		$order_data["date_created_date"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("d") 	  	: "";
-		$order_data["date_created_time"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("H:i")   	: "";
+		$order_data["date_created_year"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("Y") 	  	: "";
+		$order_data["date_created_month"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("m") 	  	: "";
+		$order_data["date_created_date"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("d") 	  	: "";
+		$order_data["date_created_time"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("H:i")   	: "";
 		
-		$order_data["date_modified_year"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("Y") 	  	: "";
-		$order_data["date_modified_month"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("m") 	  	: "";
-		$order_data["date_modified_date"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("d") 	  	: "";
-		$order_data["date_modified_time"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("H:i")  	: "";
+		$order_data["date_modified_year"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("Y") 	  	: "";
+		$order_data["date_modified_month"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("m") 	  	: "";
+		$order_data["date_modified_date"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("d") 	  	: "";
+		$order_data["date_modified_time"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("H:i")  	: "";
 		
-		$order_data["date_completed_year"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("Y")   	: "";
-		$order_data["date_completed_month"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("m")   	: "";
-		$order_data["date_completed_date"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("d")   	: "";
-		$order_data["date_completed_time"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("H:i") 	: "";
+		$order_data["date_completed_year"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("Y")   	: "";
+		$order_data["date_completed_month"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("m")   	: "";
+		$order_data["date_completed_date"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("d")   	: "";
+		$order_data["date_completed_time"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("H:i") 	: "";
 
-		$order_data["date_paid_year"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  	  	? 	$order->get_date_paid()->date("Y")	  		: "";
-		$order_data["date_paid_month"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("m")	  		: "";
-		$order_data["date_paid_date"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("d")	  		: "";
-		$order_data["date_paid_time"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("H:i")	  	: "";
+		$order_data["date_paid_year"]				=	(method_exists($order, 'get_date_paid') && !empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  	  	? 	$order->get_date_paid()->date("Y")	  		: "";
+		$order_data["date_paid_month"]				=	(method_exists($order, 'get_date_paid') && !empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("m")	  		: "";
+		$order_data["date_paid_date"]				=	(method_exists($order, 'get_date_paid') && !empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("d")	  		: "";
+		$order_data["date_paid_time"]				=	(method_exists($order, 'get_date_paid') && !empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("H:i")	  	: "";
 		# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		# New Code Starts  
-		$order_data['user'] 						=  ( method_exists( $order, 'get_user')  				&&  ! empty($order->get_user()) && is_object( $order->get_user()) ) ? 	$order->get_user()->user_login  . " - " . $order->get_user()->user_email 	: "";
-		$order_data['customer_id'] 					=  ( method_exists( $order, 'get_customer_id' ) 		&& 	is_int( $order->get_customer_id() )) 			? 	$order->get_customer_id() 			: "";
-		$order_data['user_id'] 						=  ( method_exists( $order, 'get_user_id' ) 			&& 	is_int( $order->get_user_id() )) 				? 	$order->get_user_id()				: "";
-		$order_data['customer_ip_address'] 			=  ( method_exists( $order, 'get_customer_ip_address')  && 	is_string( $order->get_customer_ip_address())) 	? 	$order->get_customer_ip_address()	: "";
-		$order_data['customer_user_agent'] 			=  ( method_exists( $order, 'get_customer_user_agent')  && 	is_string( $order->get_customer_user_agent()))	? 	$order->get_customer_user_agent()	: "";
-		$order_data['created_via'] 					=  ( method_exists( $order, 'get_created_via' ) 		&& 	is_string( $order->get_created_via() ))			? 	$order->get_created_via()			: "";
-		$order_data['customer_note'] 				=  ( method_exists( $order, 'get_customer_note' ) 		&& 	is_string( $order->get_customer_note() ))		? 	$order->get_customer_note()			: "";
+		$order_data['user'] 						=  (method_exists($order, 'get_user')  				 &&  !empty($order->get_user()) && is_object( $order->get_user()) ) ? 	$order->get_user()->user_login  . " - " . $order->get_user()->user_email 	: "";
+		$order_data['customer_id'] 					=  (method_exists($order, 'get_customer_id' ) 		 &&  is_int( $order->get_customer_id() )) 			? 	$order->get_customer_id() 			: "";
+		$order_data['user_id'] 						=  (method_exists($order, 'get_user_id' ) 			 &&  is_int( $order->get_user_id() )) 				? 	$order->get_user_id()				: "";
+		$order_data['customer_ip_address'] 			=  (method_exists($order, 'get_customer_ip_address') &&  is_string( $order->get_customer_ip_address())) ? 	$order->get_customer_ip_address()	: "";
+		$order_data['customer_user_agent'] 			=  (method_exists($order, 'get_customer_user_agent') &&  is_string( $order->get_customer_user_agent()))	? 	$order->get_customer_user_agent()	: "";
+		$order_data['created_via'] 					=  (method_exists($order, 'get_created_via' ) 		 &&  is_string( $order->get_created_via() ))		? 	$order->get_created_via()			: "";
+		$order_data['customer_note'] 				=  (method_exists($order, 'get_customer_note' ) 	 &&  is_string( $order->get_customer_note() ))		? 	$order->get_customer_note()			: "";
 
 		# site Current Time
-		$order_data['site_time'] 					= ( isset( $this->Time ) ) ? $this->Time  :	'';
-		$order_data['site_date'] 					= ( isset( $this->Date ) ) ? $this->Date  :	'';
+		$order_data['site_time'] 					=  (isset( $this->Time ) ) ? $this->Time  :	'';
+		$order_data['site_date'] 					=  (isset( $this->Date ) ) ? $this->Date  :	'';
 		# Start
-		$order_data['shipping_first_name'] 			=  ( method_exists( $order, 'get_shipping_first_name' ) && 	is_string( $order->get_shipping_first_name())) 	? 	$order->get_shipping_first_name()	: "";
-		$order_data['shipping_last_name'] 			=  ( method_exists( $order, 'get_shipping_last_name' )  && 	is_string( $order->get_shipping_last_name() ))	? 	$order->get_shipping_last_name()	: "";
-		$order_data['shipping_company'] 			=  ( method_exists( $order, 'get_shipping_company' ) 	&& 	is_string( $order->get_shipping_company() ))	?	$order->get_shipping_company()		: "";
-		$order_data['shipping_address_1'] 			=  ( method_exists( $order, 'get_shipping_address_1' )  && 	is_string( $order->get_shipping_address_1() ))	? 	$order->get_shipping_address_1()	: "";
-		$order_data['shipping_address_2'] 			=  ( method_exists( $order, 'get_shipping_address_2' )  && 	is_string( $order->get_shipping_address_2() ))	? 	$order->get_shipping_address_2()	: "";
-		$order_data['shipping_city'] 				=  ( method_exists( $order, 'get_shipping_city' ) 		&& 	is_string( $order->get_shipping_city() ))		? 	$order->get_shipping_city()			: "";
-		$order_data['shipping_state'] 				=  ( method_exists( $order, 'get_shipping_state' ) 	 	&& 	is_string( $order->get_shipping_state() )) 		? 	$order->get_shipping_state()		: "";
-		$order_data['shipping_postcode'] 			=  ( method_exists( $order, 'get_shipping_postcode' ) 	&& 	is_string( $order->get_shipping_postcode() ))	? 	$order->get_shipping_postcode()		: "";
+		$order_data['shipping_first_name'] 			=  (method_exists($order, 'get_shipping_first_name' ) &&  is_string( $order->get_shipping_first_name())) 	? 	$order->get_shipping_first_name()	: "";
+		$order_data['shipping_last_name'] 			=  (method_exists($order, 'get_shipping_last_name' )  &&  is_string( $order->get_shipping_last_name()))		? 	$order->get_shipping_last_name()	: "";
+		$order_data['shipping_company'] 			=  (method_exists($order, 'get_shipping_company' ) 	  &&  is_string( $order->get_shipping_company()))		?	$order->get_shipping_company()		: "";
+		$order_data['shipping_address_1'] 			=  (method_exists($order, 'get_shipping_address_1' )  &&  is_string( $order->get_shipping_address_1()))		? 	$order->get_shipping_address_1()	: "";
+		$order_data['shipping_address_2'] 			=  (method_exists($order, 'get_shipping_address_2' )  &&  is_string( $order->get_shipping_address_2()))		? 	$order->get_shipping_address_2()	: "";
+		$order_data['shipping_city'] 				=  (method_exists($order, 'get_shipping_city' ) 	  &&  is_string( $order->get_shipping_city()))			? 	$order->get_shipping_city()			: "";
+		$order_data['shipping_state'] 				=  (method_exists($order, 'get_shipping_state' ) 	  &&  is_string( $order->get_shipping_state())) 		? 	$order->get_shipping_state()		: "";
+		$order_data['shipping_postcode'] 			=  (method_exists($order, 'get_shipping_postcode' )   &&  is_string( $order->get_shipping_postcode()))		? 	$order->get_shipping_postcode()		: "";
 		# Start
-		$order_data['shipping_country'] 			=  ( method_exists( $order, 'get_shipping_country' ) 			 && is_string( $order->get_shipping_country() )) 			? 	$order->get_shipping_country()				: "";
-		$order_data['address'] 						=  ( method_exists( $order,	'get_address' ) 	 				 && is_array(  $order->get_address()) ) 					? 	json_encode( $order->get_address()) 		: "";
-		$order_data['shipping_address_map_url'] 	=  ( method_exists( $order, 'get_shipping_address_map_url' ) 	 &&	is_string( $order->get_shipping_address_map_url()))		?	$order->get_shipping_address_map_url()		: "";
-		$order_data['formatted_billing_full_name'] 	=  ( method_exists( $order, 'get_formatted_billing_full_name' )  && is_string( $order->get_formatted_billing_full_name() ))	?	$order->get_formatted_billing_full_name()	: "";
-		$order_data['formatted_shipping_full_name']	=  ( method_exists( $order, 'get_formatted_shipping_full_name' ) && is_string( $order->get_formatted_shipping_full_name() ))?	$order->get_formatted_shipping_full_name()	: "";
-		$order_data['formatted_billing_address'] 	=  ( method_exists( $order, 'get_formatted_billing_address' ) 	 && is_string( $order->get_formatted_billing_address() ))	?	$order->get_formatted_billing_address()		: "";
-		$order_data['formatted_shipping_address'] 	=  ( method_exists( $order, 'get_formatted_shipping_address' )   && is_string( $order->get_formatted_shipping_address() ))	?	$order->get_formatted_shipping_address()	: "";
+		$order_data['shipping_country'] 			=  (method_exists($order, 'get_shipping_country') 			 	&& is_string( $order->get_shipping_country())) 				? 	$order->get_shipping_country()				: "";
+		$order_data['address'] 						=  (method_exists($order,	'get_address') 	 					&& is_array(  $order->get_address())) 						? 	json_encode( $order->get_address()) 		: "";
+		$order_data['shipping_address_map_url'] 	=  (method_exists($order, 'get_shipping_address_map_url') 	 	&& is_string( $order->get_shipping_address_map_url()))		?	$order->get_shipping_address_map_url()		: "";
+		$order_data['formatted_billing_full_name'] 	=  (method_exists($order, 'get_formatted_billing_full_name')  	&& is_string( $order->get_formatted_billing_full_name()))	?	$order->get_formatted_billing_full_name()	: "";
+		$order_data['formatted_shipping_full_name']	=  (method_exists($order, 'get_formatted_shipping_full_name') 	&& is_string( $order->get_formatted_shipping_full_name()))	?	$order->get_formatted_shipping_full_name()	: "";
+		$order_data['formatted_billing_address'] 	=  (method_exists($order, 'get_formatted_billing_address') 		&& is_string( $order->get_formatted_billing_address()))		?	$order->get_formatted_billing_address()		: "";
+		$order_data['formatted_shipping_address'] 	=  (method_exists($order, 'get_formatted_shipping_address')     && is_string( $order->get_formatted_shipping_address()))	?	$order->get_formatted_shipping_address()	: "";
 		#
-		$order_data['payment_method'] 				=  ( method_exists( $order, 'get_payment_method' ) 				&& 	is_string( $order->get_payment_method() ))				?	$order->get_payment_method()				: "";
-		$order_data['payment_method_title'] 		=  ( method_exists( $order, 'get_payment_method_title' ) 		&& 	is_string( $order->get_payment_method_title() ))		? 	$order->get_payment_method_title()			: "";
-		$order_data['transaction_id'] 				=  ( method_exists( $order, 'get_transaction_id' ) 				&& 	is_string( $order->get_transaction_id() ))				? 	$order->get_transaction_id()				: "";
+		$order_data['payment_method'] 				=  (method_exists( $order, 'get_payment_method' ) 				&& 	is_string( $order->get_payment_method()))				?	$order->get_payment_method()				: "";
+		$order_data['payment_method_title'] 		=  (method_exists( $order, 'get_payment_method_title' ) 		&& 	is_string( $order->get_payment_method_title()))			? 	$order->get_payment_method_title()			: "";
+		$order_data['transaction_id'] 				=  (method_exists( $order, 'get_transaction_id' ) 				&& 	is_string( $order->get_transaction_id()))				? 	$order->get_transaction_id()				: "";
 		#
-		$order_data['checkout_payment_url'] 		=  ( method_exists( $order, 'get_checkout_payment_url' ) 		&&	is_string( $order->get_checkout_payment_url() ))		? 	$order->get_checkout_payment_url()			: "";
-		$order_data['checkout_order_received_url'] 	=  ( method_exists( $order, 'get_checkout_order_received_url') 	&& 	is_string( $order->get_checkout_order_received_url() )) ? 	$order->get_checkout_order_received_url()	: "";
-		$order_data['cancel_order_url'] 			=  ( method_exists( $order, 'get_cancel_order_url' ) 			&& 	is_string( $order->get_cancel_order_url() ))			? 	$order->get_cancel_order_url()				: "";
-		$order_data['cancel_order_url_raw'] 		=  ( method_exists( $order, 'get_cancel_order_url_raw' ) 		&& 	is_string( $order->get_cancel_order_url_raw()))			? 	$order->get_cancel_order_url_raw()			: "";
-		$order_data['cancel_endpoint'] 				=  ( method_exists( $order, 'get_cancel_endpoint' ) 			&& 	is_string( $order->get_cancel_endpoint() ))				? 	$order->get_cancel_endpoint()				: "";
-		$order_data['view_order_url'] 				=  ( method_exists( $order, 'get_view_order_url' ) 				&& 	is_string( $order->get_view_order_url() ))				? 	$order->get_view_order_url()				: "";
-		$order_data['edit_order_url'] 				=  ( method_exists( $order, 'get_edit_order_url' ) 				&& 	is_string( $order->get_edit_order_url() )) 				? 	$order->get_edit_order_url()				: "";
+		$order_data['checkout_payment_url'] 		=  (method_exists($order, 'get_checkout_payment_url' ) 			&&	is_string( $order->get_checkout_payment_url()))			? 	$order->get_checkout_payment_url()			: "";
+		$order_data['checkout_order_received_url'] 	=  (method_exists($order, 'get_checkout_order_received_url') 	&& 	is_string( $order->get_checkout_order_received_url())) 	? 	$order->get_checkout_order_received_url()	: "";
+		$order_data['cancel_order_url'] 			=  (method_exists($order, 'get_cancel_order_url' ) 				&& 	is_string( $order->get_cancel_order_url()))				? 	$order->get_cancel_order_url()				: "";
+		$order_data['cancel_order_url_raw'] 		=  (method_exists($order, 'get_cancel_order_url_raw' ) 			&& 	is_string( $order->get_cancel_order_url_raw()))			? 	$order->get_cancel_order_url_raw()			: "";
+		$order_data['cancel_endpoint'] 				=  (method_exists($order, 'get_cancel_endpoint' ) 				&& 	is_string( $order->get_cancel_endpoint()))				? 	$order->get_cancel_endpoint()				: "";
+		$order_data['view_order_url'] 				=  (method_exists($order, 'get_view_order_url' ) 				&& 	is_string( $order->get_view_order_url()))				? 	$order->get_view_order_url()				: "";
+		$order_data['edit_order_url'] 				=  (method_exists($order, 'get_edit_order_url' ) 				&& 	is_string( $order->get_edit_order_url())) 				? 	$order->get_edit_order_url()				: "";
 
 		$order_data['eventName'] 					=  $order->get_status();  //'wc-new_order'
 		$order_data['status'] 						=  "wc-" . $order->get_status();
@@ -1644,42 +1644,42 @@ class Automail_Events {
 			return;
 		}
 		#
-		$order_data['orderID'] 						=  ( method_exists( $order, 'get_id' ) 			  		&&	is_int( $order->get_id()))						? 	$order->get_id()								: 	"";
-		$order_data['billing_first_name'] 			=  ( method_exists( $order, 'get_billing_first_name' )  && 	is_string( $order->get_billing_first_name() ))	? 	$order->get_billing_first_name()				: 	"";
-		$order_data['billing_last_name'] 			=  ( method_exists( $order, 'get_billing_last_name' ) 	&& 	is_string( $order->get_billing_last_name() ))	? 	$order->get_billing_last_name()					: 	"";
-		$order_data['billing_company'] 				=  ( method_exists( $order, 'get_billing_company' ) 	&& 	is_string( $order->get_billing_company() ))		? 	$order->get_billing_company()					: 	"";
-		$order_data['billing_address_1'] 			=  ( method_exists( $order, 'get_billing_address_1' ) 	&& 	is_string( $order->get_billing_address_1() ))	? 	$order->get_billing_address_1()					: 	"";
-		$order_data['billing_address_2'] 			=  ( method_exists( $order, 'get_billing_address_2' ) 	&& 	is_string( $order->get_billing_address_2() ))	? 	$order->get_billing_address_2()					: 	"";
-		$order_data['billing_city'] 				=  ( method_exists( $order, 'get_billing_city' ) 		&& 	is_string( $order->get_billing_city() ))		? 	$order->get_billing_city()						: 	"";
-		$order_data['billing_state'] 				=  ( method_exists( $order, 'get_billing_state' ) 		&& 	is_string( $order->get_billing_state() )) 		? 	$order->get_billing_state()						: 	"";
-		$order_data['billing_postcode'] 			=  ( method_exists( $order, 'get_billing_postcode' ) 	&& 	is_string( $order->get_billing_postcode() ))	? 	$order->get_billing_postcode()					: 	"";
+		$order_data['orderID'] 						= (method_exists($order, 'get_id' ) 			  		&&	is_int( $order->get_id()))						? 	$order->get_id()							: 	"";
+		$order_data['billing_first_name'] 			= (method_exists($order, 'get_billing_first_name')    	&& 	is_string($order->get_billing_first_name()))	? 	$order->get_billing_first_name()			: 	"";
+		$order_data['billing_last_name'] 			= (method_exists($order, 'get_billing_last_name') 		&& 	is_string($order->get_billing_last_name()))		? 	$order->get_billing_last_name()				: 	"";
+		$order_data['billing_company'] 				= (method_exists($order, 'get_billing_company') 	    && 	is_string($order->get_billing_company()))		? 	$order->get_billing_company()				: 	"";
+		$order_data['billing_address_1'] 			= (method_exists($order, 'get_billing_address_1') 		&& 	is_string($order->get_billing_address_1()))		? 	$order->get_billing_address_1()				: 	"";
+		$order_data['billing_address_2'] 			= (method_exists($order, 'get_billing_address_2') 		&& 	is_string($order->get_billing_address_2()))		? 	$order->get_billing_address_2()				: 	"";
+		$order_data['billing_city'] 				= (method_exists($order, 'get_billing_city') 		    && 	is_string($order->get_billing_city()))			? 	$order->get_billing_city()					: 	"";
+		$order_data['billing_state'] 				= (method_exists($order, 'get_billing_state') 			&& 	is_string($order->get_billing_state())) 		? 	$order->get_billing_state()					: 	"";
+		$order_data['billing_postcode'] 			= (method_exists($order, 'get_billing_postcode') 	    && 	is_string($order->get_billing_postcode()))		? 	$order->get_billing_postcode()				: 	"";
 		# 
 
-		$order_data['billing_country'] 				= ( method_exists( $order, 'get_billing_country' ) 	    && 	is_string( $order->get_billing_country() ))		? 	$order->get_billing_country()			: 	"";
-		$order_data['billing_email'] 				= ( method_exists( $order, 'get_billing_email' ) 		&& 	is_string( $order->get_billing_email() ))		? 	$order->get_billing_email()				: 	"";
-		$order_data['billing_phone'] 				= ( method_exists( $order, 'get_billing_phone' ) 		&& 	is_string( $order->get_billing_phone()))		? 	$order->get_billing_phone()				: 	"";
-		$order_data['cart_tax'] 					= ( method_exists( $order, 'get_cart_tax' ) 	  		&& 	is_string( $order->get_cart_tax()  ))		? 	$order->get_cart_tax() 						: 	"";
-		$order_data['currency'] 					= ( method_exists( $order, 'get_currency' ) 	  		&& 	is_string( $order->get_currency()  ))		? 	$order->get_currency() 						:	"";
-		$order_data['discount_tax'] 				= ( method_exists( $order, 'get_discount_tax' )   		&& 	is_string( $order->get_discount_tax() ))	?	$order->get_discount_tax() 					:	"";
-		$order_data['discount_total'] 				= ( method_exists( $order, 'get_discount_total' ) 		&& 	is_string( $order->get_discount_total() ))	? 	$order->get_discount_total()				:	"";
-		$order_data['fees'] 						= ( method_exists( $order, 'get_fees' ) 		  		&&  ! empty( $order->get_fees() ) && is_array( $order->get_fees()) ) 			?   json_encode( $order->get_fees()) 	:   "";
-		$order_data['shipping_method'] 				= ( method_exists( $order, 'get_shipping_method' )		&& 	is_string( $order->get_shipping_method() ))	? 	$order->get_shipping_method() 				:	"";
-		$order_data['shipping_tax'] 				= ( method_exists( $order, 'get_shipping_tax' ) 		&& 	is_string( $order->get_shipping_tax()  ))	? 	$order->get_shipping_tax() 					:	"";
-		$order_data['shipping_total'] 				= ( method_exists( $order, 'get_shipping_total' ) 		&& 	is_string( $order->get_shipping_total()  ))	? 	$order->get_shipping_total()				:	"";
-		$order_data['subtotal'] 					= ( method_exists( $order, 'get_subtotal' ) 			&& 	is_float( $order->get_subtotal()  ))		? 	$order->get_subtotal()						:	"";
+		$order_data['billing_country'] 				= (method_exists($order, 'get_billing_country') 	    && 	is_string( $order->get_billing_country()))		? 	$order->get_billing_country()				: 	"";
+		$order_data['billing_email'] 				= (method_exists($order, 'get_billing_email') 		    && 	is_string( $order->get_billing_email()))		? 	$order->get_billing_email()					: 	"";
+		$order_data['billing_phone'] 				= (method_exists($order, 'get_billing_phone') 		    && 	is_string( $order->get_billing_phone()))		? 	$order->get_billing_phone()					: 	"";
+		$order_data['cart_tax'] 					= (method_exists($order, 'get_cart_tax') 	  		    && 	is_string( $order->get_cart_tax()))				? 	$order->get_cart_tax() 						: 	"";
+		$order_data['currency'] 					= (method_exists($order, 'get_currency') 	  		    && 	is_string( $order->get_currency()))				? 	$order->get_currency() 						:	"";
+		$order_data['discount_tax'] 				= (method_exists($order, 'get_discount_tax')   			&& 	is_string( $order->get_discount_tax()))			?	$order->get_discount_tax() 					:	"";
+		$order_data['discount_total'] 				= (method_exists($order, 'get_discount_total') 			&& 	is_string( $order->get_discount_total()))		? 	$order->get_discount_total()				:	"";
+		$order_data['fees'] 						= (method_exists($order, 'get_fees') 		  		    &&  ! empty( $order->get_fees()) && is_array($order->get_fees())) ? json_encode( $order->get_fees()):   "";
+		$order_data['shipping_method'] 				= (method_exists($order, 'get_shipping_method')			&& 	is_string( $order->get_shipping_method()))	? 	$order->get_shipping_method() 				:	"";
+		$order_data['shipping_tax'] 				= (method_exists($order, 'get_shipping_tax') 		    && 	is_string( $order->get_shipping_tax()))		? 	$order->get_shipping_tax() 					:	"";
+		$order_data['shipping_total'] 				= (method_exists($order, 'get_shipping_total') 			&& 	is_string( $order->get_shipping_total()))	? 	$order->get_shipping_total()				:	"";
+		$order_data['subtotal'] 					= (method_exists($order, 'get_subtotal') 			    && 	is_float( $order->get_subtotal()))			? 	$order->get_subtotal()						:	"";
 		
-		$order_data['subtotal_to_display'] 			= ( method_exists( $order, 'get_subtotal_to_display') 	&& 	is_string( $order->get_subtotal_to_display()))? $order->get_subtotal_to_display() 			: 	"";
-		$order_data['tax_totals'] 					= ( method_exists( $order, 'get_tax_totals' ) 			&&  ! empty($order->get_tax_totals()) 	&& is_array( $order->get_tax_totals())) ?  json_encode( $order->get_tax_totals()) 	: ""; 
-		$order_data['taxes'] 						= ( method_exists( $order, 'get_taxes' ) 				&&  ! empty($order->get_taxes()) 		&& is_array( $order->get_taxes()) ) 	?  json_encode( $order->get_taxes()) 		: "";  
-		$order_data['total'] 						= ( method_exists( $order, 'get_total' ) 				&& 	is_string( $order->get_total() ))			 ?  $order->get_total() 		 				:	"";
-		$order_data['total_discount'] 				= ( method_exists( $order, 'get_total_discount' ) 		&& 	is_float( $order->get_total_discount()  ))   ?  $order->get_total_discount() 				:	"";
-		$order_data['total_tax'] 					= ( method_exists( $order, 'get_total_tax'  ) 			&& 	is_string( $order->get_total_tax() ))		 ? 	$order->get_total_tax() 	 				:	"";
-		$order_data['total_refunded'] 				= ( method_exists( $order, 'get_total_refunded' ) 		&& 	is_float( $order->get_total_refunded() ))	 ? 	$order->get_total_refunded() 				:	"";
-		$order_data['total_tax_refunded'] 			= ( method_exists( $order, 'get_total_tax_refunded' ) 	&& 	is_int( $order->get_total_tax_refunded()))	 ?  $order->get_total_tax_refunded()			:	"";
-		$order_data['total_shipping_refunded'] 		= ( method_exists( $order, 'get_total_shipping_refunded')&& is_int( $order->get_total_shipping_refunded() )) ?  $order->get_total_shipping_refunded() 	:	"";
-		$order_data['item_count_refunded'] 			= ( method_exists( $order, 'get_item_count_refunded' ) 	&& 	is_int( $order->get_item_count_refunded() )) 	 ?  $order->get_item_count_refunded() 		:	"";
-		$order_data['total_qty_refunded'] 			= ( method_exists( $order, 'get_total_qty_refunded' ) 	&& 	is_int( $order->get_total_qty_refunded() ))  	 ?  $order->get_total_qty_refunded() 		:	"";
-		$order_data['remaining_refund_amount']  	= ( method_exists( $order, 'get_remaining_refund_amount')&& is_string($order->get_remaining_refund_amount()))?  $order->get_remaining_refund_amount()	:	"";
+		$order_data['subtotal_to_display'] 			= (method_exists($order, 'get_subtotal_to_display') 	&& 	is_string( $order->get_subtotal_to_display()))? $order->get_subtotal_to_display() 			: 	"";
+		$order_data['tax_totals'] 					= (method_exists($order, 'get_tax_totals') 				&&  ! empty($order->get_tax_totals()) 	&& is_array($order->get_tax_totals())) 	?  json_encode($order->get_tax_totals()) 	: ""; 
+		$order_data['taxes'] 						= (method_exists($order, 'get_taxes') 				    &&  ! empty($order->get_taxes()) 		&& is_array($order->get_taxes())) 		?  json_encode($order->get_taxes()) 		: "";  
+		$order_data['total'] 						= (method_exists($order, 'get_total') 				    && 	is_string( $order->get_total()))			 	 ?  $order->get_total() 		 			:	"";
+		$order_data['total_discount'] 				= (method_exists($order, 'get_total_discount') 			&& 	is_float( $order->get_total_discount()))   	 	 ?  $order->get_total_discount() 			:	"";
+		$order_data['total_tax'] 					= (method_exists($order, 'get_total_tax') 				&& 	is_string( $order->get_total_tax()))		 	 ?  $order->get_total_tax() 	 			:	"";
+		$order_data['total_refunded'] 				= (method_exists($order, 'get_total_refunded') 			&& 	is_float( $order->get_total_refunded()))	 	 ?  $order->get_total_refunded() 			:	"";
+		$order_data['total_tax_refunded'] 			= (method_exists($order, 'get_total_tax_refunded') 		&& 	is_int( $order->get_total_tax_refunded()))	 	 ?  $order->get_total_tax_refunded()		:	"";
+		$order_data['total_shipping_refunded'] 		= (method_exists($order, 'get_total_shipping_refunded') &&  is_int( $order->get_total_shipping_refunded()))  ?  $order->get_total_shipping_refunded() 	:	"";
+		$order_data['item_count_refunded'] 			= (method_exists($order, 'get_item_count_refunded') 	&& 	is_int( $order->get_item_count_refunded())) 	 ?  $order->get_item_count_refunded() 		:	"";
+		$order_data['total_qty_refunded'] 			= (method_exists($order, 'get_total_qty_refunded') 	    && 	is_int( $order->get_total_qty_refunded()))  	 ?  $order->get_total_qty_refunded() 		:	"";
+		$order_data['remaining_refund_amount']  	= (method_exists($order, 'get_remaining_refund_amount') &&  is_string($order->get_remaining_refund_amount()))? $order->get_remaining_refund_amount()	:	"";
 		# Order Item process Starts
 		if(method_exists($order, 'get_items') AND is_array($order->get_items())){ 
 			# Declaring Empty Array Holder 
@@ -1691,7 +1691,7 @@ class Automail_Events {
 			$order_data['get_total'] 				= " ";	 	
 			$order_data['get_sku'] 					= " ";	 	
 			$order_data['get_type'] 			 	= " ";	   
-			$order_data['get_slug'] 			 	= " ";	
+			$order_data['get_slug'] 			 	= " ";	 
 
 			$order_data['get_price'] 				= " ";	
 			$order_data['get_regular_price'] 		= " ";
@@ -1728,49 +1728,49 @@ class Automail_Events {
 			# New Code Ends 
 			foreach($order->get_items() as $item_id => $item_data){
 				
-				$order_data['items'] .= (( method_exists( $item_data, "get_product_id") AND is_int( $item_data->get_product_id())) 	AND !empty($item_data->get_product_id()))	?  $item_data->get_product_id() 			: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_name") 	   	AND is_string( $item_data->get_name() )) 	AND	!empty($item_data->get_name()))			?  " " . $item_data->get_name() 		 	: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_quantity") 	AND is_int( $item_data->get_quantity() ))	AND !empty($item_data->get_quantity()))		?  " qty - " . $item_data->get_quantity() 	: "--"; 
-				$order_data['items'] .= (( method_exists( $item_data, "get_total") 	 	AND is_string( $item_data->get_total() ))	AND !empty($item_data->get_total()))		?  " total - " .  	$item_data->get_total() : "--"; 
+				$order_data['items'] .= ((method_exists( $item_data, "get_product_id") AND is_int($item_data->get_product_id())) 	AND !empty($item_data->get_product_id()))	?  $item_data->get_product_id() 			: "--"; 
+				$order_data['items'] .= ((method_exists( $item_data, "get_name") 	   	AND is_string($item_data->get_name())) 		AND	!empty($item_data->get_name()))			?  " " . $item_data->get_name() 		 	: "--"; 
+				$order_data['items'] .= ((method_exists( $item_data, "get_quantity") 	AND is_int($item_data->get_quantity()))		AND !empty($item_data->get_quantity()))		?  " qty - " . $item_data->get_quantity() 	: "--"; 
+				$order_data['items'] .= ((method_exists( $item_data, "get_total") 	 	AND is_string($item_data->get_total()))		AND !empty($item_data->get_total()))		?  " total - " .  	$item_data->get_total() : "--"; 
 				
 				# New Code Starts 
-				$product_ids[] 								     =	( (method_exists( $item_data, 'get_product_id')							AND is_int( $item_data->get_product_id() ))						    AND !empty( $item_data->get_product_id()) )						?  $item_data->get_product_id()														:	"--";
-				$order_data['get_product_id'] 					.=	( (method_exists( $item_data, 'get_product_id')							AND is_int( $item_data->get_product_id() ))						    AND !empty( $item_data->get_product_id()) )						?  $item_data->get_product_id()														:	"--";
-				$order_data['get_name'] 						.=  ( (method_exists( $item_data, 'get_name')								AND is_string( $item_data->get_name() ))						    AND !empty( $item_data->get_name())	)							?  $item_data->get_name()															:	"--";
-				$order_data['get_quantity'] 					.=  ( (method_exists( $item_data, 'get_quantity')							AND is_int( $item_data->get_quantity() ))						    AND !empty( $item_data->get_quantity())	)						?  $item_data->get_quantity()														:	"--";
-				$order_data['get_total'] 						.= 	( (method_exists( $item_data, 'get_total')								AND is_string( $item_data->get_total() ))						    AND !empty( $item_data->get_total()) )							?  $item_data->get_total()															:	"--";	
-				$order_data['get_sku'] 							.= 	( (method_exists( $item_data->get_product(), 'get_sku')					AND is_string( $item_data->get_product()->get_sku() )) 			    AND !empty( $item_data->get_product()->get_sku()) )				?  $item_data->get_product()->get_sku()												:	"--";
-				$order_data['get_type'] 						.= 	( (method_exists( $item_data->get_product(), 'get_type')				AND is_string( $item_data->get_product()->get_type() ))			    AND !empty( $item_data->get_product()->get_type()) )			?  $item_data->get_product()->get_type()											:	"--";
-				$order_data['get_slug'] 						.= 	( (method_exists( $item_data->get_product(), 'get_slug')				AND is_string( $item_data->get_product()->get_slug() ))			    AND !empty( $item_data->get_product()->get_slug()) )			?  $item_data->get_product()->get_slug()											:	"--";
+				$product_ids[] 								     =	((method_exists($item_data, 'get_product_id')							AND is_int($item_data->get_product_id()))						    AND !empty($item_data->get_product_id()))						?  $item_data->get_product_id()						:	"--";
+				$order_data['get_product_id'] 					.=	((method_exists($item_data, 'get_product_id')							AND is_int($item_data->get_product_id()))						    AND !empty($item_data->get_product_id()))						?  $item_data->get_product_id()						:	"--";
+				$order_data['get_name'] 						.=  ((method_exists($item_data, 'get_name')									AND is_string($item_data->get_name()))						    	AND !empty($item_data->get_name())	)							?  $item_data->get_name()							:	"--";
+				$order_data['get_quantity'] 					.=  ((method_exists($item_data, 'get_quantity')								AND is_int($item_data->get_quantity()))						    	AND !empty($item_data->get_quantity()))							?  $item_data->get_quantity()						:	"--";
+				$order_data['get_total'] 						.= 	((method_exists($item_data, 'get_total')								AND is_string($item_data->get_total()))						    	AND !empty($item_data->get_total()) )							?  $item_data->get_total()							:	"--";	
+				$order_data['get_sku'] 							.= 	((method_exists($item_data->get_product(), 'get_sku')					AND is_string($item_data->get_product()->get_sku())) 			    AND !empty($item_data->get_product()->get_sku()))				?  $item_data->get_product()->get_sku()				:	"--";
+				$order_data['get_type'] 						.= 	((method_exists($item_data->get_product(), 'get_type')				    AND is_string($item_data->get_product()->get_type()))			    AND !empty($item_data->get_product()->get_type()))				?  $item_data->get_product()->get_type()			:	"--";
+				$order_data['get_slug'] 						.= 	((method_exists($item_data->get_product(), 'get_slug')				    AND is_string($item_data->get_product()->get_slug()))			    AND !empty($item_data->get_product()->get_slug()))				?  $item_data->get_product()->get_slug()			:	"--";
 			
-				$order_data['get_price'] 						.= 	( (method_exists( $item_data->get_product(), 'get_price')				AND is_string( $item_data->get_product()->get_price() ))		    AND !empty( $item_data->get_product()->get_price())	)			?  $item_data->get_product()->get_price()											:	"--";
-				$order_data['get_regular_price'] 				.= 	( (method_exists( $item_data->get_product(), 'get_regular_price')		AND is_string( $item_data->get_product()->get_regular_price()))     AND !empty( $item_data->get_product()->get_regular_price())	)	?  $item_data->get_product()->get_regular_price()									:	"--";
-				$order_data['get_sale_price'] 					.= 	( (method_exists( $item_data->get_product(), 'get_sale_price')			AND is_string( $item_data->get_product()->get_sale_price()  ))	    AND !empty( $item_data->get_product()->get_sale_price()) )		?  $item_data->get_product()->get_sale_price()										:	"--";
+				$order_data['get_price'] 						.= 	((method_exists($item_data->get_product(), 'get_price')					AND is_string($item_data->get_product()->get_price()))		    	AND !empty($item_data->get_product()->get_price()))				?  $item_data->get_product()->get_price()			:	"--";
+				$order_data['get_regular_price'] 				.= 	((method_exists($item_data->get_product(), 'get_regular_price')			AND is_string($item_data->get_product()->get_regular_price()))     	AND !empty($item_data->get_product()->get_regular_price()))		?  $item_data->get_product()->get_regular_price()	:	"--";
+				$order_data['get_sale_price'] 					.= 	((method_exists($item_data->get_product(), 'get_sale_price')			AND is_string($item_data->get_product()->get_sale_price()))	    	AND !empty($item_data->get_product()->get_sale_price()))		?  $item_data->get_product()->get_sale_price()		:	"--";
 				
-				$order_data['get_virtual'] 						.= 	( (method_exists( $item_data->get_product(), 'get_virtual')				AND is_bool( $item_data->get_product()->get_virtual()  ))		    AND !empty( $item_data->get_product()->get_virtual()) )			?  $item_data->get_product()->get_virtual()											:	"--";
-				$order_data['get_permalink'] 					.=	( (method_exists( $item_data->get_product(), 'get_permalink')			AND is_string( $item_data->get_product()->get_permalink() ))	    AND !empty( $item_data->get_product()->get_permalink()) )		?  $item_data->get_product()->get_permalink()										:	"--";
-				$order_data['get_featured'] 					.=	( (method_exists( $item_data->get_product(), 'get_featured')			AND is_bool( $item_data->get_product()->get_featured()  ))		    AND !empty( $item_data->get_product()->get_featured()) )		?  $item_data->get_product()->get_featured()										:	"--";
-				$order_data['get_status'] 						.=	( (method_exists( $item_data->get_product(), 'get_status')				AND is_string( $item_data->get_product()->get_status()  ))		    AND !empty( $item_data->get_product()->get_status()) )			?  $item_data->get_product()->get_status()											:	"--";
-				$order_data['get_tax_status'] 					.= 	( (method_exists( $item_data->get_product(), 'get_tax_status')			AND is_string( $item_data->get_product()->get_tax_status()  ))	    AND !empty( $item_data->get_product()->get_tax_status()) )		?  $item_data->get_product()->get_tax_status()										:	"--";
-				$order_data['get_tax_class'] 					.= 	( (method_exists( $item_data->get_product(), 'get_tax_class')			AND is_string( $item_data->get_product()->get_tax_class()  ))	    AND !empty( $item_data->get_product()->get_tax_class() ) )		?  $item_data->get_product()->get_tax_class()										:	"--";
-				$order_data['get_manage_stock'] 				.= 	( (method_exists( $item_data->get_product(), 'get_manage_stock')		AND is_bool( $item_data->get_product()->get_manage_stock()  ))	    AND !empty( $item_data->get_product()->get_manage_stock() )	)	?  $item_data->get_product()->get_manage_stock()									:	"--";
-				$order_data['get_stock_quantity'] 				.= 	( (method_exists( $item_data->get_product(), 'get_stock_quantity')		AND is_string( $item_data->get_product()->get_stock_quantity() ))   AND !empty( $item_data->get_product()->get_stock_quantity()) )	?  $item_data->get_product()->get_stock_quantity()									:	"--";
-				$order_data['get_stock_status'] 				.= 	( (method_exists( $item_data->get_product(), 'get_stock_status')		AND is_string( $item_data->get_product()->get_stock_status()  ))    AND !empty( $item_data->get_product()->get_stock_status()) )	?  $item_data->get_product()->get_stock_status()									:	"--";
-				$order_data['get_backorders'] 					.= 	( (method_exists( $item_data->get_product(), 'get_backorders')			AND is_string( $item_data->get_product()->get_backorders()  ))	    AND !empty($item_data->get_product()->get_backorders()) )		?  $item_data->get_product()->get_backorders()										:	"--";
-				$order_data['get_sold_individually']			.= 	( (method_exists( $item_data->get_product(), 'get_sold_individually')	AND is_bool( $item_data->get_product()->get_sold_individually()))   AND !empty($item_data->get_product()->get_sold_individually()) )?  $item_data->get_product()->get_sold_individually()								:	"--";
-				$order_data['get_purchase_note'] 				.= 	( (method_exists( $item_data->get_product(), 'get_purchase_note')		AND is_string( $item_data->get_product()->get_purchase_note() ))    AND !empty( $item_data->get_product()->get_purchase_note()) )	?  $item_data->get_product()->get_purchase_note()									:	"--";
-				$order_data['get_shipping_class_id']			.= 	( (method_exists( $item_data->get_product(), 'get_shipping_class_id')	AND is_int( $item_data->get_product()->get_shipping_class_id() ))   AND !empty($item_data->get_product()->get_shipping_class_id() ))?  $item_data->get_product()->get_shipping_class_id()								:	"--";
+				$order_data['get_virtual'] 						.= 	((method_exists($item_data->get_product(), 'get_virtual')				AND is_bool($item_data->get_product()->get_virtual()))		    	AND !empty($item_data->get_product()->get_virtual()))			?  $item_data->get_product()->get_virtual()			 :	"--";
+				$order_data['get_permalink'] 					.=	((method_exists($item_data->get_product(), 'get_permalink')				AND is_string($item_data->get_product()->get_permalink()))	    	AND !empty($item_data->get_product()->get_permalink()))			?  $item_data->get_product()->get_permalink()		 :	"--";
+				$order_data['get_featured'] 					.=	((method_exists($item_data->get_product(), 'get_featured')			    AND is_bool($item_data->get_product()->get_featured()))		    	AND !empty($item_data->get_product()->get_featured()))			?  $item_data->get_product()->get_featured()		 :	"--";
+				$order_data['get_status'] 						.=	((method_exists($item_data->get_product(), 'get_status')				AND is_string($item_data->get_product()->get_status()))		    	AND !empty($item_data->get_product()->get_status()))			?  $item_data->get_product()->get_status()			 :	"--";
+				$order_data['get_tax_status'] 					.= 	((method_exists($item_data->get_product(), 'get_tax_status')			AND is_string($item_data->get_product()->get_tax_status()))	    	AND !empty($item_data->get_product()->get_tax_status()))		?  $item_data->get_product()->get_tax_status()		 :	"--";
+				$order_data['get_tax_class'] 					.= 	((method_exists($item_data->get_product(), 'get_tax_class')				AND is_string($item_data->get_product()->get_tax_class()))	    	AND !empty($item_data->get_product()->get_tax_class()))			?  $item_data->get_product()->get_tax_class()		 :	"--";
+				$order_data['get_manage_stock'] 				.= 	((method_exists($item_data->get_product(), 'get_manage_stock')		    AND is_bool($item_data->get_product()->get_manage_stock()))	    	AND !empty($item_data->get_product()->get_manage_stock()))		?  $item_data->get_product()->get_manage_stock()	 :	"--";
+				$order_data['get_stock_quantity'] 				.= 	((method_exists($item_data->get_product(), 'get_stock_quantity')		AND is_string($item_data->get_product()->get_stock_quantity()))   	AND !empty($item_data->get_product()->get_stock_quantity()))	?  $item_data->get_product()->get_stock_quantity()	 :	"--";
+				$order_data['get_stock_status'] 				.= 	((method_exists($item_data->get_product(), 'get_stock_status')		    AND is_string($item_data->get_product()->get_stock_status()))    	AND !empty($item_data->get_product()->get_stock_status()))		?  $item_data->get_product()->get_stock_status()	 :	"--";
+				$order_data['get_backorders'] 					.= 	((method_exists($item_data->get_product(), 'get_backorders')			AND is_string($item_data->get_product()->get_backorders()))	    	AND !empty($item_data->get_product()->get_backorders()))		?  $item_data->get_product()->get_backorders()		 :	"--";
+				$order_data['get_sold_individually']			.= 	((method_exists($item_data->get_product(), 'get_sold_individually')		AND is_bool($item_data->get_product()->get_sold_individually()))    AND !empty($item_data->get_product()->get_sold_individually()) )?  $item_data->get_product()->get_sold_individually():	"--";
+				$order_data['get_purchase_note'] 				.= 	((method_exists($item_data->get_product(), 'get_purchase_note')			AND is_string($item_data->get_product()->get_purchase_note()))    	AND !empty( $item_data->get_product()->get_purchase_note()) )	?  $item_data->get_product()->get_purchase_note()	 :	"--";
+				$order_data['get_shipping_class_id']			.= 	((method_exists($item_data->get_product(), 'get_shipping_class_id')		AND is_int($item_data->get_product()->get_shipping_class_id()))   	AND !empty($item_data->get_product()->get_shipping_class_id() ))?  $item_data->get_product()->get_shipping_class_id():	"--";
 				
-				$order_data['get_weight'] 						.= 	( (method_exists( $item_data->get_product(), 'get_weight')				AND is_string( $item_data->get_product()->get_weight() ))		    AND !empty($item_data->get_product()->get_weight())	)			?  $item_data->get_product()->get_weight()											:	"--";
-				$order_data['get_length'] 						.= 	( (method_exists( $item_data->get_product(), 'get_length')				AND is_string( $item_data->get_product()->get_length() ))		    AND !empty($item_data->get_product()->get_length())	)			?  $item_data->get_product()->get_length()											:	"--";
-				$order_data['get_width'] 						.= 	( (method_exists( $item_data->get_product(), 'get_width')				AND is_string( $item_data->get_product()->get_width()  ))		    AND !empty( $item_data->get_product()->get_width())	)			?  $item_data->get_product()->get_width()											:	"--";
-				$order_data['get_height'] 						.= 	( (method_exists( $item_data->get_product(), 'get_height')				AND is_string( $item_data->get_product()->get_height() ))		    AND !empty( $item_data->get_product()->get_height()))			?  $item_data->get_product()->get_height()											:	"--";
+				$order_data['get_weight'] 						.= 	((method_exists($item_data->get_product(), 'get_weight')				AND is_string($item_data->get_product()->get_weight()))	AND !empty($item_data->get_product()->get_weight()))	?  $item_data->get_product()->get_weight()		:	"--";
+				$order_data['get_length'] 						.= 	((method_exists($item_data->get_product(), 'get_length')				AND is_string($item_data->get_product()->get_length()))	AND !empty($item_data->get_product()->get_length()))	?  $item_data->get_product()->get_length()		:	"--";
+				$order_data['get_width'] 						.= 	((method_exists($item_data->get_product(), 'get_width')					AND is_string($item_data->get_product()->get_width()))	AND !empty($item_data->get_product()->get_width()))		?  $item_data->get_product()->get_width()		:	"--";
+				$order_data['get_height'] 						.= 	((method_exists($item_data->get_product(), 'get_height')				AND is_string($item_data->get_product()->get_height()))	AND !empty($item_data->get_product()->get_height()))	?  $item_data->get_product()->get_height()		:	"--";
 				
-				$order_data['get_default_attributes'] 			.= 	( (method_exists( $item_data->get_product(), 'get_default_attributes')	AND is_array( $item_data->get_product()->get_default_attributes())) AND !empty($item_data->get_product()->get_default_attributes()))? json_encode($item_data->get_product()->get_default_attributes()) 					:	"--";
+				$order_data['get_default_attributes'] 			.= 	((method_exists($item_data->get_product(), 'get_default_attributes')	AND is_array($item_data->get_product()->get_default_attributes())) AND !empty($item_data->get_product()->get_default_attributes()))? json_encode($item_data->get_product()->get_default_attributes()) 			:	"--";
 				
-				$order_data['get_image_id'] 					.= 	( (method_exists( $item_data->get_product(), 'get_image_id')			AND is_string( $item_data->get_product()->get_image_id()  ))		AND !empty($item_data->get_product()->get_image_id()))			?  $item_data->get_product()->get_image_id()										:	"--";
-				$order_data['get_gallery_image_ids'] 			.= 	( (method_exists( $item_data->get_product(), 'get_gallery_image_ids')	AND is_array( $item_data->get_product()->get_gallery_image_ids() ))	AND !empty($item_data->get_product()->get_gallery_image_ids()))	?  json_encode( $item_data->get_product()->get_gallery_image_ids())					:	"--";
-				$order_data['get_attachment_image_url'] 		.= 	( (method_exists( $item_data->get_product(), 'get_image_id')			AND function_exists('wp_get_attachment_image_url') )				AND !empty($item_data->get_product()->get_image_id()))			?  wp_get_attachment_image_url( $item_data->get_product()->get_image_id())			:	"--";
+				$order_data['get_image_id'] 					.= 	((method_exists($item_data->get_product(), 'get_image_id')			    AND is_string($item_data->get_product()->get_image_id()))			AND !empty($item_data->get_product()->get_image_id()))			?  $item_data->get_product()->get_image_id()								:	"--";
+				$order_data['get_gallery_image_ids'] 			.= 	((method_exists($item_data->get_product(), 'get_gallery_image_ids')		AND is_array($item_data->get_product()->get_gallery_image_ids()))	AND !empty($item_data->get_product()->get_gallery_image_ids()))	?  json_encode( $item_data->get_product()->get_gallery_image_ids())			:	"--";
+				$order_data['get_attachment_image_url'] 		.= 	((method_exists($item_data->get_product(), 'get_image_id')			    AND function_exists('wp_get_attachment_image_url'))					AND !empty($item_data->get_product()->get_image_id()))			?  wp_get_attachment_image_url( $item_data->get_product()->get_image_id())	:	"--";
 				# get all the Products( many Products ) Same Meta Key Value # reduce The 
 				# New Code 
 				# Creating New Line 
@@ -1845,77 +1845,77 @@ class Automail_Events {
 		# Joining the Product meta to Order data 
 		$order_data = array_merge($order_data, $itemMetaKeyValue);	
 		# Order Item process Ends
-		$order_data['item_count'] 			    	=  ( method_exists( $order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 			? 	$order->get_item_count() : "";
-		$order_data['downloadable_items'] 			=  ( method_exists( $order, 'get_downloadable_items') 	&& ! empty($order->get_downloadable_items())&&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
+		$order_data['item_count'] 			    	=  (method_exists($order, 'get_item_count') 			&& 	is_int($order->get_item_count() )) 			? 	$order->get_item_count() : "";
+		$order_data['downloadable_items'] 			=  (method_exists($order, 'get_downloadable_items') 	&& ! empty($order->get_downloadable_items())&&  is_array(  $order->get_downloadable_items()) ) 	? json_encode( $order->get_downloadable_items()) : "";   
 		#
-		$order_data['date_created'] 				=  ( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T") ) ) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
-		$order_data['date_modified'] 				=  ( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) ) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
-		$order_data['date_completed'] 				=  ( method_exists( $order, 'get_date_completed' ) 	&& ! empty($order->get_date_completed())&&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T"))) 	? 	$order->get_date_completed()->date("F j, Y, g:i:s A T") : "";
-		$order_data['date_paid'] 					=  ( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	&&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) ) 	 	? 	$order->get_date_paid()->date("F j, Y, g:i:s A T") 		: "";
+		$order_data['date_created'] 				=  (method_exists($order, 'get_date_created') 		&& ! empty($order->get_date_created()) 	&&	is_string($order->get_date_created()->date("F j, Y, g:i:s A T") )) 	? 	$order->get_date_created()->date("F j, Y, g:i:s A T") 	: ""; 
+		$order_data['date_modified'] 				=  (method_exists($order, 'get_date_modified') 	&& ! empty($order->get_date_modified()) &&	is_string($order->get_date_modified()->date("F j, Y, g:i:s A T"))) 	? 	$order->get_date_modified()->date("F j, Y, g:i:s A T") 	: ""; 
+		$order_data['date_completed'] 				=  (method_exists($order, 'get_date_completed') 	&& ! empty($order->get_date_completed())&&	is_string($order->get_date_completed()->date("F j, Y, g:i:s A T"))) 	? 	$order->get_date_completed()->date("F j, Y, g:i:s A T") : "";
+		$order_data['date_paid'] 					=  (method_exists($order, 'get_date_paid') 		&& ! empty($order->get_date_paid()) 	&&	is_string($order->get_date_paid()->date("F j, Y, g:i:s A T"))) 	 	? 	$order->get_date_paid()->date("F j, Y, g:i:s A T") 		: "";
 		
 		# New Code Starts  
 		# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		$order_data["date_created_year"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("Y") 	  	: "";
-		$order_data["date_created_month"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("m") 	  	: "";
-		$order_data["date_created_date"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("d") 	  	: "";
-		$order_data["date_created_time"]			=	( method_exists( $order, 'get_date_created' ) 	&& ! empty($order->get_date_created()) 	&&	is_string( $order->get_date_created()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_created()->date("H:i")   	: "";
+		$order_data["date_created_year"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string($order->get_date_created()->date("F j, Y, g:i:s A T")))  ?  $order->get_date_created()->date("Y") 	: "";
+		$order_data["date_created_month"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string($order->get_date_created()->date("F j, Y, g:i:s A T")))  ?  $order->get_date_created()->date("m") 	: "";
+		$order_data["date_created_date"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string($order->get_date_created()->date("F j, Y, g:i:s A T")))  ?  $order->get_date_created()->date("d") 	: "";
+		$order_data["date_created_time"]			=	(method_exists($order, 'get_date_created') 	&& !empty($order->get_date_created()) 	&&	is_string($order->get_date_created()->date("F j, Y, g:i:s A T")))  ?  $order->get_date_created()->date("H:i")	: "";
 		
-		$order_data["date_modified_year"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("Y") 	  	: "";
-		$order_data["date_modified_month"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("m") 	  	: "";
-		$order_data["date_modified_date"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("d") 	  	: "";
-		$order_data["date_modified_time"]			=	( method_exists( $order, 'get_date_modified' ) 	&& ! empty($order->get_date_modified()) &&	is_string( $order->get_date_modified()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_modified()->date("H:i")  	: "";
+		$order_data["date_modified_year"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string($order->get_date_modified()->date("F j, Y, g:i:s A T")))  ? $order->get_date_modified()->date("Y") 	: "";
+		$order_data["date_modified_month"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string($order->get_date_modified()->date("F j, Y, g:i:s A T")))  ? $order->get_date_modified()->date("m") 	: "";
+		$order_data["date_modified_date"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string($order->get_date_modified()->date("F j, Y, g:i:s A T")))  ? $order->get_date_modified()->date("d") 	: "";
+		$order_data["date_modified_time"]			=	(method_exists($order, 'get_date_modified') && !empty($order->get_date_modified()) &&	is_string($order->get_date_modified()->date("F j, Y, g:i:s A T")))  ? $order->get_date_modified()->date("H:i")  : "";
 		
-		$order_data["date_completed_year"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("Y")   	: "";
-		$order_data["date_completed_month"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("m")   	: "";
-		$order_data["date_completed_date"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("d")   	: "";
-		$order_data["date_completed_time"]			=	( method_exists( $order, 'get_date_completed' ) && ! empty($order->get_date_completed()) &&	is_string( $order->get_date_completed()->date("F j, Y, g:i:s A T")) )  	? 	$order->get_date_completed()->date("H:i") 	: "";
+		$order_data["date_completed_year"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string($order->get_date_completed()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_completed()->date("Y")   : "";
+		$order_data["date_completed_month"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string($order->get_date_completed()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_completed()->date("m")   : "";
+		$order_data["date_completed_date"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string($order->get_date_completed()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_completed()->date("d")   : "";
+		$order_data["date_completed_time"]			=	(method_exists($order, 'get_date_completed') && !empty($order->get_date_completed()) &&	is_string($order->get_date_completed()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_completed()->date("H:i") : "";
 
-		$order_data["date_paid_year"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  	  	? 	$order->get_date_paid()->date("Y")	  		: "";
-		$order_data["date_paid_month"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("m")	  		: "";
-		$order_data["date_paid_date"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("d")	  		: "";
-		$order_data["date_paid_time"]				=	( method_exists( $order, 'get_date_paid' ) 		&& ! empty($order->get_date_paid()) 	 &&	is_string( $order->get_date_paid()->date("F j, Y, g:i:s A T")) )  		? 	$order->get_date_paid()->date("H:i")	  	: "";
+		$order_data["date_paid_year"]				=	(method_exists($order, 'get_date_paid') 	&& !empty($order->get_date_paid())  &&	is_string($order->get_date_paid()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_paid()->date("Y")	  	: "";
+		$order_data["date_paid_month"]				=	(method_exists($order, 'get_date_paid') 	&& !empty($order->get_date_paid())  &&	is_string($order->get_date_paid()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_paid()->date("m")	  	: "";
+		$order_data["date_paid_date"]				=	(method_exists($order, 'get_date_paid') 	&& !empty($order->get_date_paid())  &&	is_string($order->get_date_paid()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_paid()->date("d")	  	: "";
+		$order_data["date_paid_time"]				=	(method_exists($order, 'get_date_paid') 	&& !empty($order->get_date_paid())  &&	is_string($order->get_date_paid()->date("F j, Y, g:i:s A T")))  ? 	$order->get_date_paid()->date("H:i")	: "";
 		# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		# New Code Starts  
-		$order_data['user'] 						=  ( method_exists( $order, 'get_user')  				&&  ! empty($order->get_user()) && is_object( $order->get_user()) ) ? 	$order->get_user()->user_login  . " - " . $order->get_user()->user_email 	: "";
-		$order_data['customer_id'] 					=  ( method_exists( $order, 'get_customer_id' ) 		&& 	is_int( $order->get_customer_id() )) 			? 	$order->get_customer_id() 			: "";
-		$order_data['user_id'] 						=  ( method_exists( $order, 'get_user_id' ) 			&& 	is_int( $order->get_user_id() )) 				? 	$order->get_user_id()				: "";
-		$order_data['customer_ip_address'] 			=  ( method_exists( $order, 'get_customer_ip_address')  && 	is_string( $order->get_customer_ip_address())) 	? 	$order->get_customer_ip_address()	: "";
-		$order_data['customer_user_agent'] 			=  ( method_exists( $order, 'get_customer_user_agent')  && 	is_string( $order->get_customer_user_agent()))	? 	$order->get_customer_user_agent()	: "";
-		$order_data['created_via'] 					=  ( method_exists( $order, 'get_created_via' ) 		&& 	is_string( $order->get_created_via() ))			? 	$order->get_created_via()			: "";
-		$order_data['customer_note'] 				=  ( method_exists( $order, 'get_customer_note' ) 		&& 	is_string( $order->get_customer_note() ))		? 	$order->get_customer_note()			: "";
+		$order_data['user'] 						=  (method_exists($order, 'get_user')  			     &&   !empty($order->get_user()) && is_object( $order->get_user())) ? 	$order->get_user()->user_login  . " - " . $order->get_user()->user_email 	: "";
+		$order_data['customer_id'] 					=  (method_exists($order, 'get_customer_id') 		 &&   is_int($order->get_customer_id())) 			    ? 	$order->get_customer_id() 			: "";
+		$order_data['user_id'] 						=  (method_exists($order, 'get_user_id') 			 &&   is_int($order->get_user_id())) 				    ? 	$order->get_user_id()				: "";
+		$order_data['customer_ip_address'] 			=  (method_exists($order, 'get_customer_ip_address') &&   is_string($order->get_customer_ip_address())) 	? 	$order->get_customer_ip_address()	: "";
+		$order_data['customer_user_agent'] 			=  (method_exists($order, 'get_customer_user_agent') &&   is_string($order->get_customer_user_agent()))		? 	$order->get_customer_user_agent()	: "";
+		$order_data['created_via'] 					=  (method_exists($order, 'get_created_via') 		 &&   is_string($order->get_created_via() ))			? 	$order->get_created_via()			: "";
+		$order_data['customer_note'] 				=  (method_exists($order, 'get_customer_note') 	     &&   is_string($order->get_customer_note() ))		    ? 	$order->get_customer_note()			: "";
 
 		# site Current Time
-		$order_data['site_time'] 					= ( isset( $this->Time ) ) ? $this->Time	: '';
-		$order_data['site_date'] 					= ( isset( $this->Date ) ) ? $this->Date	: '';
+		$order_data['site_time'] 					=  (isset( $this->Time ) ) ? $this->Time	: '';
+		$order_data['site_date'] 					=  (isset( $this->Date ) ) ? $this->Date	: '';
 		# Start
-		$order_data['shipping_first_name'] 			=  ( method_exists( $order, 'get_shipping_first_name' ) && 	is_string( $order->get_shipping_first_name())) 	? 	$order->get_shipping_first_name()	: "";
-		$order_data['shipping_last_name'] 			=  ( method_exists( $order, 'get_shipping_last_name' )  && 	is_string( $order->get_shipping_last_name() ))	? 	$order->get_shipping_last_name()	: "";
-		$order_data['shipping_company'] 			=  ( method_exists( $order, 'get_shipping_company' ) 	&& 	is_string( $order->get_shipping_company() ))	?	$order->get_shipping_company()		: "";
-		$order_data['shipping_address_1'] 			=  ( method_exists( $order, 'get_shipping_address_1' )  && 	is_string( $order->get_shipping_address_1() ))	? 	$order->get_shipping_address_1()	: "";
-		$order_data['shipping_address_2'] 			=  ( method_exists( $order, 'get_shipping_address_2' )  && 	is_string( $order->get_shipping_address_2() ))	? 	$order->get_shipping_address_2()	: "";
-		$order_data['shipping_city'] 				=  ( method_exists( $order, 'get_shipping_city' ) 		&& 	is_string( $order->get_shipping_city() ))		? 	$order->get_shipping_city()			: "";
-		$order_data['shipping_state'] 				=  ( method_exists( $order, 'get_shipping_state' ) 	 	&& 	is_string( $order->get_shipping_state() )) 		? 	$order->get_shipping_state()		: "";
-		$order_data['shipping_postcode'] 			=  ( method_exists( $order, 'get_shipping_postcode' ) 	&& 	is_string( $order->get_shipping_postcode() ))	? 	$order->get_shipping_postcode()		: "";
+		$order_data['shipping_first_name'] 			=  (method_exists($order, 'get_shipping_first_name' ) && 	is_string($order->get_shipping_first_name())) 	? 	$order->get_shipping_first_name()	: "";
+		$order_data['shipping_last_name'] 			=  (method_exists($order, 'get_shipping_last_name' )  && 	is_string($order->get_shipping_last_name()))	? 	$order->get_shipping_last_name()	: "";
+		$order_data['shipping_company'] 			=  (method_exists($order, 'get_shipping_company' )    && 	is_string($order->get_shipping_company()))		?	$order->get_shipping_company()		: "";
+		$order_data['shipping_address_1'] 			=  (method_exists($order, 'get_shipping_address_1' )  && 	is_string($order->get_shipping_address_1()))	? 	$order->get_shipping_address_1()	: "";
+		$order_data['shipping_address_2'] 			=  (method_exists($order, 'get_shipping_address_2' )  && 	is_string($order->get_shipping_address_2()))	? 	$order->get_shipping_address_2()	: "";
+		$order_data['shipping_city'] 				=  (method_exists($order, 'get_shipping_city' ) 	  && 	is_string($order->get_shipping_city()))			? 	$order->get_shipping_city()			: "";
+		$order_data['shipping_state'] 				=  (method_exists($order, 'get_shipping_state' ) 	  && 	is_string($order->get_shipping_state())) 		? 	$order->get_shipping_state()		: "";
+		$order_data['shipping_postcode'] 			=  (method_exists($order, 'get_shipping_postcode' )   && 	is_string($order->get_shipping_postcode()))		? 	$order->get_shipping_postcode()		: "";
 		# Start
-		$order_data['shipping_country'] 			=  ( method_exists( $order, 'get_shipping_country' ) 	&& 	is_string( $order->get_shipping_country() )) 	? 	$order->get_shipping_country()		: "";
-		$order_data['address'] 						=  ( method_exists( $order,	'get_address' ) 	 		&& 	is_array(  $order->get_address()) ) 			? 	json_encode( $order->get_address()) : "";
-		$order_data['shipping_address_map_url'] 	=  ( method_exists( $order, 'get_shipping_address_map_url' ) 	 &&	is_string( $order->get_shipping_address_map_url()))		?	$order->get_shipping_address_map_url()		: "";
-		$order_data['formatted_billing_full_name'] 	=  ( method_exists( $order, 'get_formatted_billing_full_name' )  && is_string( $order->get_formatted_billing_full_name() ))	?	$order->get_formatted_billing_full_name()	: "";
-		$order_data['formatted_shipping_full_name']	=  ( method_exists( $order, 'get_formatted_shipping_full_name' ) && is_string( $order->get_formatted_shipping_full_name() ))?	$order->get_formatted_shipping_full_name()	: "";
-		$order_data['formatted_billing_address'] 	=  ( method_exists( $order, 'get_formatted_billing_address' ) 	 && is_string( $order->get_formatted_billing_address() ))	?	$order->get_formatted_billing_address()		: "";
-		$order_data['formatted_shipping_address'] 	=  ( method_exists( $order, 'get_formatted_shipping_address' )   && is_string( $order->get_formatted_shipping_address() ))	?	$order->get_formatted_shipping_address()	: "";
+		$order_data['shipping_country'] 			=  (method_exists($order, 'get_shipping_country' )   && 	is_string( $order->get_shipping_country())) 	? 	$order->get_shipping_country()		: "";
+		$order_data['address'] 						=  (method_exists($order,	'get_address' ) 	 	 && 	is_array(  $order->get_address())) 				? 	json_encode( $order->get_address()) : "";
+		$order_data['shipping_address_map_url'] 	=  (method_exists($order, 'get_shipping_address_map_url' ) 	   && is_string($order->get_shipping_address_map_url()))		?	$order->get_shipping_address_map_url()		: "";
+		$order_data['formatted_billing_full_name'] 	=  (method_exists($order, 'get_formatted_billing_full_name' )  && is_string($order->get_formatted_billing_full_name()))		?	$order->get_formatted_billing_full_name()	: "";
+		$order_data['formatted_shipping_full_name']	=  (method_exists($order, 'get_formatted_shipping_full_name' ) && is_string($order->get_formatted_shipping_full_name()))	?	$order->get_formatted_shipping_full_name()	: "";
+		$order_data['formatted_billing_address'] 	=  (method_exists($order, 'get_formatted_billing_address' )    && is_string($order->get_formatted_billing_address()))		?	$order->get_formatted_billing_address()		: "";
+		$order_data['formatted_shipping_address'] 	=  (method_exists($order, 'get_formatted_shipping_address' )   && is_string($order->get_formatted_shipping_address()))		?	$order->get_formatted_shipping_address()	: "";
 		#
-		$order_data['payment_method'] 				=  ( method_exists( $order, 'get_payment_method' ) 				&& 	is_string( $order->get_payment_method() ))				?	$order->get_payment_method()				: "";
-		$order_data['payment_method_title'] 		=  ( method_exists( $order, 'get_payment_method_title' ) 		&& 	is_string( $order->get_payment_method_title() ))		? 	$order->get_payment_method_title()			: "";
-		$order_data['transaction_id'] 				=  ( method_exists( $order, 'get_transaction_id' ) 				&& 	is_string( $order->get_transaction_id() ))				? 	$order->get_transaction_id()				: "";
+		$order_data['payment_method'] 				=  (method_exists($order, 'get_payment_method') 				&& 	is_string($order->get_payment_method()))				?	$order->get_payment_method()				: "";
+		$order_data['payment_method_title'] 		=  (method_exists($order, 'get_payment_method_title') 			&& 	is_string($order->get_payment_method_title()))			? 	$order->get_payment_method_title()			: "";
+		$order_data['transaction_id'] 				=  (method_exists($order, 'get_transaction_id') 				&& 	is_string($order->get_transaction_id()))				? 	$order->get_transaction_id()				: "";
 		#
-		$order_data['checkout_payment_url'] 		=  ( method_exists( $order, 'get_checkout_payment_url' ) 		&&	is_string( $order->get_checkout_payment_url() ))		? 	$order->get_checkout_payment_url()			: "";
-		$order_data['checkout_order_received_url'] 	=  ( method_exists( $order, 'get_checkout_order_received_url') 	&& 	is_string( $order->get_checkout_order_received_url() )) ? 	$order->get_checkout_order_received_url()	: "";
-		$order_data['cancel_order_url'] 			=  ( method_exists( $order, 'get_cancel_order_url' ) 			&& 	is_string( $order->get_cancel_order_url() ))			? 	$order->get_cancel_order_url()				: "";
-		$order_data['cancel_order_url_raw'] 		=  ( method_exists( $order, 'get_cancel_order_url_raw' ) 		&& 	is_string( $order->get_cancel_order_url_raw()))			? 	$order->get_cancel_order_url_raw()			: "";
-		$order_data['cancel_endpoint'] 				=  ( method_exists( $order, 'get_cancel_endpoint' ) 			&& 	is_string( $order->get_cancel_endpoint() ))				? 	$order->get_cancel_endpoint()				: "";
-		$order_data['view_order_url'] 				=  ( method_exists( $order, 'get_view_order_url' ) 				&& 	is_string( $order->get_view_order_url() ))				? 	$order->get_view_order_url()				: "";
-		$order_data['edit_order_url'] 				=  ( method_exists( $order, 'get_edit_order_url' ) 				&& 	is_string( $order->get_edit_order_url() )) 				? 	$order->get_edit_order_url()				: "";
+		$order_data['checkout_payment_url'] 		=  (method_exists($order, 'get_checkout_payment_url') 			&&	is_string($order->get_checkout_payment_url()))			? 	$order->get_checkout_payment_url()			: "";
+		$order_data['checkout_order_received_url'] 	=  (method_exists($order, 'get_checkout_order_received_url') 	&& 	is_string($order->get_checkout_order_received_url()))   ? 	$order->get_checkout_order_received_url()	: "";
+		$order_data['cancel_order_url'] 			=  (method_exists($order, 'get_cancel_order_url') 				&& 	is_string($order->get_cancel_order_url()))				? 	$order->get_cancel_order_url()				: "";
+		$order_data['cancel_order_url_raw'] 		=  (method_exists($order, 'get_cancel_order_url_raw') 			&& 	is_string($order->get_cancel_order_url_raw()))			? 	$order->get_cancel_order_url_raw()			: "";
+		$order_data['cancel_endpoint'] 				=  (method_exists($order, 'get_cancel_endpoint') 			    && 	is_string($order->get_cancel_endpoint() ))				? 	$order->get_cancel_endpoint()				: "";
+		$order_data['view_order_url'] 				=  (method_exists($order, 'get_view_order_url') 				&& 	is_string($order->get_view_order_url() ))				? 	$order->get_view_order_url()				: "";
+		$order_data['edit_order_url'] 				=  (method_exists($order, 'get_edit_order_url') 				&& 	is_string($order->get_edit_order_url() )) 				? 	$order->get_edit_order_url()				: "";
 
 		#
 		$order_data['status'] 						=  "wc-" . $order->get_status();  //'wc-new_order'
