@@ -13,7 +13,7 @@
  * @package           Automail
  *
  * @wordpress-plugin
- * Plugin Name:       AutoMail - Event-driven email automation. Easy email Auto-reply and Notification
+ * Plugin Name:       AutoMail - Event-driven email automation. Easy email Auto-reply and Notification.
  * Plugin URI:        www.automail.com
  * Description:       AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
  * Version:           1.0.0
@@ -44,17 +44,28 @@ if ( function_exists( 'automail_fs' ) ) {
 				$automail_fs = fs_dynamic_init( array(
 					'id'                  => '9286',
 					'slug'                => 'automail',
+					'premium_slug'        => 'automail-professional',
 					'type'                => 'plugin',
 					'public_key'          => 'pk_207f56b5950aac72c5813628a81bc',
-					'is_premium'          => false,
+					'is_premium'          => true,
+					'premium_suffix'      => 'Professional',
+					// If your plugin is a serviceware, set this option to false.
+					'has_premium_version' => true,
 					'has_addons'          => false,
-					'has_paid_plans'      => false,
+					'has_paid_plans'      => true,
+					'trial'               => array(
+						'days'               => 7,
+						'is_require_payment' => true,
+					),
 					'menu'                => array(
 						'slug'           => 'automail',
 						'first-path'     => 'admin.php?page=automail',
 						'support'        => false,
 					),
-				) );
+					// Set the SDK to work in a sandbox mode (for development & testing).
+					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+					'secret_key'          => 'sk_I37.yuN2ojM+)YM7KoS~19!oLDMNC',
+            	));
 			}
 
 			return $automail_fs;

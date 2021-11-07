@@ -9,6 +9,7 @@ if(document.getElementById("automailNewVue")){
 			selectedEvent			: "",
 			selectedEventsAndTitles : {},
 			mailReceiver 			: [],
+			freemiusStatus 			: "",
 		},
 		methods:{
 			eventSelected:function(event){
@@ -38,6 +39,7 @@ if(document.getElementById("automailNewVue")){
 		},beforeMount(){
 			// Inserting data to the data.eventsAndTitles element
 			this.eventsAndTitles = automailJsData.eventsAndTitles;
+			this.freemiusStatus  = automailJsData.freemiusStatus;
 			console.log(automailJsData); 
 		}
 	})
@@ -54,6 +56,7 @@ if(document.getElementById("automailEditVue")){
 			selectedEvent			: "",
 			selectedEventsAndTitles	: {},
 			mailReceiver 			: [],
+			freemiusStatus 			: "",
 		},
 		methods:{
 			eventSelected:function(event){
@@ -89,6 +92,7 @@ if(document.getElementById("automailEditVue")){
 			this.eventsAndTitles 		 = automailJsData.eventsAndTitles;
 			this.mailReceiver 	 		 = JSON.parse( automailJsData.mailReceiver);
 			this.selectedEventsAndTitles = this.eventsAndTitles[automailJsData.selectedEvent];
+			this.freemiusStatus  		 = automailJsData.freemiusStatus;
 		}
 	})
 }

@@ -196,14 +196,21 @@ class Automail_Admin {
 					$this->eventsAndTitles[$key]["userLogoutDate"] 	= "Logout Date";
 				}
 
-				# For user Meta 
-				$usersMeta = $this->automail_users_metaKeys();
-				if($usersMeta[0] && !empty($usersMeta[1])){
-					# Looping comment Meta 
-					foreach($usersMeta[1] as $metaKey){
-						$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
+				# User Meta 
+				if (automail_fs()->is__premium_only() ){
+					if(automail_fs()->can_use_premium_code() ){
+						# For user Meta 
+						$usersMeta = $this->automail_users_metaKeys();
+						if($usersMeta[0] && !empty($usersMeta[1])){
+							# Looping comment Meta 
+							foreach($usersMeta[1] as $metaKey){
+								$this->eventsAndTitles[ $key ][$metaKey] = "User Meta  " . $metaKey;
+							}
+						}
 					}
 				}
+
+				
 			}
 
 			# Post Event array 
@@ -277,14 +284,20 @@ class Automail_Admin {
 						"filter" 			=> "Filter",
 					);
 
-					// # For Post Meta 
-					$postsMeta = $this->automail_posts_metaKeys();
-					if($postsMeta[0] && !empty($postsMeta[1])){
-						# Looping comment Meta 
-						foreach($postsMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Post Meta  " . $metaKey;
-						}	
+					# Post meta
+					if (automail_fs()->is__premium_only() ){
+						if(automail_fs()->can_use_premium_code() ){
+							// # For Post Meta 
+							$postsMeta = $this->automail_posts_metaKeys();
+							if($postsMeta[0] && !empty($postsMeta[1])){
+								# Looping comment Meta 
+								foreach($postsMeta[1] as $metaKey){
+									$this->eventsAndTitles[$key][$metaKey] = "Post Meta  " . $metaKey;
+								}	
+							}
+						}
 					}
+
 				}
 
 				if($key == 'wp_page'){
@@ -343,14 +356,20 @@ class Automail_Admin {
 						"filter" 				=> "Filter",
 					);
 
-					// # For page Meta 
-					$pagesMeta = $this->automail_pages_metaKeys();
-					if($pagesMeta[0] && !empty($pagesMeta[1])){
-						# Looping comment Meta 
-						foreach($pagesMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Page Meta  " . $metaKey;
-						}	
+					# Page Meta
+					if (automail_fs()->is__premium_only() ){
+						if(automail_fs()->can_use_premium_code() ){
+							// # For page Meta 
+							$pagesMeta = $this->automail_pages_metaKeys();
+							if($pagesMeta[0] && !empty($pagesMeta[1])){
+								# Looping comment Meta 
+								foreach($pagesMeta[1] as $metaKey){
+									$this->eventsAndTitles[$key][$metaKey] = "Page Meta  " . $metaKey;
+								}	
+							}
+						}
 					}
+					
 				}
 			} # Loop Ends 
 
@@ -395,20 +414,26 @@ class Automail_Admin {
 				);
 
 			} 
-			# Loop ends Here 
-
-			# For Comment Meta 
-			$commentsMeta = $this->automail_comments_metaKeys();
-			if($commentsMeta[0] && !empty($commentsMeta[1])){
-				# Looping the comment event 
-				foreach($wordpressCommentEvents as $key => $value){
-					# Looping comment Meta
-					foreach($commentsMeta[1] as $metaKey) {
-						$this->eventsAndTitles[$key][$metaKey] = "Comment Meta  " . $metaKey;
+			# Loop ends Here
+		
+			# Comment Meta
+			if (automail_fs()->is__premium_only() ){
+				if(automail_fs()->can_use_premium_code() ){
+					# Comment Meta
+					$commentsMeta = $this->automail_comments_metaKeys();
+					if($commentsMeta[0] && !empty($commentsMeta[1])){
+						# Looping the comment event 
+						foreach($wordpressCommentEvents as $key => $value){
+							# Looping comment Meta
+							foreach($commentsMeta[1] as $metaKey){
+								$this->eventsAndTitles[$key][$metaKey] = "Comment Meta  " . $metaKey;
+							}
+						}
 					}
 				}
 			}
-
+			# For Comment Meta 
+			
 			# Woocommerce 
 			if(in_array('woocommerce/woocommerce.php', $this->active_plugins)){
 				# Woo product  Starts 
@@ -490,19 +515,24 @@ class Automail_Admin {
 					);
 				}
 
-				# For WooCommerce Product Meta to the product  event
-				$productsMeta = $this->automail_wooCommerce_product_metaKeys();
-				# Check and Balance & Premium Code only 
-				if($productsMeta[0] && !empty($productsMeta[1])){
-					# Looping the WooCommerce Product Event
-					foreach($wooCommerceProductEvents as $key => $value){
-						# Looping comment Meta 
-						foreach($productsMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Product Meta  " . $metaKey;
-						}	
+				# WooCommerce Product Meta
+				if (automail_fs()->is__premium_only() ){
+					if(automail_fs()->can_use_premium_code() ){
+						# For WooCommerce Product Meta to the product  event
+						$productsMeta = $this->automail_wooCommerce_product_metaKeys();
+						# Check and Balance & Premium Code only 
+						if($productsMeta[0] && !empty($productsMeta[1])){
+							# Looping the WooCommerce Product Event
+							foreach($wooCommerceProductEvents as $key => $value){
+								# Looping comment Meta 
+								foreach($productsMeta[1] as $metaKey){
+									$this->eventsAndTitles[$key][$metaKey] = "Product Meta  " . $metaKey;
+								}	
+							}
+						}
 					}
 				}
-
+				
 				# Inserting WooCommerce Order Events to All Events 
 				$this->events += $this->wooCommerceOrderStatuses;
 
@@ -664,29 +694,40 @@ class Automail_Admin {
 
 				# **************************** Items Meta ****************************
 				# For WooCommerce order item Meta.
-				$itemsMeta = $this->automail_wooCommerce_product_metaKeys();
-				if($itemsMeta[0] && !empty($itemsMeta[1])){
-					# Looping the WooCommerce Product Event
-					foreach($this->wooCommerceOrderStatuses as $key => $value){
-						# Looping comment Meta 
-						foreach($itemsMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Items Meta  " . $metaKey;
-						}	
-					}
-				}
-
-				# For WooCommerce Order Meta Data insert to the order Events
-				$ordersMeta = $this->automail_wooCommerce_order_metaKeys();
-				# Check and Balance & Premium Code only 
-				if($ordersMeta[0] && !empty( $ordersMeta[1])){
-					# Looping the WooCommerce Product Event
-					foreach($this->wooCommerceOrderStatuses as $key => $value){
-						# Looping comment Meta s
-						foreach($ordersMeta[1] as $metaKey){
-							$this->eventsAndTitles[$key][$metaKey] = "Order Meta  " . $metaKey;
+				if (automail_fs()->is__premium_only() ){
+					if(automail_fs()->can_use_premium_code() ){
+						# For WooCommerce order item Meta.
+						$itemsMeta = $this->automail_wooCommerce_product_metaKeys();
+						if($itemsMeta[0] && !empty($itemsMeta[1])){
+							# Looping the WooCommerce Product Event
+							foreach($this->wooCommerceOrderStatuses as $key => $value){
+								# Looping comment Meta 
+								foreach($itemsMeta[1] as $metaKey){
+									$this->eventsAndTitles[$key][$metaKey] = "Items Meta  " . $metaKey;
+								}	
+							}
 						}
 					}
 				}
+				
+				# For WooCommerce Order Meta Data insert to the order Events
+				if (automail_fs()->is__premium_only() ){
+					if(automail_fs()->can_use_premium_code() ){
+						# For WooCommerce Order Meta Data insert to the order Events
+						$ordersMeta = $this->automail_wooCommerce_order_metaKeys();
+						# Check and Balance & Premium Code only 
+						if($ordersMeta[0] && !empty( $ordersMeta[1])){
+							# Looping the WooCommerce Product Event
+							foreach($this->wooCommerceOrderStatuses as $key => $value){
+								# Looping comment Meta s
+								foreach($ordersMeta[1] as $metaKey){
+									$this->eventsAndTitles[$key][$metaKey] = "Order Meta  " . $metaKey;
+								}
+							}
+						}
+					}
+				}
+				
 			}
 
 			# Below are Contact forms 
@@ -796,6 +837,18 @@ class Automail_Admin {
 		if(get_current_screen()->id == 'toplevel_page_automail'){
 			wp_register_script('Vue', plugin_dir_url(__FILE__) . 'js/vue.js', array(), FALSE, FALSE);
 			wp_enqueue_script('automail-admin', plugin_dir_url(__FILE__).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
+
+
+			# Fremious Starts
+			# default is Free.
+			$freemiusStatus = false;
+			# Professional version is Paid
+			if (automail_fs()->is__premium_only() ){
+				if(automail_fs()->can_use_premium_code() ){
+					$freemiusStatus = true;
+				}
+			}
+			# Fremious Starts
 			
 			# Change from Here 
 			if(isset($_GET["action"], $_GET["id"]) AND !empty($_GET["id"])){
@@ -808,10 +861,12 @@ class Automail_Admin {
 					"selectedEvent"  		=> (isset($wpPost['post_excerpt']) AND !empty($wpPost['post_excerpt'])) ? $wpPost['post_excerpt'] 	: "",
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
 					"mailReceiver"  		=> json_encode(get_post_meta(sanitize_text_field($_GET["id"]), "mailReceiver", TRUE)), 
+					"freemiusStatus"  		=> $freemiusStatus,
 				);
 			}else{
 				$frontEnd = array( 
 					"eventsAndTitles"  		=> $this->eventsAndTitles,
+					"freemiusStatus"  		=> $freemiusStatus,
 				);
 			}
 			# Sending data to Front-end 
@@ -976,7 +1031,13 @@ class Automail_Admin {
 	*/
 	public function automail_admin_notice(){
 		// echo"<pre>";
-			
+
+		if (automail_fs()->is__premium_only() ){
+			if(automail_fs()->can_use_premium_code() ){
+				echo"Hello From Test !";
+			}
+		}
+
 
 		// echo"</pre>";
 	}
