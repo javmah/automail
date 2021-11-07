@@ -10,7 +10,6 @@
 */
 
 class Automail_Admin {
-
 	/**
 	 * The ID of this plugin.
 	 * @since    1.0.0

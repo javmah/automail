@@ -1662,15 +1662,15 @@ class Automail_Events {
 		$order_data['currency'] 					= (method_exists($order, 'get_currency') 	  		    && 	is_string( $order->get_currency()))				? 	$order->get_currency() 						:	"";
 		$order_data['discount_tax'] 				= (method_exists($order, 'get_discount_tax')   			&& 	is_string( $order->get_discount_tax()))			?	$order->get_discount_tax() 					:	"";
 		$order_data['discount_total'] 				= (method_exists($order, 'get_discount_total') 			&& 	is_string( $order->get_discount_total()))		? 	$order->get_discount_total()				:	"";
-		$order_data['fees'] 						= (method_exists($order, 'get_fees') 		  		    &&  ! empty( $order->get_fees()) && is_array($order->get_fees())) ? json_encode( $order->get_fees()):   "";
+		$order_data['fees'] 						= (method_exists($order, 'get_fees') 		  		    &&  !empty( $order->get_fees()) && is_array($order->get_fees())) ? json_encode( $order->get_fees()):   "";
 		$order_data['shipping_method'] 				= (method_exists($order, 'get_shipping_method')			&& 	is_string( $order->get_shipping_method()))	? 	$order->get_shipping_method() 				:	"";
 		$order_data['shipping_tax'] 				= (method_exists($order, 'get_shipping_tax') 		    && 	is_string( $order->get_shipping_tax()))		? 	$order->get_shipping_tax() 					:	"";
 		$order_data['shipping_total'] 				= (method_exists($order, 'get_shipping_total') 			&& 	is_string( $order->get_shipping_total()))	? 	$order->get_shipping_total()				:	"";
 		$order_data['subtotal'] 					= (method_exists($order, 'get_subtotal') 			    && 	is_float( $order->get_subtotal()))			? 	$order->get_subtotal()						:	"";
 		
 		$order_data['subtotal_to_display'] 			= (method_exists($order, 'get_subtotal_to_display') 	&& 	is_string( $order->get_subtotal_to_display()))? $order->get_subtotal_to_display() 			: 	"";
-		$order_data['tax_totals'] 					= (method_exists($order, 'get_tax_totals') 				&&  ! empty($order->get_tax_totals()) 	&& is_array($order->get_tax_totals())) 	?  json_encode($order->get_tax_totals()) 	: ""; 
-		$order_data['taxes'] 						= (method_exists($order, 'get_taxes') 				    &&  ! empty($order->get_taxes()) 		&& is_array($order->get_taxes())) 		?  json_encode($order->get_taxes()) 		: "";  
+		$order_data['tax_totals'] 					= (method_exists($order, 'get_tax_totals') 				&&  !empty($order->get_tax_totals()) 	&& is_array($order->get_tax_totals())) 	?  json_encode($order->get_tax_totals()) 	: ""; 
+		$order_data['taxes'] 						= (method_exists($order, 'get_taxes') 				    &&  !empty($order->get_taxes()) 		&& is_array($order->get_taxes())) 		?  json_encode($order->get_taxes()) 		: "";  
 		$order_data['total'] 						= (method_exists($order, 'get_total') 				    && 	is_string( $order->get_total()))			 	 ?  $order->get_total() 		 			:	"";
 		$order_data['total_discount'] 				= (method_exists($order, 'get_total_discount') 			&& 	is_float( $order->get_total_discount()))   	 	 ?  $order->get_total_discount() 			:	"";
 		$order_data['total_tax'] 					= (method_exists($order, 'get_total_tax') 				&& 	is_string( $order->get_total_tax()))		 	 ?  $order->get_total_tax() 	 			:	"";
@@ -2312,10 +2312,19 @@ class Automail_Events {
 				foreach($eventDataArray as $key => $value){
 					$bracketedKeysValue["[" . $key . "]"] =  $value;
 				}
-				# Change The placeHolder with Real Data in Email body
+				# Change The placeHolder with Real Data in Email body 
 				$emailBodyWithValue = strtr($emailAutomaton->post_content, $bracketedKeysValue);
-				# Change Email subject placeHolder with Real Data in Email body
-				$emailSubject = strtr($emailAutomaton->post_title, $bracketedKeysValue);
+
+				# This $emailSubject is Duplicated; Another one in freemius block 
+				$emailSubject = $emailAutomaton->post_title;
+				
+				# freemius is Active 
+				if ( automail_fs()->is__premium_only() ) {
+					if ( automail_fs()->can_use_premium_code() ){
+						# Change Email subject placeHolder with Real Data in Email body
+						$emailSubject = strtr($emailAutomaton->post_title, $bracketedKeysValue);
+					}
+				}
 
 				# preparing Email Address sending 
 				# Getting post meta Data of receivers 

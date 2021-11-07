@@ -1,4 +1,4 @@
-=== AutoMail - Event Based Email automation Plugin ===
+=== AutoMail - Event-driven email automation. Easy email Auto-reply and Notification. ===
 Contributors: 
 Donate link: https://profiles.wordpress.org/javmah/
 Tags: email, automation, email reply, email auto reply, wooCommerce, CF7,

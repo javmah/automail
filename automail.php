@@ -13,9 +13,9 @@
  * @package           Automail
  *
  * @wordpress-plugin
- * Plugin Name:       AutoMail - Event Based Email automation Plugin. 
+ * Plugin Name:       AutoMail - Event-driven email automation. Easy email Auto-reply and Notification
  * Plugin URI:        www.automail.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
  * Version:           1.0.0
  * Author:            javmah
  * Author URI:        https://profiles.wordpress.org/javmah/
@@ -29,44 +29,81 @@
 if(!defined('WPINC')){
 	die;
 }
+# freemius Starts
+if ( function_exists( 'automail_fs' ) ) {
+    automail_fs()->set_basename( true, __FILE__ );
+} else {
+    if ( ! function_exists( 'automail_fs' ) ) {
+		// Create a helper function for easy SDK access.
+		function automail_fs() {
+			global $automail_fs;
 
-/**
- * Currently plugin version.Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
-*/
-define('AUTOMAIL_VERSION', '1.0.0');
+			if(!isset($automail_fs)){
+				// Include Freemius SDK.
+				require_once dirname(__FILE__) . '/includes/freemius/start.php';
+				$automail_fs = fs_dynamic_init( array(
+					'id'                  => '9286',
+					'slug'                => 'automail',
+					'type'                => 'plugin',
+					'public_key'          => 'pk_207f56b5950aac72c5813628a81bc',
+					'is_premium'          => false,
+					'has_addons'          => false,
+					'has_paid_plans'      => false,
+					'menu'                => array(
+						'slug'           => 'automail',
+						'first-path'     => 'admin.php?page=automail',
+						'support'        => false,
+					),
+				) );
+			}
 
-/**
- * The code that runs during plugin activation. This action is documented in includes/class-automail-activator.php
-*/
-function activate_automail() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-activator.php';
-	Automail_Activator::activate();
+			return $automail_fs;
+		}
+		// Init Freemius.
+		automail_fs();
+		// Signal that SDK was initiated.
+		do_action( 'automail_fs_loaded' );
+	}
+
+    // ... Your plugin's main file logic ... freemius ends Here ! 
+	/**
+	 * Currently plugin version.Start at version 1.0.0 and use SemVer - https://semver.org
+	 * Rename this for your plugin and update it as you release new versions.
+	*/
+	define('AUTOMAIL_VERSION', '1.0.0');
+
+	/**
+	 * The code that runs during plugin activation. This action is documented in includes/class-automail-activator.php
+	*/
+	function activate_automail() {
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-activator.php';
+		Automail_Activator::activate();
+	}
+
+	/**
+	 * The code that runs during plugin deactivation. This action is documented in includes/class-automail-deactivator.php
+	*/
+	function deactivate_automail() {
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-deactivator.php';
+		Automail_Deactivator::deactivate();
+	}
+
+	register_activation_hook( __FILE__, 'activate_automail');
+	register_deactivation_hook( __FILE__, 'deactivate_automail');
+
+	/**
+	 * The core plugin class that is used to define internationalization, admin-specific hooks, and public-facing site hooks.
+	*/
+	require plugin_dir_path( __FILE__ ) . 'includes/class-automail.php';
+
+	/**
+	 * Begins execution of the plugin. Since everything within the plugin is registered via hooks, 
+	 * then kicking off the plugin from this point in the file does not affect the page life cycle.
+	 * @since    1.0.0
+	*/
+	function run_automail(){
+		$plugin = new Automail();
+		$plugin->run();
+	}
+	run_automail();
 }
-
-/**
- * The code that runs during plugin deactivation. This action is documented in includes/class-automail-deactivator.php
-*/
-function deactivate_automail() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-automail-deactivator.php';
-	Automail_Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, 'activate_automail');
-register_deactivation_hook( __FILE__, 'deactivate_automail');
-
-/**
- * The core plugin class that is used to define internationalization, admin-specific hooks, and public-facing site hooks.
-*/
-require plugin_dir_path( __FILE__ ) . 'includes/class-automail.php';
-
-/**
- * Begins execution of the plugin. Since everything within the plugin is registered via hooks, 
- * then kicking off the plugin from this point in the file does not affect the page life cycle.
- * @since    1.0.0
-*/
-function run_automail(){
-	$plugin = new Automail();
-	$plugin->run();
-}
-run_automail();

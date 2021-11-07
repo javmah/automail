@@ -84,13 +84,18 @@
                                                     }
                                                 echo"</optgroup>";
                                             }
-                                        ?>
-                                        <!-- This will populate after selection  -->
-                                        <optgroup label="Event Data Source" id="eventDataSource"> 
-                                            <option v-for="(value, key) in selectedEventsAndTitles" :value="key">{{value}}</option>
-                                        </optgroup>
-
-                                        <?php
+                                        
+                                            # freemius is Active 
+                                            if(automail_fs()->is__premium_only()){
+                                                if(automail_fs()->can_use_premium_code()){
+                                                    ?>
+                                                    <optgroup label="Event Data Source" id="eventDataSource"> 
+                                                        <option v-for="(value, key) in selectedEventsAndTitles" :value="key"> {{value}} </option>
+                                                    </optgroup>
+                                                    <?php
+                                                }
+                                            }
+                                            
                                             # For User 
                                             global $wpdb;
                                             $results = $wpdb->get_results("SELECT {$wpdb->prefix}users.user_email, {$wpdb->prefix}users.user_nicename FROM `wp_users` ORDER BY `user_email` ASC", ARRAY_A);
