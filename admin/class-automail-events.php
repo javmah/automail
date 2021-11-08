@@ -193,9 +193,9 @@ class Automail_Events {
 					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
-						if( $isArrayTest == null ) {
+						if($isArrayTest == null){
 							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
-						} else {
+						}else{
 							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
@@ -208,7 +208,7 @@ class Automail_Events {
 			# Action
 			if($user_id && $user->ID){
 				$r = $this->automail_send_mail('wp_UserProfileUpdate', $user_data);
-			} else {
+			}else{
 				$this->automail_log(get_class($this), __METHOD__, "103", "ERROR: wordpress_UserProfileUpdate fired but no User ID . ".$user_id );
 			}
 
@@ -273,10 +273,10 @@ class Automail_Events {
 					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
-						if ( $isArrayTest == null ) {
-							$metaOutPut[ $oneArray['meta_key']] =  $oneArray['meta_value'];
-						} else {
-							$metaOutPut[ $oneArray['meta_key']] =  $isArrayTest;
+						if( $isArrayTest == null ){
+							$metaOutPut[$oneArray['meta_key']] =  $oneArray['meta_value'];
+						}else{
+							$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 						}
 					}
 				}
@@ -430,7 +430,7 @@ class Automail_Events {
 					if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 						# Convert text to  an array then JSON for reducing the String 
 						$isArrayTest = @unserialize($oneArray['meta_value']);
-						if( $isArrayTest == null ){
+						if($isArrayTest == null){
 							$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 						}else{
 							$metaOutPut[$oneArray['meta_key']] = $isArrayTest ;
@@ -907,9 +907,9 @@ class Automail_Events {
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
-					if ( $isArrayTest == null ) {
+					if($isArrayTest == null) {
 						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
-					} else {
+					}else{
 						$metaOutPut[$oneArray['meta_key']] = $isArrayTest;
 					}
 				}
@@ -1257,9 +1257,9 @@ class Automail_Events {
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
-					if ( $isArrayTest == null ) {
+					if($isArrayTest == null){
 						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
-					} else {
+					}else{
 						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
 				}
@@ -1834,7 +1834,7 @@ class Automail_Events {
 						# error handling 
 						if(isset($itemMetaKeyValue[$valueArray['meta_key']])){
 							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
-						} else {
+						}else{
 							$itemMetaKeyValue[$valueArray['meta_key']]  ="";
 							$itemMetaKeyValue[$valueArray['meta_key']] .= (!empty($valueArray['meta_value']))? $valueArray['meta_value'] . " \n " : "-- \n ";
 						}
@@ -1942,8 +1942,8 @@ class Automail_Events {
 				if(is_array($oneArray) && isset($oneArray['meta_key'], $metaOutPut[$oneArray['meta_key']], $oneArray['meta_value'])){
 					# Convert text to  an array then JSON for reducing the String 
 					$isArrayTest = @unserialize($oneArray['meta_value']);
-					if( $isArrayTest == null ){
-						$metaOutPut[$oneArray['meta_key']] = $oneArray[ 'meta_value' ];
+					if($isArrayTest == null){
+						$metaOutPut[$oneArray['meta_key']] = $oneArray['meta_value'];
 					}else{
 						$metaOutPut[$oneArray['meta_key']] =  $isArrayTest;
 					}
@@ -2805,11 +2805,11 @@ class Automail_Events {
 					$integrationsArray[$key]["Status"] 			= $value->post_status;
 					
 					# Testing if DataSource is Exist or Not
-					if ($post_excerpt["DataSourceID"] == $DataSourceID AND  $value->post_status == "publish"){
+					if($post_excerpt["DataSourceID"] == $DataSourceID AND  $value->post_status == "publish"){
 						$integrationForDataSource = TRUE;
 					}
 					# Counting Publish 
-					if( $integrationsArray[$key]["Status"] == 'publish'){
+					if($integrationsArray[$key]["Status"] == 'publish'){
 						$publish++;
 					}
 					# Counting pending 
@@ -2879,7 +2879,7 @@ class Automail_Events {
 		
 		if($r){
 			return TRUE;
-		} else {
+		}else{
 			return FALSE;
 		}
 	}

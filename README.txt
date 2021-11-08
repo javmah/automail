@@ -41,13 +41,13 @@ This plugin sends an email notification with generated data when an event occurs
 
 * WordPress Edit Comment to automatic email notification.
 
-* WooCommerce New order to automatic email notification.
+* WooCommerce New order to automatic email notification (Professional version).
 
-* WooCommerce Order status change to automatic email notification.
+* WooCommerce Order status change to automatic email notification (Professional version).
 
-* WooCommerce new product to automatic email notification.
+* WooCommerce new product to automatic email notification (Professional version).
 
-* WooCommerce Update product to automatic email notification.
+* WooCommerce Update product to automatic email notification (Professional version).
 
 * Gravity Forms to automatic email notification.
 
@@ -61,7 +61,6 @@ This plugin sends an email notification with generated data when an event occurs
 
 
 **Thanks:** Heartiest Gratitude to all of my users who inspired me and suggested  and compliment me in many ways, you guys are Awesome. Without your support and love it was impossible to maintain this huge codebase (Around 14,000 lines of code). Please accept my sincere thanks.
-
 
 == Upcoming Features  ==
 

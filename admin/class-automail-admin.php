@@ -198,7 +198,7 @@ class Automail_Admin {
 
 				# User Meta 
 				if (automail_fs()->is__premium_only() ){
-					if(automail_fs()->can_use_premium_code() ){
+					if(automail_fs()->can_use_premium_code()){
 						# For user Meta 
 						$usersMeta = $this->automail_users_metaKeys();
 						if($usersMeta[0] && !empty($usersMeta[1])){
@@ -285,8 +285,8 @@ class Automail_Admin {
 					);
 
 					# Post meta
-					if (automail_fs()->is__premium_only() ){
-						if(automail_fs()->can_use_premium_code() ){
+					if(automail_fs()->is__premium_only()){
+						if(automail_fs()->can_use_premium_code()){
 							// # For Post Meta 
 							$postsMeta = $this->automail_posts_metaKeys();
 							if($postsMeta[0] && !empty($postsMeta[1])){
@@ -297,7 +297,6 @@ class Automail_Admin {
 							}
 						}
 					}
-
 				}
 
 				if($key == 'wp_page'){
@@ -357,8 +356,8 @@ class Automail_Admin {
 					);
 
 					# Page Meta
-					if (automail_fs()->is__premium_only() ){
-						if(automail_fs()->can_use_premium_code() ){
+					if(automail_fs()->is__premium_only()){
+						if(automail_fs()->can_use_premium_code()){
 							// # For page Meta 
 							$pagesMeta = $this->automail_pages_metaKeys();
 							if($pagesMeta[0] && !empty($pagesMeta[1])){
@@ -417,8 +416,8 @@ class Automail_Admin {
 			# Loop ends Here
 		
 			# Comment Meta
-			if (automail_fs()->is__premium_only() ){
-				if(automail_fs()->can_use_premium_code() ){
+			if(automail_fs()->is__premium_only()){
+				if(automail_fs()->can_use_premium_code()){
 					# Comment Meta
 					$commentsMeta = $this->automail_comments_metaKeys();
 					if($commentsMeta[0] && !empty($commentsMeta[1])){
@@ -435,89 +434,88 @@ class Automail_Admin {
 			# For Comment Meta 
 			
 			# Woocommerce 
-			if(in_array('woocommerce/woocommerce.php', $this->active_plugins)){
-				# Woo product  Starts 
-				# WooCommerce Product Event Array 
-				$wooCommerceProductEvents 	= array(
-					'wc-new_product'		=> 'WooCommerce New Product',
-					'wc-edit_product'		=> 'WooCommerce Update Product',
-					'wc-delete_product'		=> 'WooCommerce Delete Product',
-				);
+			if(automail_fs()->is__premium_only()){
+				if(automail_fs()->can_use_premium_code()){
+					if(in_array('woocommerce/woocommerce.php', $this->active_plugins)){
+						# Woo product  Starts 
+						# WooCommerce Product Event Array 
+						$wooCommerceProductEvents 	= array(
+							'wc-new_product'		=> 'WooCommerce New Product',
+							'wc-edit_product'		=> 'WooCommerce Update Product',
+							'wc-delete_product'		=> 'WooCommerce Delete Product',
+						);
 
-				# Inserting WooCommerce product Events to All Events 
-				$this->events += $wooCommerceProductEvents;
+						# Inserting WooCommerce product Events to All Events 
+						$this->events += $wooCommerceProductEvents;
 
-				# WooCommerce Products 
-				foreach($wooCommerceProductEvents as $key => $value){
-					$this->eventsAndTitles[$key]	= array(
-						"productID"					=> "Product ID",
-						"type"						=> "Type",
-						"name"						=> "Name",
-						"slug"						=> "Slug",
-						"date_created"				=> "Date created",
-						"date_modified"				=> "Date modified",
-						# New Code Starts Here 
-						#++++++++++++++++++++++++++++++++++++++
-						"date_created_year"	 		=>	"Created on Year",
-						"date_created_month" 		=>	"Created on Month",
-						"date_created_date"	 		=>	"Created on Date",
-						"date_created_time"	 		=>	"Created on Time",
-						# 
-						"date_modified_year" 		=>	"Modified on Year",
-						"date_modified_month"		=>	"Modified on Month",
-						"date_modified_date" 		=>	"Modified on Date",
-						"date_modified_time" 		=>	"Modified on Time",
-						#
-						"site_time"			 		=> "Site Time",
-						"site_date"			 		=> "Site Date",
-						#++++++++++++++++++++++++++++++++++++++
-						# New Code Ends Here 
-						"status"			 		=> "Status",
-						"eventName"			 		=> "Event name",
-						"featured"			 		=> "Featured",
-						"catalog_visibility" 		=> "Catalog visibility",
-						"description"		 		=> "Description",
-						"short_description"	 		=> "Short description",
-						"sku"				 		=> "SKU",
-						"menu_order"		 		=> "Menu order",
-						"virtual"			 		=> "Virtual",
-						"permalink"			 		=> "Permalink",
-						# Get Product Prices
-						"price"				 		=> "Price",
-						"regular_price"		 		=> "Regular price",
-						"sale_price"		 		=> "Sale price",
-						"date_on_sale_from"	 		=> "Date on sale from",
-						"date_on_sale_to"	 		=> "Date on sale to",
-						"total_sales"		 		=> "Total sales",
-						# Get Product Tax, Shipping & Stock
-						"tax_status"		 		=> "Tax status",
-						"tax_class"			 		=> "Tax class",
-						"manage_stock"		 		=> "Manage stock",
-						"stock_quantity"	 		=> "Stock quantity",
-						"stock_status"		 		=> "Stock status",
-						"backorders"		 		=> "Back orders",
-						"sold_individually"	 		=> "Sold individually",
-						"purchase_note"		 		=> "Purchase note",
-						# Get Product Dimensions
-						"shipping_class_id"	 		=> "Shipping class id",
-						"weight"			 		=> "Weight",
-						"length"			 		=> "Length",
-						"width"				 		=> "Width",
-						"height"			 		=> "Height",
-						"attributes"		 		=> "Attributes",
-						"default_attributes" 		=> "Default attributes",
-						"category_ids"		 		=> "Category ids",
-						"tag_ids"			 		=> "Tag ids",
-						"image_id"			 		=> "Image id",
-						"image"				 		=> "Image",
-						"gallery_image_ids"	 		=> "Gallery image ids",
-						"get_attachment_image_url"	=> "image url",
-					);
-				}
-
-				# WooCommerce Product Meta
-				if (automail_fs()->is__premium_only() ){
-					if(automail_fs()->can_use_premium_code() ){
+						# WooCommerce Products 
+						foreach($wooCommerceProductEvents as $key => $value){
+							$this->eventsAndTitles[$key]	= array(
+								"productID"					=> "Product ID",
+								"type"						=> "Type",
+								"name"						=> "Name",
+								"slug"						=> "Slug",
+								"date_created"				=> "Date created",
+								"date_modified"				=> "Date modified",
+								# New Code Starts Here 
+								#++++++++++++++++++++++++++++++++++++++
+								"date_created_year"	 		=>	"Created on Year",
+								"date_created_month" 		=>	"Created on Month",
+								"date_created_date"	 		=>	"Created on Date",
+								"date_created_time"	 		=>	"Created on Time",
+								# 
+								"date_modified_year" 		=>	"Modified on Year",
+								"date_modified_month"		=>	"Modified on Month",
+								"date_modified_date" 		=>	"Modified on Date",
+								"date_modified_time" 		=>	"Modified on Time",
+								#
+								"site_time"			 		=> "Site Time",
+								"site_date"			 		=> "Site Date",
+								#++++++++++++++++++++++++++++++++++++++
+								# New Code Ends Here 
+								"status"			 		=> "Status",
+								"eventName"			 		=> "Event name",
+								"featured"			 		=> "Featured",
+								"catalog_visibility" 		=> "Catalog visibility",
+								"description"		 		=> "Description",
+								"short_description"	 		=> "Short description",
+								"sku"				 		=> "SKU",
+								"menu_order"		 		=> "Menu order",
+								"virtual"			 		=> "Virtual",
+								"permalink"			 		=> "Permalink",
+								# Get Product Prices
+								"price"				 		=> "Price",
+								"regular_price"		 		=> "Regular price",
+								"sale_price"		 		=> "Sale price",
+								"date_on_sale_from"	 		=> "Date on sale from",
+								"date_on_sale_to"	 		=> "Date on sale to",
+								"total_sales"		 		=> "Total sales",
+								# Get Product Tax, Shipping & Stock
+								"tax_status"		 		=> "Tax status",
+								"tax_class"			 		=> "Tax class",
+								"manage_stock"		 		=> "Manage stock",
+								"stock_quantity"	 		=> "Stock quantity",
+								"stock_status"		 		=> "Stock status",
+								"backorders"		 		=> "Back orders",
+								"sold_individually"	 		=> "Sold individually",
+								"purchase_note"		 		=> "Purchase note",
+								# Get Product Dimensions
+								"shipping_class_id"	 		=> "Shipping class id",
+								"weight"			 		=> "Weight",
+								"length"			 		=> "Length",
+								"width"				 		=> "Width",
+								"height"			 		=> "Height",
+								"attributes"		 		=> "Attributes",
+								"default_attributes" 		=> "Default attributes",
+								"category_ids"		 		=> "Category ids",
+								"tag_ids"			 		=> "Tag ids",
+								"image_id"			 		=> "Image id",
+								"image"				 		=> "Image",
+								"gallery_image_ids"	 		=> "Gallery image ids",
+								"get_attachment_image_url"	=> "image url",
+							);
+						}
+						
 						# For WooCommerce Product Meta to the product  event
 						$productsMeta = $this->automail_wooCommerce_product_metaKeys();
 						# Check and Balance & Premium Code only 
@@ -530,172 +528,168 @@ class Automail_Admin {
 								}	
 							}
 						}
-					}
-				}
-				
-				# Inserting WooCommerce Order Events to All Events 
-				$this->events += $this->wooCommerceOrderStatuses;
 
-				# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-				#(1) Product Meta 
-				#(2) Product Info
-				#(3) Product Details
-				#(4) Empty Product Placeholder
-				# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+						# Inserting WooCommerce Order Events to All Events 
+						$this->events += $this->wooCommerceOrderStatuses;
 
-				# WooCommerce Orders 
-				foreach($this->wooCommerceOrderStatuses as $key => $value){
-					# Default fields
-					$this->eventsAndTitles[$key]  =  array(
-						"orderID"						=>	"Order ID",
-						"cart_tax"						=>	"Cart tax",
-						"currency"						=>	"Currency",
-						"discount_tax"					=>	"Discount tax",
-						"discount_total"				=>	"Discount total",
-						"fees"							=>	"Fees",
-						"shipping_tax"					=>	"Shipping tax",	
-						"shipping_total"				=>	"Shipping total",
-						"subtotal"						=>	"Subtotal",
-						"subtotal_to_display"			=>	"Subtotal to display",
-						"tax_totals"					=>	"Tax totals",
-						"taxes"							=>	"Taxes",
-						"total"							=>	"Total",
-						"total_discount"				=>	"Total discount",
-						"total_tax"						=>	"Total tax",
-						"total_refunded"				=>	"Total refunded",
-						"total_tax_refunded"			=>	"Total tax refunded",
-						"total_shipping_refunded"		=>	"Total shipping refunded",
-						"item_count_refunded"			=>	"Item count refunded",
-						"total_qty_refunded"			=>	"Total qty refunded",
-						"remaining_refund_amount"		=>	"Remaining refund amount",
-						# items Details 
-						# ********************************************************************
-						"items"							=>	"Items",
-						"get_product_id"				=>	"Items id",
-						"get_name"						=>	"Items name",
-						"get_quantity"					=>	"Items quantity",
-						"get_total"						=>	"Items total",
-						"get_sku"		 				=>	"Items sku",	
-						"get_type"	   					=>	"Items type",
-						"get_slug"						=>	"Items slug",
-						"get_price"						=>	"Items price",
-						"get_regular_price"				=>	"Items regular_price",
-						"get_sale_price"				=>	"Items sale_price", 
-						"get_virtual" 					=>	"Items virtual",
-						"get_permalink"					=>	"Items permalink",
-						"get_featured"					=>	"Items featured",
-						"get_status"					=>	"Items status",
-						"get_tax_status" 				=>	"Items tax_status",
-						"get_tax_class"					=>	"Items tax_class",
-						"get_manage_stock"				=>	"Items manage_stock",
-						"get_stock_quantity"			=>	"Items stock_quantity",
-						"get_stock_status"				=>	"Items stock_status",
-						"get_backorders"				=>	"Items backorders",
-						"get_sold_individually"			=>	"Items sold individually",
-						"get_purchase_note"				=>	"Items purchase note",
-						"get_shipping_class_id"			=>	"Items shipping class id",
-						"get_weight"		 			=>	"Items weight",
-						"get_length"	 				=>	"Items length",
-						"get_width"	 					=>	"Items width",
-						"get_height"		 			=>	"Items height",
-						"get_default_attributes"		=>	"Items default attributes",
-						"get_category_ids"				=>	"Items category ids",
-						"get_tag_ids" 					=>	"Items tag ids",
-						"get_image_id"	 				=>	"Items image id",
-						"get_gallery_image_ids"			=>	"Items gallery image ids",
-						"get_attachment_image_url"		=>	"Items attachment image url",
-						# ********************************************************************
-						"item_count"					=>	"Item count",
-						"downloadable_items"			=>	"Downloadable items",
-						# customer Details
-						"customer_id"					=>	"Customer id",
-						"user_id"						=>	"User id",	
-						"user"							=>	"User",
-						"customer_ip_address"			=>	"Customer ip address",
-						"customer_user_agent"			=>	"Customer user agent",
-						"created_via"					=>	"Created via",
-						"customer_note"					=>	"Customer note",
-						# Order Date 
-						"date_created"					=>	"Date created",
-						"date_modified"					=>	"Date modified",
-						"date_completed"				=>	"Date completed",
-						"date_paid"						=>	"Date paid",
-						# New Code Starts  
-						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-						"date_created_year"				=>	"Created on year",
-						"date_created_month"			=>	"Created on Month",
-						"date_created_date"				=>	"Created on date",
-						"date_created_time"				=>	"Created on time",
-						
-						"date_modified_year"			=>	"Modified on year",
-						"date_modified_month"			=>	"Modified on Month",
-						"date_modified_date"			=>	"Modified on date",
-						"date_modified_time"			=>	"Modified on time",
-						
-						"date_completed_year"			=>	"Completed on year",
-						"date_completed_month"			=>	"Completed on Month",
-						"date_completed_date"			=>	"Completed on date",
-						"date_completed_time"			=>	"Completed on time",
+						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+						#(1) Product Meta 
+						#(2) Product Info
+						#(3) Product Details
+						#(4) Empty Product Placeholder
+						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-						"date_paid_year"				=>	"Paid on year",
-						"date_paid_month"				=>	"Paid on Month",
-						"date_paid_date"				=>	"Paid on date",
-						"date_paid_time"				=>	"Paid on time",
-						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-						# New Code Starts  
-						# Billing Information
-						"billing_first_name"			=>	"Billing first name",
-						"billing_last_name"				=>	"Billing last name",
-						"billing_company"				=>	"Billing company",
-						"billing_address_1"				=>	"Billing address 1",
-						"billing_address_2"				=>	"Billing address 2",
-						"billing_city"					=>	"Billing city",
-						"billing_state"					=>	"Billing state",
-						"billing_postcode"				=>	"Billing postcode",
-						"billing_country"				=>	"Billing country",
-						"billing_email"					=>	"Billing email",
-						"billing_phone"					=>	"Billing phone",
-						# Shipping method 
-						"shipping_method"				=>	"Shipping method",
-						# Shipping Information  
-						"shipping_first_name"			=>	"Shipping first name",
-						"shipping_last_name"			=>	"Shipping last name",	
-						"shipping_company"				=>	"Shipping company",
-						"shipping_address_1"			=>	"Shipping address 1",
-						"shipping_address_2"			=>	"Shipping address 2",
-						"shipping_city"					=>	"Shipping city",
-						"shipping_state"				=>	"Shipping state",
-						"shipping_postcode"				=>	"Shipping postcode",
-						"shipping_country"				=>	"Shipping country",
-						"address"						=>	"Address",
-						"shipping_address_map_url"		=>	"Shipping address map url",
-						"formatted_billing_full_name"	=>	"Formatted billing full name",
-						"formatted_shipping_full_name"	=>	"Formatted shipping full name",
-						"formatted_billing_address"		=>	"Formatted billing address",	
-						"formatted_shipping_address"	=>	"Formatted shipping address",
-						# Payment methods
-						"payment_method"				=>	"Payment method",
-						"payment_method_title"			=>	"Payment method title",
-						"transaction_id"				=>	"Transaction id",
-						# URLS
-						"checkout_payment_url"			=>	"Checkout payment url",
-						"checkout_order_received_url"	=>	"Checkout order received url",
-						"cancel_order_url"				=>	"Cancel order url",
-						"cancel_order_url_raw"			=>	"Cancel order url raw",
-						"cancel_endpoint"				=>	"Cancel endpoint",
-						"view_order_url"				=>	"View order url",
-						"edit_order_url"				=>	"Edit order url",
-						# 
-						"status"						=>	"Status",	
-						"eventName"						=>	"Event name",			
-					);
-				}
-				# main Order status Loop ends here 
+						# WooCommerce Orders 
+						foreach($this->wooCommerceOrderStatuses as $key => $value){
+							# Default fields
+							$this->eventsAndTitles[$key]  =  array(
+								"orderID"						=>	"Order ID",
+								"cart_tax"						=>	"Cart tax",
+								"currency"						=>	"Currency",
+								"discount_tax"					=>	"Discount tax",
+								"discount_total"				=>	"Discount total",
+								"fees"							=>	"Fees",
+								"shipping_tax"					=>	"Shipping tax",	
+								"shipping_total"				=>	"Shipping total",
+								"subtotal"						=>	"Subtotal",
+								"subtotal_to_display"			=>	"Subtotal to display",
+								"tax_totals"					=>	"Tax totals",
+								"taxes"							=>	"Taxes",
+								"total"							=>	"Total",
+								"total_discount"				=>	"Total discount",
+								"total_tax"						=>	"Total tax",
+								"total_refunded"				=>	"Total refunded",
+								"total_tax_refunded"			=>	"Total tax refunded",
+								"total_shipping_refunded"		=>	"Total shipping refunded",
+								"item_count_refunded"			=>	"Item count refunded",
+								"total_qty_refunded"			=>	"Total qty refunded",
+								"remaining_refund_amount"		=>	"Remaining refund amount",
+								# items Details 
+								# ********************************************************************
+								"items"							=>	"Items",
+								"get_product_id"				=>	"Items id",
+								"get_name"						=>	"Items name",
+								"get_quantity"					=>	"Items quantity",
+								"get_total"						=>	"Items total",
+								"get_sku"		 				=>	"Items sku",	
+								"get_type"	   					=>	"Items type",
+								"get_slug"						=>	"Items slug",
+								"get_price"						=>	"Items price",
+								"get_regular_price"				=>	"Items regular_price",
+								"get_sale_price"				=>	"Items sale_price", 
+								"get_virtual" 					=>	"Items virtual",
+								"get_permalink"					=>	"Items permalink",
+								"get_featured"					=>	"Items featured",
+								"get_status"					=>	"Items status",
+								"get_tax_status" 				=>	"Items tax_status",
+								"get_tax_class"					=>	"Items tax_class",
+								"get_manage_stock"				=>	"Items manage_stock",
+								"get_stock_quantity"			=>	"Items stock_quantity",
+								"get_stock_status"				=>	"Items stock_status",
+								"get_backorders"				=>	"Items backorders",
+								"get_sold_individually"			=>	"Items sold individually",
+								"get_purchase_note"				=>	"Items purchase note",
+								"get_shipping_class_id"			=>	"Items shipping class id",
+								"get_weight"		 			=>	"Items weight",
+								"get_length"	 				=>	"Items length",
+								"get_width"	 					=>	"Items width",
+								"get_height"		 			=>	"Items height",
+								"get_default_attributes"		=>	"Items default attributes",
+								"get_category_ids"				=>	"Items category ids",
+								"get_tag_ids" 					=>	"Items tag ids",
+								"get_image_id"	 				=>	"Items image id",
+								"get_gallery_image_ids"			=>	"Items gallery image ids",
+								"get_attachment_image_url"		=>	"Items attachment image url",
+								# ********************************************************************
+								"item_count"					=>	"Item count",
+								"downloadable_items"			=>	"Downloadable items",
+								# customer Details
+								"customer_id"					=>	"Customer id",
+								"user_id"						=>	"User id",	
+								"user"							=>	"User",
+								"customer_ip_address"			=>	"Customer ip address",
+								"customer_user_agent"			=>	"Customer user agent",
+								"created_via"					=>	"Created via",
+								"customer_note"					=>	"Customer note",
+								# Order Date 
+								"date_created"					=>	"Date created",
+								"date_modified"					=>	"Date modified",
+								"date_completed"				=>	"Date completed",
+								"date_paid"						=>	"Date paid",
+								# New Code Starts  
+								# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+								"date_created_year"				=>	"Created on year",
+								"date_created_month"			=>	"Created on Month",
+								"date_created_date"				=>	"Created on date",
+								"date_created_time"				=>	"Created on time",
+								
+								"date_modified_year"			=>	"Modified on year",
+								"date_modified_month"			=>	"Modified on Month",
+								"date_modified_date"			=>	"Modified on date",
+								"date_modified_time"			=>	"Modified on time",
+								
+								"date_completed_year"			=>	"Completed on year",
+								"date_completed_month"			=>	"Completed on Month",
+								"date_completed_date"			=>	"Completed on date",
+								"date_completed_time"			=>	"Completed on time",
 
-				# **************************** Items Meta ****************************
-				# For WooCommerce order item Meta.
-				if (automail_fs()->is__premium_only() ){
-					if(automail_fs()->can_use_premium_code() ){
+								"date_paid_year"				=>	"Paid on year",
+								"date_paid_month"				=>	"Paid on Month",
+								"date_paid_date"				=>	"Paid on date",
+								"date_paid_time"				=>	"Paid on time",
+								# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+								# New Code Starts  
+								# Billing Information
+								"billing_first_name"			=>	"Billing first name",
+								"billing_last_name"				=>	"Billing last name",
+								"billing_company"				=>	"Billing company",
+								"billing_address_1"				=>	"Billing address 1",
+								"billing_address_2"				=>	"Billing address 2",
+								"billing_city"					=>	"Billing city",
+								"billing_state"					=>	"Billing state",
+								"billing_postcode"				=>	"Billing postcode",
+								"billing_country"				=>	"Billing country",
+								"billing_email"					=>	"Billing email",
+								"billing_phone"					=>	"Billing phone",
+								# Shipping method 
+								"shipping_method"				=>	"Shipping method",
+								# Shipping Information  
+								"shipping_first_name"			=>	"Shipping first name",
+								"shipping_last_name"			=>	"Shipping last name",	
+								"shipping_company"				=>	"Shipping company",
+								"shipping_address_1"			=>	"Shipping address 1",
+								"shipping_address_2"			=>	"Shipping address 2",
+								"shipping_city"					=>	"Shipping city",
+								"shipping_state"				=>	"Shipping state",
+								"shipping_postcode"				=>	"Shipping postcode",
+								"shipping_country"				=>	"Shipping country",
+								"address"						=>	"Address",
+								"shipping_address_map_url"		=>	"Shipping address map url",
+								"formatted_billing_full_name"	=>	"Formatted billing full name",
+								"formatted_shipping_full_name"	=>	"Formatted shipping full name",
+								"formatted_billing_address"		=>	"Formatted billing address",	
+								"formatted_shipping_address"	=>	"Formatted shipping address",
+								# Payment methods
+								"payment_method"				=>	"Payment method",
+								"payment_method_title"			=>	"Payment method title",
+								"transaction_id"				=>	"Transaction id",
+								# URLS
+								"checkout_payment_url"			=>	"Checkout payment url",
+								"checkout_order_received_url"	=>	"Checkout order received url",
+								"cancel_order_url"				=>	"Cancel order url",
+								"cancel_order_url_raw"			=>	"Cancel order url raw",
+								"cancel_endpoint"				=>	"Cancel endpoint",
+								"view_order_url"				=>	"View order url",
+								"edit_order_url"				=>	"Edit order url",
+								# 
+								"status"						=>	"Status",	
+								"eventName"						=>	"Event name",			
+							);
+						}
+						# main Order status Loop ends here 
+
+						# **************************** Items Meta ****************************
+						# For WooCommerce order item Meta.
 						# For WooCommerce order item Meta.
 						$itemsMeta = $this->automail_wooCommerce_product_metaKeys();
 						if($itemsMeta[0] && !empty($itemsMeta[1])){
@@ -707,12 +701,7 @@ class Automail_Admin {
 								}	
 							}
 						}
-					}
-				}
-				
-				# For WooCommerce Order Meta Data insert to the order Events
-				if (automail_fs()->is__premium_only() ){
-					if(automail_fs()->can_use_premium_code() ){
+
 						# For WooCommerce Order Meta Data insert to the order Events
 						$ordersMeta = $this->automail_wooCommerce_order_metaKeys();
 						# Check and Balance & Premium Code only 
@@ -727,9 +716,8 @@ class Automail_Admin {
 						}
 					}
 				}
-				
 			}
-
+			
 			# Below are Contact forms 
 			# Contact Form 7
 			$cf7 = $this->cf7_forms_and_fields();
@@ -833,22 +821,21 @@ class Automail_Admin {
 			wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/automail-admin.js', array('jquery'), $this->version, false);
 		} 
 
-		# End of Scope 
+		# End of Scope
 		if(get_current_screen()->id == 'toplevel_page_automail'){
 			wp_register_script('Vue', plugin_dir_url(__FILE__) . 'js/vue.js', array(), FALSE, FALSE);
-			wp_enqueue_script('automail-admin', plugin_dir_url(__FILE__).'js/automail-admin.js', array('Vue'), '1.0', TRUE);
-
-
-			# Fremious Starts
+			wp_enqueue_script('automail-admin', plugin_dir_url(__FILE__) . 'js/automail-admin.js', array('Vue'), '1.0', TRUE);
+			
+			# freemius Starts.
 			# default is Free.
 			$freemiusStatus = false;
-			# Professional version is Paid
-			if (automail_fs()->is__premium_only() ){
-				if(automail_fs()->can_use_premium_code() ){
+			# Professional version is paid
+			if(automail_fs()->is__premium_only()){
+				if(automail_fs()->can_use_premium_code()){
 					$freemiusStatus = true;
 				}
 			}
-			# Fremious Starts
+			# freemius Starts
 			
 			# Change from Here 
 			if(isset($_GET["action"], $_GET["id"]) AND !empty($_GET["id"])){
@@ -1032,12 +1019,7 @@ class Automail_Admin {
 	public function automail_admin_notice(){
 		// echo"<pre>";
 
-		if (automail_fs()->is__premium_only() ){
-			if(automail_fs()->can_use_premium_code() ){
-				echo"Hello From Test !";
-			}
-		}
-
+		
 
 		// echo"</pre>";
 	}
@@ -1366,8 +1348,7 @@ class Automail_Admin {
 			}
 		} # Loop ends 
 
-		# Adding extra fields || like Date and Time || Add more in future  
-		
+		# Adding extra fields || like Date and Time || Add more in future 
 		if(!empty($fieldsArray)){
 			foreach($fieldsArray as $formID => $formFieldsArray){
 				# For Time
