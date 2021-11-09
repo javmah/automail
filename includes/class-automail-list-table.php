@@ -12,7 +12,6 @@ if(!class_exists('WP_List_Table')) require_once(ABSPATH . 'wp-admin/includes/cla
 # Plugin class extends.
 class Automail_List_Table extends WP_List_Table {
 
-    
     public $eventsAndTitles ;
    /**
    * Construct function
@@ -115,7 +114,7 @@ class Automail_List_Table extends WP_List_Table {
         #***************************************************************************************************
         # Bulk Action is Processes in >> class_automail_admin.php >> automail_menu_pages_view() function 
         #***************************************************************************************************
-        # This Function is useless now 
+        # This Function is useless now.
         #***************************************************************************************************
     }
 

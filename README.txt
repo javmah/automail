@@ -1,21 +1,21 @@
-=== AutoMail - Event-driven email automation. Easy email Auto-reply and Notification. ===
-Contributors: 
+=== AutoMail - Event-driven email automation. Easy email Notification and Auto-reply. ===
+Contributors: javmah, freemius
 Donate link: https://profiles.wordpress.org/javmah/
-Tags: email, automation, email reply, email auto reply, wooCommerce, CF7,
+Tags: email,automation,auto-reply,wooCommerce,CF7
 Requires at least: 4.7.0
 Tested up to: 5.8.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
+AutoMail is an Email automation, Email Notification & Auto-reply plugins, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
 
 == Description ==
 
-WordPress platform along with its plugin generates many events and event base data, those data are vital for day-to-day operations.
-This plugin sends an email notification with generated data when an event occurs. This plugin supports around all WordPress
- events along with many third-party plugins. The list of events are:
-
+Email automation, Email Notification & Auto-reply plugins. WordPress platform along with its plugin generates many events 
+and event base data, those data are vital for day-to-day operations. This plugin sends an email notification with generated 
+data when an event occurs. This plugin supports around all WordPress events along with many third-party plugins. The list 
+of events are:
 
 == Email Automation Events are ==
 
@@ -64,9 +64,8 @@ This plugin sends an email notification with generated data when an event occurs
 
 == Upcoming Features  ==
 
-1. Email Template.
-2. More Customization Option 
-3. New platforms for Mail Automation 
+1. More Customization Option 
+2. New platforms for Mail Automation 
 
 == Installation ==
 
