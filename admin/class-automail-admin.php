@@ -209,8 +209,6 @@ class Automail_Admin {
 						}
 					}
 				}
-
-				
 			}
 
 			# Post Event array 
@@ -370,7 +368,7 @@ class Automail_Admin {
 					}
 					
 				}
-			} # Loop Ends 
+			} # Loop Ends
 
 			# Comment Starts
 			$wordpressCommentEvents = array(
@@ -531,13 +529,6 @@ class Automail_Admin {
 
 						# Inserting WooCommerce Order Events to All Events 
 						$this->events += $this->wooCommerceOrderStatuses;
-
-						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-						#(1) Product Meta 
-						#(2) Product Info
-						#(3) Product Details
-						#(4) Empty Product Placeholder
-						# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 						# WooCommerce Orders 
 						foreach($this->wooCommerceOrderStatuses as $key => $value){
@@ -717,7 +708,7 @@ class Automail_Admin {
 					}
 				}
 			}
-			
+
 			# Below are Contact forms 
 			# Contact Form 7
 			$cf7 = $this->cf7_forms_and_fields();
@@ -984,7 +975,7 @@ class Automail_Admin {
 		<?php 
 	}
 
-	/**
+	/** 
 	 * Change connection status;
 	 * if Automail automaton status is publish it turn that to Pending vice versa 
 	 * @since    	1.0.0
@@ -1017,11 +1008,13 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
-		// echo"<pre>";
+		echo"<pre>";
 
-		
+		// print_r($this->automail_wooCommerce_product_metaKeys());
+		// echo"<h><br><h>";
+		// print_r($this->automail_wooCommerce_order_metaKeys());
 
-		// echo"</pre>";
+		echo"</pre>";
 	}
 
 	/**
@@ -1887,7 +1880,6 @@ class Automail_Admin {
 }
 
 # Wp mail Help 
-# Hmm this is nice Idea;
 # https://developer.wordpress.org/reference/functions/wp_mail/ 
 # Help user Roles 
 # https://publishpress.com/blog/where-are-wordpress-permissions-capabilities-in-the-database/
