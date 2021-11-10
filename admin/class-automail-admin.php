@@ -859,10 +859,10 @@ class Automail_Admin {
 	*/
 	public function automail_menu_pages(){
 		# Remove the Log Starts
-			$automailLogs = get_posts( array( 'post_type' => 'automailLog', 'posts_per_page' => -1 ) );
-			if ( count( $automailLogs ) > 100 ){
-				foreach ($automailLogs as $key =>  $log ) {
-					if (  $key > 100 ){
+			$automailLogs = get_posts(array( 'post_type' => 'automailLog', 'posts_per_page' => -1 ));
+			if(count($automailLogs) > 50){
+				foreach($automailLogs as $key =>  $log){
+					if($key > 50){
 						wp_delete_post($log->ID, true);
 					}
 				}
@@ -885,7 +885,7 @@ class Automail_Admin {
 		if(isset($_GET['action']) AND $_GET['action'] == 'new'){
 			# including the new automaton view File;
 			require_once plugin_dir_path( dirname(__FILE__) ) . 'admin/partials/automail-new-automaton.php';
-		}elseif (isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))){
+		}elseif(isset($_GET['action'], $_GET['id']) AND ($_GET['action'] == 'edit' AND !empty($_GET['id']))){
 			# Getting the Post data;
 			$post   		    = get_post(sanitize_text_field($_GET["id"]), ARRAY_A);
 			if($post){
@@ -990,7 +990,7 @@ class Automail_Admin {
 	 * Change connection status;
 	 * if Automail automaton status is publish it turn that to Pending vice versa 
 	 * @since    	1.0.0
-	 * @return 	   	array 	Integrations details  .
+	 * @return 	   	array 	Integrations details.
 	*/
 	public function  automail_automation_status($id){
 		# Check Valid INT
@@ -1901,3 +1901,4 @@ class Automail_Admin {
 # Creating Custom Email template, Help link 
 # 1. https://webdesign.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770
 # 2. IDEA for a Drag and Drop Email Template Builder 
+

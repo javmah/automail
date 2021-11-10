@@ -583,7 +583,6 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_newPost', $post_data);
 				# event Log for Trash
-				// $this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from new post. " . $post_id);
 			}
 			
 			# Updated post 
@@ -592,7 +591,6 @@ class Automail_Events {
 				# Action
 				$r = $this->automail_send_mail('wp_editPost', $post_data);
 				# event Log for Trash
-				// $this->automail_log(get_class($this), __METHOD__,"200", "SUCCESS: testing the post edited publish. " . $post_id );
 			}
 			
 		    # Post Is trash  || If Post is Trashed This Will fired
@@ -600,7 +598,6 @@ class Automail_Events {
 				$post_data['eventName'] = "Trash";
 				$r = $this->automail_send_mail('wp_deletePost', $post_data);
 				# event Log for Trash
-				// $this->automail_log( get_class($this), __METHOD__,"200", "SUCCESS: testing the post from trash. " . $post_id );
 			}
 		}
 
