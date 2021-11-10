@@ -858,6 +858,17 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages(){
+		# Remove the Log Starts
+			$automailLogs = get_posts( array( 'post_type' => 'automailLog', 'posts_per_page' => -1 ) );
+			if ( count( $automailLogs ) > 100 ){
+				foreach ($automailLogs as $key =>  $log ) {
+					if (  $key > 100 ){
+						wp_delete_post($log->ID, true);
+					}
+				}
+			}
+		# Remove the Log Ends
+
 		# Menu
 		add_menu_page(__('autoMail', 'automail'), __('autoMail', 'automail'), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
 		# Sub-menu 
@@ -1869,7 +1880,7 @@ class Automail_Admin {
 				'post_title'  	=> $status_code,
 				'post_status'  	=> "publish",
 				'post_excerpt'  => json_encode( array( "fileName" => $file_name, "functionName" => $function_name)),
-				'post_type'  	=> "automail_Log",
+				'post_type'  	=> "automailLog",
 			)
 		);
 		# this function return
