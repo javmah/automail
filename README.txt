@@ -1,6 +1,5 @@
 === AutoMail - Event-driven Email Automation. Easy email Notification and Auto-reply. ===
 Contributors: javmah, freemius
-Donate link: https://profiles.wordpress.org/javmah/
 Tags: email,mail,automation,auto-reply,wooCommerce
 Requires at least: 4.7.0
 Tested up to: 5.8.1

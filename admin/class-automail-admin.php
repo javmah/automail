@@ -794,21 +794,28 @@ class Automail_Admin {
 				}
 			}
 
-			# Adding CPT Events and Fields 
-			$CptEvents = $this->automail_allCptEvents();
-			# Check and Balance 
-			if($CptEvents[0]){
-				# Adding events to main events array 
-				$this->events += $CptEvents[2];
-				# Looping the Custom post type Event
-				foreach($CptEvents[2] as $key => $value){
-					# Looping comment Meta 
-					foreach($CptEvents[3] as $cptDataFieldID => $cptDataFieldName){
-						# Adding event data fields 
-						$this->eventsAndTitles[$key][$cptDataFieldID] = $cptDataFieldName;
+			# # Adding CPT Events and Fields  with freemius Professional version is enabled.
+			if(automail_fs()->is__premium_only()){
+				if(automail_fs()->can_use_premium_code()){
+					# Adding CPT Events and Fields 
+					$CptEvents = $this->automail_allCptEvents();
+					# Check and Balance 
+					if($CptEvents[0]){
+						# Adding events to main events array 
+						$this->events += $CptEvents[2];
+						# Looping the Custom post type Event
+						foreach($CptEvents[2] as $key => $value){
+							# Looping comment Meta 
+							foreach($CptEvents[3] as $cptDataFieldID => $cptDataFieldName){
+								# Adding event data fields 
+								$this->eventsAndTitles[$key][$cptDataFieldID] = $cptDataFieldName;
+							}
+						}
 					}
 				}
 			}
+
+			# enqueueing the Script 
 			wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/automail-admin.js', array('jquery'), $this->version, false);
 		} 
 
@@ -870,7 +877,7 @@ class Automail_Admin {
 		# Remove the Log Ends
 
 		# Menu
-		add_menu_page(__('autoMail', 'automail'), __('autoMail', 'automail'), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 10);
+		add_menu_page(__('autoMail', 'automail'), __('autoMail', 'automail'), 'manage_options', 'automail', array( $this, 'automail_menu_pages_view' ),'dashicons-email-alt', 25);
 		# Sub-menu 
 		add_submenu_page('automail', 'Settings', 'settings','manage_options', 'automail-settings', array( $this, 'automail_settings_view'));
 	}

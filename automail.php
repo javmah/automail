@@ -18,7 +18,6 @@
  * Description:       AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
  * Version:           1.0.0
  * Author:            javmah
- * Author URI:        https://profiles.wordpress.org/javmah/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       automail
