@@ -1026,13 +1026,19 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
-		echo"<pre>";
+		# Notification about localhost.
+		# Getting URL of the site 
+		$siteUrl = get_site_url();
+		# getting check and Balance to see it installed in the local host or not.
+		if((strpos($siteUrl, 'localhost') !== false)){
+			echo "<div class='notice notice-error'>";
+				echo"<p>Your WordPress Installation is in the localhost, If you didn't <a href='https://www.google.com/search?q=send+mail+from+wordpress+localhost' target='_blank'>configure your localhost Email Settings</a>  <b> AutoMail </b> will not work.</p>";
+			echo "</div>";
+		}
 
-		// print_r($this->automail_wooCommerce_product_metaKeys());
-		// echo"<h><br><h>";
-		// print_r($this->automail_wooCommerce_order_metaKeys());
-
-		echo"</pre>";
+		// echo"<pre>";
+		
+		// echo"</pre>";
 	}
 
 	/**
