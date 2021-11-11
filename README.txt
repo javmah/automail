@@ -9,14 +9,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 AutoMail is an Email automation, Email Notification & Auto-reply plugins, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
 
-## 💡 Description ##
+== Description ==
 
 Email automation, Email Notification & Auto-reply plugins. WordPress platform along with its plugin generates many events 
 and event base data, those data are vital for day-to-day operations. This plugin sends an email notification with generated 
 data when an event occurs. This plugin supports around all WordPress events along with many third-party plugins. The list 
 of events are:
 
-## 🔝  Email Automation Events are ##
+## 🔝 Email Automation Events are ##
 
 1. [Contact form 7](https://wordpress.org/plugins/contact-form-7/) forms submission to automatic email notification.
 
@@ -72,8 +72,25 @@ Without your support and love it was impossible to maintain this huge codebase (
 
 ## 🔥 Upcoming Features  ##
 
-1. More Customization Option 
-2. New platforms for Mail Automation 
+1. More Customization Option.
+2. New platforms for Mail Automation.
+
+== Frequently Asked Questions ==
+
+= How to Get more help? = 
+ If you need more help, Please create a support ticket from this plugin menu 'Contact Us' page. 
+
+= Why do you sell the Professional version? =
+ This Plugin has around 14,000 lines of code. Most of the Plugin features and functionalities are in the Free version. If you compare the Free and Paid version ratio it's 83:17. It takes a lot of time and effort to maintain, update, and bugfix, That's why I sell the Professional version. I hope you will understand my position. 
+
+= How much does the Professional version cost? =
+ Professional version is 39 USD
+
+= Does this plugin support event source email address as an email receiver? =
+ Yes, it does.  it's a complicated feature and is in the Professional version.
+
+= What shell i do if i had a Question ? =
+ You should create a support ticket from this plugin menu 'Contact Us' page. 
 
 == ⚙️ Installation ==
 
@@ -81,17 +98,19 @@ Without your support and love it was impossible to maintain this huge codebase (
 1. Go to the WordPress Dashboard "Add New Plugin" section.
 2. Search For "automail".
 3. Install, then Activate it.
-4. Follow the step-by-step documentation on the settings page
+4. Follow the step-by-step documentation on the settings page.
 
 = Old Way: =
-1. Upload `automail` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Follow the step-by-step documentation on settings page
+1. Upload `automail` to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Follow the step-by-step documentation on settings page.
 
 == Screenshots ==
-1. List of email automaton. Also Plugin Landing Page.
-2. New email automation settings. 
-3. Edit existing email automaton.
+1. AutoMail overall picture in a GIF.
+2. List of email automaton. Also Plugin Landing Page.
+3. New email automation settings. 
+4. Edit existing email automaton.
+5. Sample AutoMail Email with placeholder data.
 
 == Changelog ==
 = v1.0.0-beta.1 (9 November, 2021)  =

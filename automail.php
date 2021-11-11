@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       AutoMail - Event-driven email automation. Easy email Auto-reply and Notification.
- * Plugin URI:        www.automail.com
+ * Plugin URI:        https://wordpress.org/plugins/automai
  * Description:       AutoMail is an Email Automation plugin, It works with WordPress, WooCommerce, Contact form seven, and other Plugins.
  * Version:           1.0.0
  * Author:            javmah
