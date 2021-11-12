@@ -888,6 +888,16 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_menu_pages_view(){
+		# localhost warning notice 
+		# Getting URL of the site 
+		$siteUrl = get_site_url();
+		# getting check and Balance to see it installed in the local host or not.
+		if((strpos($siteUrl, 'localhost') !== false)){
+			echo "<div class='notice notice-error'>";
+				echo"<p>Your WordPress Installation is in the localhost, If you didn't <a href='https://www.google.com/search?q=send+mail+from+wordpress+localhost' target='_blank'>configure your localhost Email settings</a>  <b> AutoMail </b> will not work.</p>";
+			echo "</div>";
+		}
+		
 		# router aka request dispatcher;
 		if(isset($_GET['action']) AND $_GET['action'] == 'new'){
 			# including the new automaton view File;
@@ -1026,16 +1036,6 @@ class Automail_Admin {
 	 * @since    1.0.0
 	*/
 	public function automail_admin_notice(){
-		# Notification about localhost.
-		# Getting URL of the site 
-		$siteUrl = get_site_url();
-		# getting check and Balance to see it installed in the local host or not.
-		if((strpos($siteUrl, 'localhost') !== false)){
-			echo "<div class='notice notice-error'>";
-				echo"<p>Your WordPress Installation is in the localhost, If you didn't <a href='https://www.google.com/search?q=send+mail+from+wordpress+localhost' target='_blank'>configure your localhost Email Settings</a>  <b> AutoMail </b> will not work.</p>";
-			echo "</div>";
-		}
-
 		// echo"<pre>";
 		
 		// echo"</pre>";
