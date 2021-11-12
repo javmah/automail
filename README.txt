@@ -1,6 +1,6 @@
 === AutoMail - Event-driven Email Automation. Easy email Notification and Auto-reply. ===
 Contributors: javmah, freemius
-Tags: email,mail,automation,auto-reply,wooCommerce
+Tags:email,mail,automation,auto-reply,Autoresponder,wooCommerce
 Requires at least: 4.7.0
 Tested up to: 5.8.1
 Stable tag: 1.0.0
@@ -93,7 +93,9 @@ Without your support and love it was impossible to maintain this huge codebase (
  You should create a support ticket from this plugin menu 'Contact Us' page. 
 
 == ⚙️ Installation ==
-
+`
+NOTE: Please kindly configure your localhost Email settings.
+`
 = Modern Way: =
 1. Go to the WordPress Dashboard "Add New Plugin" section.
 2. Search For "automail".
